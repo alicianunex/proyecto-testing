@@ -72,7 +72,19 @@ public class ManufacturerServiceImpl implements ManufacturerService {
             return result;
         return repository.findManufacturerByDirectionCountry(country);
     }
+        @Override
+    public boolean deleteAll() {
+        try{
+            repository.deleteAll();
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+    }
 
+<<<<<<< HEAD
     @Override
     public boolean deleteAll() {
         try{
@@ -85,3 +97,5 @@ public class ManufacturerServiceImpl implements ManufacturerService {
     }
     }
 
+=======
+>>>>>>> 08731f80f31d174a0ea6d96484640930d94bb0af

@@ -62,7 +62,7 @@ public class DirectionRestControllerTest {
         @Nested
         @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
         @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-        public class FIND_tests {
+        public class Find {
 
             @Test
             @DisplayName("Display all entries")
@@ -204,6 +204,11 @@ public class DirectionRestControllerTest {
 
             }
 
+            /**
+             * Creates a flawed json forcing a value on the id attribute
+             * @param json
+             * @return
+             */
             private HttpEntity<String> createHttpBadRequest(String json) {
 
                 HttpHeaders headers = new HttpHeaders();
@@ -289,25 +294,6 @@ public class DirectionRestControllerTest {
                 System.out.println(request.toString());
                 return request;
             }
-            @Test
-            @DisplayName("Throws 500 Internal Server Error")
-            void update500InternalerrorTest() {
-                String json = """
-                        {                       
-                            "street": "exampleStreet",
-                            "postCode": "354363",
-                            "city": "excity",
-                            "country": 4.99,
-                            "manufacturer": "Man1"
-                        }
-                        """;
-                ResponseEntity<Direction> response =
-                        restController.exchange(URL,HttpMethod.PUT, createHttpRequest(json), Direction.class);
-
-                assertEquals(500,response.getStatusCodeValue());
-                assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatusCode());
-
-            }
 
             private Direction createDemoDirection(){
                 String json = """
@@ -366,49 +352,61 @@ public class DirectionRestControllerTest {
 
 
             @Test
-            @DisplayName("Doesn't update and returns 400 Not Found")
-            void update400NotFoundTest() {
-                when(directionService.save(any(Direction.class))).thenReturn(new Direction());
-
-
-                Direction direction = new Direction("ex1","ex2","ex3","ex4");
-                Direction directionmod = new Direction("ex1","ex2","ex3","Man1");
-
-                when(directionService.existsById(any(long.class))).thenReturn(false);
-
-                restController.put(URL,direction.getCountry(),"Man1");
-
-                HttpHeaders headers = new HttpHeaders();
-                HttpEntity<String> entity = new HttpEntity<String>(headers);
-
-                ResponseEntity<Direction> directionResponseEntity =  restController.exchange(URL,
-                        HttpMethod.PUT, entity, Direction.class, directionmod);
-
-                assertEquals(400, directionResponseEntity.getStatusCodeValue());
-                assertEquals(HttpStatus.BAD_REQUEST, directionResponseEntity.getStatusCode());
-                assertTrue(directionResponseEntity.hasBody());
-            }
-
-            @Test
-            @DisplayName("Does Nothing and returns 404 Not Found")
+            @DisplayName("Doesn't update and returns 404 Not Found")
             void update404NotFoundTest() {
+
+                Direction direction = createDemoDirection();
+                System.out.println("target id" + direction.getId());
+                String json = """
+                {
+                   "id": 99,
+                   "street": "ModStreet",
+                   "postalCode": 999999,
+                   "city": "Modcity",
+                   "country": "BB"
+                },
+                """;
+                when(directionService.existsById(any(Long.class))).thenReturn(true);
                 when(directionService.save(any(Direction.class))).thenReturn(new Direction());
-                Direction direction = new Direction("ex1","ex2","ex3","ex4");
+                Direction directionoriginal = new Direction("ex1","ex2","ex3","ex4");
                 Direction directionmod = new Direction("ex1","ex2","ex3","Man1");
+                //assertDoesNotThrow(()->restController.put(URL,directionoriginal,directionmod));
 
-                //restController.put(URL,direction.getCountry(),"Man1");
-
-                HttpHeaders headers = new HttpHeaders();
-                HttpEntity<String> entity = new HttpEntity<String>(headers);
-
+                directionmod.setId(null);
                 ResponseEntity<Direction> directionResponseEntity =  restController.exchange(URL,
-                        HttpMethod.PUT, entity, Direction.class, directionmod);
+                        HttpMethod.PUT, createHttpRequest(json), Direction.class, directionmod);
 
                 assertEquals(404, directionResponseEntity.getStatusCodeValue());
                 assertEquals(HttpStatus.NOT_FOUND, directionResponseEntity.getStatusCode());
-                assertTrue(directionResponseEntity.hasBody());
-
+                assertFalse(directionResponseEntity.hasBody());
             }
-        }
 
+            @Test
+            @DisplayName("Does Nothing and returns 400 BadRequest")
+            void update400BadReqTest() {
+                Direction direction = createDemoDirection();
+                System.out.println("target id" + direction.getId());
+                String json = """
+                {
+                   "id": null,
+                   "street": "ModStreet",
+                   "postalCode": 999999,
+                   "city": "Modcity",
+                   "country": "BB"
+                },
+                """;
+                when(directionService.existsById(any(Long.class))).thenReturn(true);
+
+                when(directionService.save(any(Direction.class))).thenReturn(new Direction());
+
+                ResponseEntity<Direction> response =
+                        restController.exchange(URL,HttpMethod.PUT, createHttpRequest(json), Direction.class);
+
+                System.out.println(response.getStatusCodeValue());
+
+                assertEquals(400, response.getStatusCodeValue());
+                assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+                assertFalse(response.hasBody());
+            }
     }
+}

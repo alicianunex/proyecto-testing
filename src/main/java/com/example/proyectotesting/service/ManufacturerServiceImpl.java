@@ -82,5 +82,5 @@ public class ManufacturerServiceImpl implements ManufacturerService {
             e.printStackTrace();
         }
         return false;
-    }
+    }.
 }

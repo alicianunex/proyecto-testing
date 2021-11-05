@@ -1,58 +1,29 @@
 package com.example.proyectotesting.entities;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class DirectionTest {
 
-    @Test
-    void getId() {
+    Direction direction;
+
+    @BeforeEach
+    void setup(){
+        direction = new Direction("street","postalCode","city","country");
     }
 
     @Test
-    void setId() {
-    }
-
-    @Test
-    void getStreet() {
-    }
-
-    @Test
-    void setStreet() {
-    }
-
-    @Test
-    void getPostalCode() {
-    }
-
-    @Test
-    void setPostalCode() {
-    }
-
-    @Test
-    void getCity() {
-    }
-
-    @Test
-    void setCity() {
-    }
-
-    @Test
-    void getCountry() {
-    }
-
-    @Test
-    void setCountry() {
-    }
-
-    @Test
-    void getManufacturer() {
-    }
+    void getManufacturer() {assertNull(direction.getManufacturer());}
 
     @Test
     void setManufacturer() {
-    }
 
-    @Test
-    void testToString() {
+        Manufacturer manufacturer = new Manufacturer();
+        direction.setManufacturer(manufacturer);
+
+        assertEquals(manufacturer,direction.getManufacturer());
     }
 }

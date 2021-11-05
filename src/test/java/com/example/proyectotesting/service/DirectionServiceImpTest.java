@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import org.junit.jupiter.api.*;
 
+import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -150,12 +150,14 @@ public class DirectionServiceImpTest {
         @DisplayName("saves the correct direction")
         void saveOKTest() {
 
-            when(directionRepository.save(any(Direction.class)))
-                    .thenReturn(new Direction());
+            Direction testdir = new Direction();
 
-            Direction result = directionService.save(new Direction());
+            when(directionRepository.save(any(Direction.class)))
+                    .thenReturn(testdir);
+
+            Direction result = directionService.save(testdir);
             assertNotNull(result);
-            verify(directionRepository).save(new Direction());
+            verify(directionRepository).save(testdir);
         }
     }
 

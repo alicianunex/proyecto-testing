@@ -282,17 +282,20 @@ public class ProductRestControllerTest {
         @Test
         @DisplayName("If delete fails returns 409 ")
         void deleteFail409Test() {
-         // TODO need Mock for this method !!
 
-            ProductRepository repository = mock(ProductRepository.class);
-            doThrow(RuntimeException.class).when(repository).deleteById(null);
-            doReturn(false).when(productService).deleteAll();
-
-            ResponseEntity<Product> response =
-                    restController.exchange(URL ,HttpMethod.DELETE, createHttpRequest(null), Product.class);
+            ResponseEntity<Product> response = deleteIdFailmock();
 
             assertEquals(409,response.getStatusCodeValue());
             assertEquals(HttpStatus.CONFLICT,response.getStatusCode());
+        }
+
+        private ResponseEntity<Product> deleteIdFailmock() {
+            ProductRepository repository = mock(ProductRepository.class);
+            doReturn(true).when(productService).existsById(null);
+            doReturn(false).when(productService).deleteById(null);
+            doThrow(RuntimeException.class).when(repository).deleteById(null);
+
+            return productRestController.delete(null);
         }
 
         @Test
@@ -311,15 +314,19 @@ public class ProductRestControllerTest {
         void deleteAllFailTest() {
             // TODO need Mock for this method !!
 
-            ProductRepository repository = mock(ProductRepository.class);
-            doThrow(RuntimeException.class).when(repository).deleteAll();
-            doReturn(false).when(productService).deleteAll();
-
-            ResponseEntity<Product> response =
-                    restController.exchange(URL ,HttpMethod.DELETE, createHttpRequest(null), Product.class);
+            ResponseEntity<Product> response = deleteAllFailmock();
 
             assertEquals(409,response.getStatusCodeValue());
             assertEquals(HttpStatus.CONFLICT,response.getStatusCode());
+        }
+
+        private ResponseEntity<Product> deleteAllFailmock() {
+            ProductRepository repository = mock(ProductRepository.class);
+            doReturn(false).when(productService).deleteAll();
+            doThrow(RuntimeException.class).when(repository).deleteById(null);
+
+            return productRestController.deleteAll();
+
         }
     }
 }

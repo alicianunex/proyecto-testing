@@ -66,13 +66,11 @@ public class DirectionServiceImpTest {
             assertAll(
                     () -> assertNotNull(found),
                     () -> assertSame(b.getClass(), found.getClass()),
-                    () -> assertEquals("[]", found.toString())
-            );
+                    () -> assertEquals("[]", found.toString()));
 
             for (Direction count : found)
                 assertNotNull(count);
             verify(directionRepository).findAll();
-
         }
 
         @Test
@@ -85,10 +83,9 @@ public class DirectionServiceImpTest {
             assertAll(
                     () -> assertNotNull(found),
                     () -> assertFalse(found.isPresent()),
-                    () -> assertThrows(NoSuchElementException.class, () ->found.get().getId())
-            );
-            verify(directionRepository).findById(2L);
+                    () -> assertThrows(NoSuchElementException.class, () ->found.get().getId()));
 
+            verify(directionRepository).findById(2L);
         }
 
         @Test
@@ -102,7 +99,6 @@ public class DirectionServiceImpTest {
             assertFalse(found.isPresent());
             assertTrue(found.isEmpty());
             verify(directionRepository).findById(null);
-
         }
     }
 
@@ -173,8 +169,7 @@ public class DirectionServiceImpTest {
             assertAll(
                     () -> assertNotNull(num),
                     () -> assertFalse(num < 0 && num > 0),
-                    () -> assertEquals(0L, num)
-            );
+                    () -> assertEquals(0L, num));
             verify(directionRepository).count();
         }
     }
@@ -190,7 +185,6 @@ public class DirectionServiceImpTest {
 
             assertFalse(directionService.deleteById(null));
             verify(directionRepository).findById(null);
-
         }
 
         @Test
@@ -272,8 +266,8 @@ public class DirectionServiceImpTest {
 
             List<Direction> result =
                     directionService.findByCityAndCountry("a", "b");
-            assertNotNull(result);
 
+            assertNotNull(result);
             verify(directionRepository).findByCityAndCountry("a","b");
         }
     }

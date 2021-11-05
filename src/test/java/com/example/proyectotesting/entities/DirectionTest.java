@@ -26,4 +26,6 @@ class DirectionTest {
 
         assertEquals(manufacturer,direction.getManufacturer());
     }
+    @Test
+    void ToStringTest() {direction.toString();}
 }

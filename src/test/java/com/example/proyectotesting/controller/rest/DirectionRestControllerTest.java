@@ -1,45 +1,31 @@
 package com.example.proyectotesting.controller.rest;
 
-import org.hibernate.annotations.OrderBy;
-import org.junit.jupiter.api.*;
+import com.example.proyectotesting.entities.Direction;
+import com.example.proyectotesting.service.DirectionService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.server.LocalServerPort;
-
 import org.springframework.http.*;
-import com.example.proyectotesting.entities.Direction;
-import com.example.proyectotesting.service.DirectionService;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
+import java.util.List;
+
+import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DisplayName("Direction REST Controller Tests")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-// TODO implement     @TestClassOrder(ClassOrderer.OrderAnnotation.class)
-/*
-<dependency>
-    <groupId>org.junit.jupiter</groupId>
-    <artifactId>junit-jupiter-engine</artifactId>
-    <version>5.4.0</version>
-</dependency>
- */
 public class DirectionRestControllerTest {
-
-    private static final String URL = "/api/directions";
 
     private DirectionService directionService;
 
     private DirectionRestController directionRestController;
     private TestRestTemplate restController;
-
-    private TestRestTemplate testRestTemplate;
+    private static final String URL = "/api/directions";
 
     @Autowired
     private RestTemplateBuilder restTemplateBuilder;
@@ -53,14 +39,53 @@ public class DirectionRestControllerTest {
         restController = new TestRestTemplate(restTemplateBuilder);
 
         this.directionService = mock(DirectionService.class);
-
         this.directionRestController = new DirectionRestController(directionService);
-        // TODO check usage
+    }
 
+    /**
+     *Creates a Direction from a default json formatted Direction object
+     * @return Direction obj with attributes specified in String json
+     */
+    private  Direction createDemoDirection(){
+        String json = """
+                        {
+                            "street": "exampleStreet",
+                            "postCode": "354363",
+                            "country": 4.99,
+                            "manufacturer": "Man1"
+                        }
+                        """;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        HttpEntity<String> request = new HttpEntity<>(json, headers);
+        ResponseEntity<Direction> response =
+                restController.postForEntity(URL, request, Direction.class);
+        return response.getBody();
+    }
+    /**
+     * Writes the Request (Headers and body) to process the JSON
+     * @return the formatted JSON
+     */
+    private HttpEntity<String> createHttpRequest(Long id) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        String json = String.format("""
+                        {
+                            "id": %d,
+                            "street": "exampleStreet",
+                            "postCode": "354363",
+                            "country": 4.99,
+                            "manufacturer": "Man1"
+                        }
+                        """,id);
+        return new HttpEntity<>(json, headers);
     }
 
         @Nested
-        @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
         @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
         public class Find {
 
@@ -68,12 +93,6 @@ public class DirectionRestControllerTest {
             @DisplayName("Display all entries")
             @Order(2)
             void findAllTest() {
-
-                List<Direction> arrayList = new ArrayList<>();
-                arrayList.add(new Direction());
-                arrayList.add(new Direction());
-                // Mock not working, it's not called from this method !!
-                when(directionService.findAll()).thenReturn(arrayList);
 
                 //Only accepts arrays
                 ResponseEntity<Direction[]> response = restController.getForEntity(URL, Direction[].class);
@@ -86,40 +105,16 @@ public class DirectionRestControllerTest {
 
                 List<Direction> Directions = List.of(response.getBody());
                 assertNotNull(Directions);
-                //verify(directionService).findAll();
-                //TODO Fix size, increments when others tests run
 
+                //size increments when others tests run
                 assertTrue(Directions.size() >= 2);
             }
 
-            /**
-             *Creates a Direction from a default json formatted Direction object
-             * @return Direction obj with attributes specified in String json
-             */
-            private Direction createDemoDirection(){
-                String json = """
-                        {
-                            "street": "exampleStreet",
-                            "postCode": "354363",
-                            "country": 4.99,
-                            "manufacturer": "Man1"
-                        }
-                        """;
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-                HttpEntity<String> request = new HttpEntity<>(json, headers);
-                ResponseEntity<Direction> response =
-                        restController.postForEntity(URL, request, Direction.class);
-                return response.getBody();
-            }
             @Test
             @DisplayName("Returns the requested object, returns 200 OK")
             void findOneReturn200Test() {
 
                 Direction direction = createDemoDirection();
-                when(directionService.findOne(1L)).thenReturn(Optional.of(direction));
-
                 ResponseEntity<Direction> response = restController.getForEntity(URL + "/" + direction.getId(), Direction.class);
 
                 assertAll(
@@ -127,15 +122,12 @@ public class DirectionRestControllerTest {
                         () -> assertNotNull(response.getBody()),
                         () -> assertNotNull(response.getBody().getId()),
                         () -> assertEquals(200, response.getStatusCodeValue()),
-                        () -> assertEquals(HttpStatus.OK, response.getStatusCode())
-                );
+                        () -> assertEquals(HttpStatus.OK, response.getStatusCode()));
             }
 
             @Test
             @DisplayName("Returns empty optional if the id doesn't exists finally returns 404 Not Found")
             void findOneEmptyTest() {
-
-                when(directionService.findOne(1L)).thenReturn(Optional.of(new Direction("ex1","ex2","ex3","ex4")));
 
                 ResponseEntity<Direction> response = restController.getForEntity(URL + "/1", Direction.class);
 
@@ -144,8 +136,7 @@ public class DirectionRestControllerTest {
                         () -> assertFalse(response.hasBody()),
                         () -> assertEquals(404, response.getStatusCodeValue()),
                         () -> assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()),
-                        () -> assertFalse(response.hasBody())
-                );
+                        () -> assertFalse(response.hasBody()));
             }
         }
 
@@ -153,46 +144,12 @@ public class DirectionRestControllerTest {
         @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
         public class Create {
 
-            /**
-             * Writes the Request (Headers and body) to process the JSON
-             * @param json JSON object as String
-             * @return the formatted JSON
-             */
-            private HttpEntity<String> createHttpRequest(String json) {
-
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-
-                json = """
-                        {
-                            "street": "exampleStreet",
-                            "postCode": "354363",
-                            "country": 4.99,
-                            "manufacturer": "Man1"
-                        }
-                        """;
-                HttpEntity<String> request = new HttpEntity<>(json, headers);
-                System.out.println(request.toString());
-                return request;
-            }
-
             @Test
             @DisplayName("Creates object and Returns HTTP 200 OK")
             void create200Test() {
-                String json = """
-                        {
-                            "street": "exampleStreet",
-                            "postCode": "354363",
-                            "country": 4.99,
-                            "manufacturer": "Man1"
-                        }
-                        """;
 
                 ResponseEntity<Direction> response =
-                        restController.postForEntity(URL, createHttpRequest(json), Direction.class);
-
-                System.out.println(response.getStatusCodeValue());
+                        restController.postForEntity(URL, createHttpRequest(null), Direction.class);
 
                 assertEquals(200, response.getStatusCodeValue());
                 assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -201,56 +158,18 @@ public class DirectionRestControllerTest {
                 Direction direction = response.getBody();
                 assertNotNull(direction);
                 assertEquals("exampleStreet", direction.getStreet());
-
-            }
-
-            /**
-             * Creates a flawed json forcing a value on the id attribute
-             * @param json
-             * @return
-             */
-            private HttpEntity<String> createHttpBadRequest(String json) {
-
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-
-                json = """
-                        {
-                            "id": 14,
-                            "street": "exampleStreet",
-                            "postCode": "354363",
-                            "country": 4.99,
-                            "manufacturer": "Man1"
-                        }
-                        """;
-                HttpEntity<String> request = new HttpEntity<>(json, headers);
-                System.out.println(request.toString());
-                return request;
             }
 
             @Test
             @DisplayName("Returns HTTP 400 Bad Req. if the object is not written properly")
             void create400Test() {
-                String json = """
-                        {
-                            "id": 14,
-                            "street": "exampleStreet",
-                            "postCode": "354363",
-                            "country": 4.99,
-                            "manufacturer": "Man1"
-                        }
-                        """;
-                HttpEntity<String> jsonmod = createHttpBadRequest(json);
+
 
                 ResponseEntity<Direction> response =
-                        restController.postForEntity(URL, jsonmod, Direction.class);
-
-                System.out.println(response.getStatusCodeValue());
+                        restController.postForEntity(URL, createHttpRequest(2L), Direction.class);
 
                 assertEquals(400, response.getStatusCodeValue());
                 assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-                assertFalse(response.hasBody());
             }
 
             @Test
@@ -260,10 +179,6 @@ public class DirectionRestControllerTest {
                         {
                             "id": "1"
                             "street": "exampleStreet",
-                            "postCode": "354363",
-                            "city": "excity",
-                            "country": 4.99,
-                            "manufacturer": "Man1"
                         }
                         """;
 
@@ -279,102 +194,27 @@ public class DirectionRestControllerTest {
         @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
         public class Update {
 
-            /**
-             * Writes the Request (Headers and body) to process the JSON
-             * @param json JSON object as String
-             * @return the formatted JSON
-             */
-            private HttpEntity<String> createHttpRequest(String json) {
-
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-
-                HttpEntity<String> request = new HttpEntity<>(json, headers);
-                System.out.println(request.toString());
-                return request;
-            }
-
-            private Direction createDemoDirection(){
-                String json = """
-                {
-                   "street": "exampleStreet",
-                   "postalCode": 354363,
-                   "city": "excity",
-                   "country": "AA"
-                }
-                """;
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-                HttpEntity<String> request = new HttpEntity<>(json, headers);
-                ResponseEntity<Direction> response =
-                        restController.postForEntity(URL, request, Direction.class);
-                System.out.println(response.getStatusCodeValue());
-                System.out.println(response.toString());
-                return response.getBody();
-            }
-
             @Test
             @DisplayName("Updates correctly and returns 200 OK")
             void update200OKTest() {
 
-                // TODO Request change in code
-                //  200 Not reachable within test
-                // exchange method cannot process a null id
-                // and the method to test requires such id
+                ResponseEntity<Direction> created =
+                        restController.postForEntity(URL, createHttpRequest(null), Direction.class);
 
-                Direction direction = createDemoDirection();
-                System.out.println("target id" + direction.getId());
-                String json = """
-                {
-                   "id": 14,
-                   "street": "ModStreet",
-                   "postalCode": 999999,
-                   "city": "Modcity",
-                   "country": "BB"
-                },
-                """;
-                when(directionService.existsById(any(Long.class))).thenReturn(true);
-
-                when(directionService.save(any(Direction.class))).thenReturn(new Direction());
-                Direction directionoriginal = new Direction("ex1","ex2","ex3","ex4");
-                Direction directionmod = new Direction("ex1","ex2","ex3","Man1");
-                //assertDoesNotThrow(()->restController.put(URL,directionoriginal,directionmod));
-
-                ResponseEntity<Direction> response =
-                        restController.exchange(URL,HttpMethod.PUT, createHttpRequest(json), Direction.class);
-
-                System.out.println(response.getStatusCodeValue());
-
-                assertEquals(HttpStatus.OK,response.getStatusCode());
+                ResponseEntity<Direction> directionResponseEntity =  restController.exchange(URL,
+                        HttpMethod.PUT, createHttpRequest(created.getBody().getId()), Direction.class);
+                assertEquals(HttpStatus.OK,directionResponseEntity.getStatusCode());
             }
-
 
             @Test
             @DisplayName("Doesn't update and returns 404 Not Found")
             void update404NotFoundTest() {
 
-                Direction direction = createDemoDirection();
-                System.out.println("target id" + direction.getId());
-                String json = """
-                {
-                   "id": 99,
-                   "street": "ModStreet",
-                   "postalCode": 999999,
-                   "city": "Modcity",
-                   "country": "BB"
-                },
-                """;
-                when(directionService.existsById(any(Long.class))).thenReturn(true);
-                when(directionService.save(any(Direction.class))).thenReturn(new Direction());
-                Direction directionoriginal = new Direction("ex1","ex2","ex3","ex4");
                 Direction directionmod = new Direction("ex1","ex2","ex3","Man1");
-                //assertDoesNotThrow(()->restController.put(URL,directionoriginal,directionmod));
-
                 directionmod.setId(null);
+
                 ResponseEntity<Direction> directionResponseEntity =  restController.exchange(URL,
-                        HttpMethod.PUT, createHttpRequest(json), Direction.class, directionmod);
+                        HttpMethod.PUT, createHttpRequest(99L), Direction.class, directionmod);
 
                 assertEquals(404, directionResponseEntity.getStatusCodeValue());
                 assertEquals(HttpStatus.NOT_FOUND, directionResponseEntity.getStatusCode());
@@ -384,25 +224,9 @@ public class DirectionRestControllerTest {
             @Test
             @DisplayName("Does Nothing and returns 400 BadRequest")
             void update400BadReqTest() {
-                Direction direction = createDemoDirection();
-                System.out.println("target id" + direction.getId());
-                String json = """
-                {
-                   "id": null,
-                   "street": "ModStreet",
-                   "postalCode": 999999,
-                   "city": "Modcity",
-                   "country": "BB"
-                },
-                """;
-                when(directionService.existsById(any(Long.class))).thenReturn(true);
-
-                when(directionService.save(any(Direction.class))).thenReturn(new Direction());
 
                 ResponseEntity<Direction> response =
-                        restController.exchange(URL,HttpMethod.PUT, createHttpRequest(json), Direction.class);
-
-                System.out.println(response.getStatusCodeValue());
+                        restController.exchange(URL,HttpMethod.PUT, createHttpRequest(null), Direction.class);
 
                 assertEquals(400, response.getStatusCodeValue());
                 assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());

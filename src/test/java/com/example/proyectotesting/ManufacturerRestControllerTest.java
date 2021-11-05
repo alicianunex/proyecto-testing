@@ -1,3 +1,4 @@
+
 package com.example.proyectotesting;
 
 
@@ -75,6 +76,43 @@ public class ManufacturerRestControllerTest {
             assertNotNull(Manufacturers);
 
             assertTrue(Manufacturers.size() >= 2);
+        }
+        @Test
+        void findOneOkTest() {
+            Manufacturer manufacturer = createDemoManufacturer();
+            ResponseEntity<Manufacturer> response = restController.getForEntity(URL+"/"+manufacturer.getId(), Manufacturer.class);
+            assertEquals(200, response.getStatusCodeValue());
+            assertEquals(HttpStatus.OK, response.getStatusCode());
+            assertTrue(response.hasBody());
+            Manufacturer result = response.getBody();
+            assertNotNull(result);
+            assertNotNull(result.getId());
+            assertEquals(result.getId(), manufacturer.getId());
+        }
+
+
+        private Manufacturer createDemoManufacturer(){
+            String json = """
+                {
+                    "name": "Demo",
+                    "description": "Blablablá",
+                    "quantity": 2,
+                    "price": 5.99
+                }
+                """;
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+            HttpEntity<String> request = new HttpEntity<>(json, headers);
+            ResponseEntity<Manufacturer> response =
+                    restController.postForEntity(URL, request, Manufacturer.class);
+            return response.getBody();
+        }
+        private HttpEntity<String> createHttpRequest(String json){
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+            return new HttpEntity<>(json, headers);
         }
 
 

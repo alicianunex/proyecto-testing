@@ -78,7 +78,7 @@ public class ManufacturerServiceImplTest {
             assertAll(
                     () -> assertNotNull(found),
                     () -> assertFalse(found.isPresent()),
-                    () -> assertThrows(NoSuchElementException.class, () ->found.get().getId())
+                    () -> assertThrows(NoSuchElementException.class, () -> found.get().getId())
             );
         }
 
@@ -160,5 +160,50 @@ public class ManufacturerServiceImplTest {
         assertEquals(0, manufacturerService.count());
     }
 
+    @Nested
+    public class findByCountry {
 
+        @Test
+        void findCountryNullTest() {
+
+            List<Manufacturer> result =
+                    manufacturerService.findManufacturerByCountry("a", "b");
+            assertTrue(result.isEmpty());
+        }
+
+        @Test
+        void findDirectionOKTest() {
+
+            when(manufacturerRepository.findManufacturerByDirectionCountry("a", "b")).thenReturn(new ArrayList<>());
+
+            List<Manufacturer> result =
+                    manufacturerService.findManufacturerByCountry("a", "b");
+
+            assertNotNull(result);
+            verify(manufacturerRepository).findManufacturerByDirectionCountry("a", "a");
+        }
+    }
+
+    @Nested
+    public class findByYear {
+
+
+        @Test
+        void findYearNullTest() {
+
+            List<Manufacturer> result =
+                    manufacturerService.findByYear(null);
+            assertTrue(result.isEmpty());
+        }
+
+        @Test
+        void findYearEmptyTest() {
+
+            List<Manufacturer> result =
+                    manufacturerService.findByYear(0);
+            assertTrue(result.isEmpty());
+        }
+
+
+    }
 }

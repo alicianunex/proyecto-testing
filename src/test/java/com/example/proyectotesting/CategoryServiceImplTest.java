@@ -24,7 +24,7 @@ public class CategoryServiceImplTest {
     @BeforeEach
     protected void setUp() {
         categoryRepository = mock(CategoryRepository.class);
-        this.categoryService = new CategoryServiceImpl(categoryRepository);
+        this.categoryService = new CategoryServiceImpl();
 
         List<Category> arrayList = new ArrayList<>();
         arrayList.add(new Category());
@@ -185,6 +185,7 @@ public class CategoryServiceImplTest {
 
             assertEquals(0, categoryService.count());
         }
+
 
 
     }

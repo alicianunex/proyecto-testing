@@ -167,20 +167,20 @@ public class ManufacturerServiceImplTest {
         void findCountryNullTest() {
 
             List<Manufacturer> result =
-                    manufacturerService.findManufacturerByCountry("a", "b");
+                    manufacturerService.findManufacturerByCountry("a");
             assertTrue(result.isEmpty());
         }
 
         @Test
         void findDirectionOKTest() {
 
-            when(manufacturerRepository.findManufacturerByDirectionCountry("a", "b")).thenReturn(new ArrayList<>());
+            when(manufacturerRepository.findManufacturerByDirectionCountry()).thenReturn(new ArrayList<>());
 
             List<Manufacturer> result =
-                    manufacturerService.findManufacturerByCountry("a", "b");
+                    manufacturerService.findManufacturerByCountry("a");
 
             assertNotNull(result);
-            verify(manufacturerRepository).findManufacturerByDirectionCountry("a", "a");
+            verify(manufacturerRepository).findManufacturerByDirectionCountry();
         }
     }
 

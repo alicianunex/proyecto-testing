@@ -39,7 +39,6 @@ public class DirectionRestController {
         Direction result = directionService.save(direction);
         return ResponseEntity.ok(result); //HTTP Status 200
     }
-
     @PutMapping("/api/directions")
     public ResponseEntity<Direction> update(@RequestBody Direction direction){
         if(direction.getId() == null)
@@ -50,5 +49,6 @@ public class DirectionRestController {
         Direction result = directionService.save(direction);
         return ResponseEntity.ok(result); //HTTP Status 200
     }
+
 
 }

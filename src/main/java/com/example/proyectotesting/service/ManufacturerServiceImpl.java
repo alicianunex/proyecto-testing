@@ -70,9 +70,9 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         List<Manufacturer> result = new ArrayList<>();
         if(country == null || country.isEmpty())
             return result;
-        return repository.findManufacturerByDirectionCountry(country);
+        return repository.findManufacturerByDirectionCountry();
     }
-        @Override
+    @Override
     public boolean deleteAll() {
         try{
             repository.deleteAll();
@@ -82,5 +82,4 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         }
         return false;
     }
-    }
-
+}

@@ -42,7 +42,7 @@ public class DirectionRestController {
 
     @PutMapping("/api/directions")
     public ResponseEntity<Direction> update(@RequestBody Direction direction){
-        if(direction.getId() != null)
+        if(direction.getId() == null)
             return ResponseEntity.badRequest().build();
         if(!directionService.existsById(direction.getId()))
             return ResponseEntity.notFound().build();

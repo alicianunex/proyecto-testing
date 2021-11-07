@@ -42,6 +42,7 @@ public class ProductRestController {
         return ResponseEntity.of(productOpt); // HTTP Status 200 si hay objeto en el Optional y 404 si no hay objeto en Optional
     }
 
+
     @PostMapping("/api/products") // crear nuevos productos
     public ResponseEntity<Product> create(@RequestBody Product product){
         if(product.getId() != null) // si hay id entonces NO es creación

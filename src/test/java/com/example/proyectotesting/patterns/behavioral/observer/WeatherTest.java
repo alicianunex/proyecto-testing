@@ -1,10 +1,11 @@
 package com.example.proyectotesting.patterns.behavioral.observer;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("Weather Tests")
 class WeatherTest {
 
     Weather weather;
@@ -19,6 +20,7 @@ class WeatherTest {
     }
 
     @Test
+    @DisplayName("Adds an observer to the list")
     void addObserver() {
 
         try {
@@ -33,6 +35,7 @@ class WeatherTest {
     }
 
     @Test
+    @DisplayName("Removes a weather observer from the list")
     void removeObserver() {
 
         try {
@@ -47,6 +50,7 @@ class WeatherTest {
     }
 
     @Test
+    @DisplayName("Changes the weather and notifies it to the observers")
     void changeWeather() {
         weather.addObserver(weatherObservercomputer);
         weather.addObserver(weatherObserverphone);

@@ -1,11 +1,12 @@
 package com.example.proyectotesting.patterns.behavioral.state;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
-
+@DisplayName("Processing State Tests")
 class ProcessingStateTest {
 
     Order order;
@@ -19,6 +20,7 @@ class ProcessingStateTest {
     }
 
     @Test
+    @DisplayName("Sets Delivery to ShippingState")
     void next() {
         state.next(order);
         verify(order).getId();
@@ -26,6 +28,7 @@ class ProcessingStateTest {
     }
 
     @Test
+    @DisplayName("Sets Delivery to Root Value")
     void previous() {
         try {
             state.previous(order);

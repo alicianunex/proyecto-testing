@@ -1,10 +1,11 @@
 package com.example.proyectotesting.patterns.behavioral.iterator;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@DisplayName("Book object Tests")
 class BookTest {
 
     Book book;

@@ -1,11 +1,13 @@
 package com.example.proyectotesting.patterns.behavioral.strategy;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@DisplayName("Shop Cart Tests")
 class ShopCartTest {
 
     ShopCart shopCart;
@@ -18,6 +20,7 @@ class ShopCartTest {
     }
 
     @Test
+    @DisplayName("Adds a product to the list")
     void addProduct() {
         try {
             shopCart.addProduct(product);
@@ -30,6 +33,7 @@ class ShopCartTest {
     }
 
     @Test
+    @DisplayName("Removes a product from the list")
     void removeProduct() {
         try {
             shopCart.addProduct(product);
@@ -43,6 +47,7 @@ class ShopCartTest {
     }
 
     @Test
+    @DisplayName("Prints confirmation of payment and the amount paid")
     void pay() {
         PaymentStrategy payment = (mock(PayPalStrategy.class));
         doNothing().when(payment).pay(anyDouble());

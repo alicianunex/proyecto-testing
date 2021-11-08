@@ -1,10 +1,12 @@
 package com.example.proyectotesting.patterns.behavioral.strategy;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("Credit Card Startegy Tests")
 class CreditCardStrategyTest {
 
     CreditCardStrategy creditCardStrategy;
@@ -39,6 +41,7 @@ class CreditCardStrategyTest {
     }
 
     @Test
+    @DisplayName("Prints confirmation of payment and the amount paid")
     void pay() {
         try {
             creditCardStrategy.pay(2.0);

@@ -1,17 +1,17 @@
 package com.example.proyectotesting.patterns.behavioral.state;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@DisplayName("Order Tests")
 class OrderTest {
 
     Order order;
@@ -22,6 +22,7 @@ class OrderTest {
     }
 
     @Test
+    @DisplayName("Advances the state of the delivery")
     void nextState() {
         order.setState(mock(ProcessingState.class));
         doNothing().when(order.getState()).next(order);
@@ -30,6 +31,7 @@ class OrderTest {
     }
 
     @Test
+    @DisplayName("Rolls back the state of the delivery")
     void previousState() {
         order.setState(mock(ProcessingState.class));
         doNothing().when(order.getState()).previous(order);

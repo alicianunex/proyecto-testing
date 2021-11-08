@@ -33,7 +33,7 @@ public class BookShopTest {
         bookShop.addBook(book);
         Iterator<Book> bookiter = bookShop.iterator();
         assertNotNull(bookiter);
-        assertTrue(bookiter.next().getAuthor() == "b");
+        assertEquals("b",bookiter.next().getAuthor());
     }
 
     @Nested

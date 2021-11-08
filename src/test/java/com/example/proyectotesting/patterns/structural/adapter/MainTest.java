@@ -1,12 +1,11 @@
-package com.example.proyectotesting.patterns.behavioral.iterator;
+package com.example.proyectotesting.patterns.structural.adapter;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
-@DisplayName("Iterator is started correctly")
+@DisplayName("Adapter is started correctly")
 public class MainTest {
     @Test
     void mainTest(){
@@ -16,7 +15,7 @@ public class MainTest {
             assertTrue(true);
         }catch (Exception error){
             error.printStackTrace();
-            fail();
+            assertTrue(false);
         }
     }
 }

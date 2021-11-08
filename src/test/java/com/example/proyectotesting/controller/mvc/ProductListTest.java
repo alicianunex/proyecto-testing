@@ -6,40 +6,38 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 public class ProductListTest {
 
+    @Autowired
     WebDriver webDriver;
+    final String targeturl = "https://demo.openmrs.org/openmrs/login.htm";
 
     @BeforeEach
     void setUp() {
         String dir = System.getProperty("user.dir");
-        String driverUrl = "/drivers/geckodriver.exe";
-        String url = dir + driverUrl;
-        System.setProperty("webdriver.gecko.driver", url);
-        webDriver = new FirefoxDriver();
+        String chromeUrl = "/drivers/chromedriver.exe";
+        String driverurl = dir + chromeUrl;
+        System.setProperty("webdriver.chrome.driver",driverurl);
+        webDriver = new ChromeDriver(); // Chrome/Chromium
+        webDriver.get(targeturl);
     }
-
     @AfterEach
-    void tearDown() {
-        webDriver.quit();
-    }
+    void tearDown() {webDriver.quit();}
 
     @Test
     @DisplayName("")
-    void VerFilasTest(){
+    void VerColumnasTest(){
 
-        webDriver.findElement(By.className("table table-striped table-bordered"")
+        WebElement table = webDriver.findElement(By.cssSelector("table table-striped table-bordered tr:nth-child(2)"));
+        List<WebElement> columns = table.findElements(By.cssSelector("td"));
 
-
-    }
-
-    @Test
-    @DisplayName("")
-    void ProductDisplayTest(){
-
-        webDriver.findElement(By.)
 
 
     }

@@ -174,13 +174,13 @@ public class ManufacturerServiceImplTest {
         @Test
         void findDirectionOKTest() {
 
-            when(manufacturerRepository.findManufacturerByDirectionCountry()).thenReturn(new ArrayList<>());
+            when(manufacturerRepository.findManufacturerByDirectionCountry("a")).thenReturn(new ArrayList<>());
 
             List<Manufacturer> result =
                     manufacturerService.findManufacturerByCountry("a");
 
             assertNotNull(result);
-            verify(manufacturerRepository).findManufacturerByDirectionCountry();
+            verify(manufacturerRepository).findManufacturerByDirectionCountry("a");
         }
     }
 

@@ -171,17 +171,6 @@ public class ManufacturerServiceImplTest {
             assertTrue(result.isEmpty());
         }
 
-        @Test
-        void findDirectionOKTest() {
-
-            when(manufacturerRepository.findManufacturerByDirectionCountry()).thenReturn(new ArrayList<>());
-
-            List<Manufacturer> result =
-                    manufacturerService.findManufacturerByCountry("a");
-
-            assertNotNull(result);
-            verify(manufacturerRepository).findManufacturerByDirectionCountry();
-        }
     }
 
     @Nested

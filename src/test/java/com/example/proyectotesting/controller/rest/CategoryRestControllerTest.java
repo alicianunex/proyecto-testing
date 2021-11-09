@@ -1,5 +1,5 @@
 
-package com.example.proyectotesting;
+package com.example.proyectotesting.controller.rest;
 import com.example.proyectotesting.entities.Category;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -154,6 +154,53 @@ public class CategoryRestControllerTest {
             categories = List.of(response.getBody());
             assertEquals(7, categories.size());
         }
+
+        @Nested
+        class updateTest{
+
+
+
+            @Test
+            void updateNull() {
+                Category product = createDataCategories();
+                String json = String.format("""
+                {
+                    "id": null,
+                    "name": "Update null test",
+                    "color": "nuevo1"
+                    
+                }
+                """, product.getId());
+                System.out.println(json);
+                ResponseEntity<Category> response =
+                        testRestTemplate.exchange(Category_URL, HttpMethod.PUT, crearHttpRequest(json), Category.class);
+                assertEquals(405, response.getStatusCodeValue());
+                assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
+            }
+
+
+            @Test
+            void updateIdNotAllowed() {
+                Category product = createDataCategories();
+                String json = String.format("""
+                {
+                    "id": 2,
+                    "name": "Not allowed",
+                    "color": "nuevo2"
+                   
+                }
+                """, product.getId());
+                System.out.println(json);
+                ResponseEntity<Category> response =
+                        testRestTemplate.exchange(Category_URL, HttpMethod.PUT, crearHttpRequest(json), Category.class);
+                assertEquals(405, response.getStatusCodeValue());
+                assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
+            }
+
+
+
+        }
+
     }
 
     @Nested

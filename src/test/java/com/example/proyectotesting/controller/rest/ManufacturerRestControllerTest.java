@@ -1,4 +1,4 @@
-package com.example.proyectotesting;
+package com.example.proyectotesting.controller.rest;
 
 
 import com.example.proyectotesting.controller.rest.ManufacturerRestController;
@@ -87,6 +87,64 @@ public class ManufacturerRestControllerTest {
             assertNotNull(result);
             assertNotNull(result.getId());
             assertEquals(result.getId(), manufacturer.getId());
+        }
+        @Nested
+        public class updateTest{
+
+
+            @Test
+            void updateOk() {
+
+                Manufacturer Manufacturer = createDemoManufacturer();
+                String json = String.format("""
+                {
+                    "id": %d,
+                    "name": "Manufacturer Modified",
+                    "cif": "Green"
+                  
+                }
+                """, Manufacturer.getId());
+                System.out.println(json);
+
+                ResponseEntity<Manufacturer> response =
+                        restController.exchange(URL, HttpMethod.PUT, createHttpRequest(json), Manufacturer.class);
+
+                assertEquals(200, response.getStatusCodeValue());
+                assertEquals(HttpStatus.OK, response.getStatusCode());
+                assertTrue(response.hasBody());
+                assertNotNull(response.getBody());
+
+                Manufacturer responseProduct = response.getBody();
+
+                assertEquals (Manufacturer.getId(),responseProduct.getId() );
+                assertEquals("Manufacturer Modified", responseProduct.getName());
+                assertNotEquals(responseProduct.getName(), Manufacturer.getName());
+            }
+
+
+            @Test
+            void updateNull() {
+                Manufacturer product = createDemoManufacturer();
+                String json = String.format("""
+                {
+                    "name": "Nuevo null",
+                    "cif": "nuevo cif"
+                    "description": "Blablablá",
+                    "quantity": 1,
+                    "price": 0.99
+                    
+                }
+                """, product.getId());
+                System.out.println(json);
+                ResponseEntity<Manufacturer> response =
+                        restController.exchange(URL, HttpMethod.PUT, createHttpRequest(json), Manufacturer.class);
+                assertEquals(400, response.getStatusCodeValue());
+                assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+            }
+
+
+
+
         }
 
 

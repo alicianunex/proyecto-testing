@@ -1,4 +1,4 @@
-package com.example.proyectotesting;
+package com.example.proyectotesting.service;
 
 import com.example.proyectotesting.entities.*;
 import com.example.proyectotesting.repository.CategoryRepository;

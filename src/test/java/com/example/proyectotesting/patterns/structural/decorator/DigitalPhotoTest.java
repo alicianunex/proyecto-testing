@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("DigitalPhoto (Photo) Tests")
+@DisplayName("DigitalPhoto Photo Tests")
 class DigitalPhotoTest {
 
     DigitalPhoto digitalPhoto;

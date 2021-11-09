@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("Tractor Adapter (Movable) Tests")
+@DisplayName("Tractor Adapter Movable Tests")
 class TractorAdapterTest {
 
     TractorAdapter tractorAdapter;

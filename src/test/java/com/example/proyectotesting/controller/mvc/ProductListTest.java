@@ -8,21 +8,19 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ProductListTest {
 
-    @Autowired
+
     WebDriver webDriver;
     final String targeturl = "https://demo.openmrs.org/openmrs/login.htm";
 
     @BeforeEach
     void setUp() {
         String dir = System.getProperty("user.dir");
-        String chromeUrl = "/drivers/chromedriver.exe";
+        String chromeUrl = "\\drivers\\chromedriver.exe";
         String driverurl = dir + chromeUrl;
         System.setProperty("webdriver.chrome.driver",driverurl);
         webDriver = new ChromeDriver(); // Chrome/Chromium
@@ -30,13 +28,12 @@ public class ProductListTest {
     }
     @AfterEach
     void tearDown() {webDriver.quit();}
-
     @Test
     @DisplayName("")
     void VerColumnasTest(){
 
         WebElement table = webDriver.findElement(By.cssSelector("table table-striped table-bordered tr:nth-child(2)"));
-        List<WebElement> columns = table.findElements(By.cssSelector("td"));
+        //List<WebElement> columns = table.findElements(By.cssSelector("td"));
 
 
 

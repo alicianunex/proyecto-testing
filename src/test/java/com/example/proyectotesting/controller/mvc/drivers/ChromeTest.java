@@ -15,11 +15,7 @@ public class ChromeTest {
 
     @BeforeEach
     void setUp() {
-        String dir = System.getProperty("user.dir"); // ruta del proyecto
-        String driverUrl = "/drivers/chromedriver.exe";
-        String url = dir + driverUrl;
-        System.setProperty("webdriver.chrome.driver", url);
-        driver = new ChromeDriver(); // Google Chrome
+
     }
 
     @AfterEach
@@ -30,6 +26,17 @@ public class ChromeTest {
     @Test
     void test1(){
         // Abrir página web
+        String dir = System.getProperty("user.dir"); // ruta del proyecto
+        System.out.println(System.getProperty("user.dir"));
+
+        String driverUrl = "\\drivers\\chromedriver.exe";
+        String url = dir + driverUrl;
+        System.setProperty("webdriver.chrome.driver", url);
+        System.out.println(System.getProperty("webdriver.chrome.driver"));
+
+        driver = new ChromeDriver(); // Google Chrome
+
+
         driver.get("https://github.com/mozilla/geckodriver");
         // Obtener el texto de la etiqueta <title> de la página web que hemos abierto
         String title = driver.getTitle();

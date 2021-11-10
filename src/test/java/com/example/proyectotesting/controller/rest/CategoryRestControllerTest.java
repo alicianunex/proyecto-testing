@@ -152,7 +152,7 @@ public class CategoryRestControllerTest {
             assertNotNull(response.getBody());
 
             categories = List.of(response.getBody());
-            assertEquals(7, categories.size());
+            assertEquals(0, categories.size());
         }
 
         @Nested

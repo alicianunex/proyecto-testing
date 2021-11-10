@@ -102,10 +102,21 @@
 		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
-			<version>4.0.0</version>
+			<artifactId>selenium-support</artifactId>
+			<version>3.141.59</version>
 		</dependency>
-<!--		<dependency>-->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-firefox-driver</artifactId>
+			<version>3.141.59</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-chrome-driver</artifactId>
+			<version>3.141.59</version>
+			<scope>test</scope>
+		</dependency>
+		<!--		<dependency>-->
 <!--			<groupId>org.jacoco</groupId>-->
 <!--			<artifactId>org.jacoco.report</artifactId>-->
 <!--			<version>0.8.7</version>-->

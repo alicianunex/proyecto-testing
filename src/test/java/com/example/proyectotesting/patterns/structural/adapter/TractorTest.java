@@ -32,4 +32,11 @@ class TractorTest {
         tractor.changeMode(2);
         assertEquals(15,tractor.getSpeed());
     }
+    @Test
+    @DisplayName("Does nothing if the gear is not provided correctly")
+    void changeMode0() {
+        tractor.setSpeed(0);
+        tractor.changeMode(99);
+        assertEquals(0,tractor.getSpeed());
+    }
 }

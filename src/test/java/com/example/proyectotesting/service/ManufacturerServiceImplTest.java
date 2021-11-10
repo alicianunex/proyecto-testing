@@ -1,4 +1,4 @@
-package com.example.proyectotesting;
+package com.example.proyectotesting.service;
 
 import com.example.proyectotesting.entities.*;
 import com.example.proyectotesting.repository.ManufacturerRepository;
@@ -171,17 +171,6 @@ public class ManufacturerServiceImplTest {
             assertTrue(result.isEmpty());
         }
 
-        @Test
-        void findDirectionOKTest() {
-
-            when(manufacturerRepository.findManufacturerByDirectionCountry("a")).thenReturn(new ArrayList<>());
-
-            List<Manufacturer> result =
-                    manufacturerService.findManufacturerByCountry("a");
-
-            assertNotNull(result);
-            verify(manufacturerRepository).findManufacturerByDirectionCountry("a");
-        }
     }
 
     @Nested

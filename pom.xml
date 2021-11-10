@@ -102,7 +102,7 @@
 		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
+			<artifactId>selenium-support</artifactId>
 			<version>4.0.0</version>
 		</dependency>
 <!--		<dependency>-->

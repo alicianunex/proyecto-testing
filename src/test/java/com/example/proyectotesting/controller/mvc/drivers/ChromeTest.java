@@ -9,7 +9,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ChromeTest {
-    /*
 
     // Navegador
     WebDriver driver;
@@ -45,7 +44,7 @@ public class ChromeTest {
         assertEquals("Mozilla · GitHub", title);
     }
 
-     */
+
 
 }
 

@@ -9,7 +9,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FirefoxTest {
-/*
+
+
     WebDriver driver;
 
     @BeforeEach
@@ -40,7 +41,6 @@ public class FirefoxTest {
         assertEquals("Mozilla · GitHub", title);
     }
 
- */
 }
 
 

@@ -10,6 +10,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class ProductListTest {
 
+    /*
+
     WebDriver webDriver;
 
     @BeforeEach
@@ -24,13 +26,15 @@ public class ProductListTest {
     @AfterEach
     void tearDown() {
         webDriver.quit();
+
+     */
     }
 
     @Test
     @DisplayName("")
     void VerFilasTest(){
 
-        webDriver.findElement(By.className("table table-striped table-bordered"")
+//        webDriver.findElement(By.className("table table-striped table-bordered"")
 
 
     }
@@ -39,7 +43,7 @@ public class ProductListTest {
     @DisplayName("")
     void ProductDisplayTest(){
 
-        webDriver.findElement(By.)
+//        webDriver.findElement(By.)
 
 
     }

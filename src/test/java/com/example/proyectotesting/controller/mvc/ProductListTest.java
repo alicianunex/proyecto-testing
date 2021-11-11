@@ -12,7 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ProductListTest {
-
+/*
 
     WebDriver webDriver;
     final String targeturl = "https://demo.openmrs.org/openmrs/login.htm";
@@ -38,4 +38,5 @@ public class ProductListTest {
 
 
     }
+    */
 }

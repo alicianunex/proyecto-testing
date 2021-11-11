@@ -10,6 +10,9 @@ public class EffectRetro extends PhotoDecorator{
 	}
 
 	@Override
+	/**
+	 * Applies the retro effect to the photo
+	 */
 	public String show() {
 		// decorar la foto
 		this.photo.setBrightness(50);
@@ -18,6 +21,9 @@ public class EffectRetro extends PhotoDecorator{
 	}
 	
 	@Override
+	/**
+	 * Returns base cost + Vintage cost
+	 */
 	public double cost() {
 		return this.photo.cost() + 20;
 	}

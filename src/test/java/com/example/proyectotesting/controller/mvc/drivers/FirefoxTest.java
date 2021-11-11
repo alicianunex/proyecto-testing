@@ -40,6 +40,7 @@ public class FirefoxTest {
         String title = driver.getTitle();
         assertEquals("Mozilla · GitHub", title);
     }
+*/
 
 }
 

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("PayPal Strategy (Payment Strategy) Tests")
+@DisplayName("PayPal Strategy Payment Strategy Tests")
 class PayPalStrategyTest {
 
     PayPalStrategy payPalStrategy;

@@ -1,5 +1,8 @@
 package com.example.proyectotesting.patterns.behavioral.strategy;
 
+/**
+ * Credit card payment option
+ */
 public class CreditCardStrategy implements PaymentStrategy {
     private String name;
     private String cardNumber;
@@ -46,6 +49,9 @@ public class CreditCardStrategy implements PaymentStrategy {
     }
 
     @Override
+    /**
+     * Prints the payment of the provided amount
+     */
     public void pay(double amount) {
         System.out.println(amount + " paid with credir card");
     }

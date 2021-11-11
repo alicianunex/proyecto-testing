@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@DisplayName("EffectRetro (PhotoDecorator)")
+@DisplayName("EffectRetro PhotoDecorator Tests")
 class EffectRetroTest {
 
     PhotoDecorator retro;

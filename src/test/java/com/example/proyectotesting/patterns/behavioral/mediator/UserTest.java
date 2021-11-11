@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@DisplayName("User (AbstractUser) Tests")
+@DisplayName("User AbstractUser Tests")
 class UserTest {
 
     User user = new User(new Telegram(),"name");

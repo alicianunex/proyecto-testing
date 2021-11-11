@@ -20,6 +20,8 @@ import java.util.Optional;
  * |
  * |
  * SmartPhone
+ *
+ * Manage CRUD operations of Product repo through REST
  */
 @RestController // rest
 public class ProductRestController {
@@ -31,18 +33,31 @@ public class ProductRestController {
     }
 
     // metodos HTTP
+    /**
+     * Returns a list with all the Repository's entries
+     * through Get protocol
+     */
     @GetMapping("/api/products")
     public List<Product> findAll(){
         return productService.findAll();
     }
 
+    /**
+     * Returns the object with the id specified
+     * through Get protocol
+     */
     @GetMapping("/api/products/{id}")
     public ResponseEntity<Product> findOne(@PathVariable Long id){
         Optional<Product> productOpt = productService.findOne(id);
         return ResponseEntity.of(productOpt); // HTTP Status 200 si hay objeto en el Optional y 404 si no hay objeto en Optional
     }
 
-
+    /**
+     * Adds a new object to the repository
+     * and returns an appropriate response entity
+     * returns 400 or 201 entity
+     * through post protocol
+     */
     @PostMapping("/api/products") // crear nuevos productos
     public ResponseEntity<Product> create(@RequestBody Product product){
         if(product.getId() != null) // si hay id entonces NO es creación
@@ -52,6 +67,12 @@ public class ProductRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(product); // HTTP Status es 201
     }
 
+    /**
+     * Updates the object provided in the repository
+     * and returns an appropriate response entity
+     * returns 400 404 or 200 entity
+     * through post
+     */
     @PutMapping("/api/products") // actualizar un producto existente
     public ResponseEntity<Product> update(@RequestBody Product product){
         if(product.getId() == null)
@@ -64,6 +85,12 @@ public class ProductRestController {
         return ResponseEntity.ok(result); // HTTP Status es 200
     }
 
+    /**
+     * Deletes the object with the id provided in the repository
+     * and returns an appropriate response entity
+     * returns 404 204 or 409 entity
+     * though delete protocol
+     */
     @DeleteMapping("/api/products/{id}")
     public ResponseEntity<Product> delete(@PathVariable Long id){
 
@@ -78,6 +105,12 @@ public class ProductRestController {
 
     }
 
+    /**
+     * Deletes all the objects in the repository
+     * and returns an appropriate response entity
+     * returns 204 or 409 entity
+     * through delete protocol
+     */
     @DeleteMapping("/api/products")
     public ResponseEntity<Product> deleteAll(){
 

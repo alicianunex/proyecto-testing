@@ -10,6 +10,9 @@ import java.util.Optional;
 
 
 @Service
+/**
+ * Implementation for the CRUD operations of the Category object
+ */
 public class CategoryServiceImpl implements CategoryService {
 
     private CategoryRepository categoryRepository;
@@ -18,15 +21,22 @@ public class CategoryServiceImpl implements CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-
-
-
     @Override
+    /**
+     * Returns a list with all the objects in the repository
+     * @return List<Category>
+     */
     public List<Category> findAll() {
         return categoryRepository.findAll();
     }
 
     @Override
+    /**
+     * Returns the object with the id provided
+     * @param id id of the object requested
+     * @returns Optional with the object requested
+     * @returns Empty optional if the object doesn't exists
+     */
     public Optional<Category> findOne(Long id) {
         if (id == null || id <= 0)
             return Optional.empty();
@@ -35,10 +45,20 @@ public class CategoryServiceImpl implements CategoryService {
 
     }
     @Override
+    /**
+     * Checks if the object with the id provided
+     * exists in the repository
+     */
     public boolean existsById(Long id) {
         return categoryRepository.existsById(id);
     }
     @Override
+    /**
+     * Returns the object with the color provided
+     * @param color id of the object requested
+     * @returns Optional with the object requested
+     * @returns Empty optional if the object doesn't exists
+     */
     public Optional<Category> findOne(String color) {
         if (color == null)
             return Optional.empty();
@@ -47,6 +67,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    /**
+     * Saves the object provided in the repository
+     * @param category The object to save
+     */
     public Category save(Category category) {
         if (category == null)
             return null;
@@ -56,11 +80,22 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    /**
+     * Returns the current size of the repository
+     * as a number
+     * @return long number of elements present in the repo
+     */
     public long count() {
         return categoryRepository.count();
     }
 
     @Override
+    /**
+     * Deletes the object with the id provided
+     * @param id  id of the object to delete
+     * @returns true if deletion is completed
+     * @returns false if deletion fails
+     * */
     public boolean deleteById(Long id) {
         if (id == null || !categoryRepository.existsById(id)) {
             System.out.println("No existe id a eliminar");
@@ -72,6 +107,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     }
     @Override
+    /**
+     * Deletes all the objects in the repo
+     * @returns true if deletion is completed
+     * @returns false if deletion fails
+     * */
     public boolean deleteAll() {
         try{
             categoryRepository.deleteAll();

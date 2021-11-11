@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+/**
+ * Implementation for the CRUD operations of the Direction object
+ * */
 public class DirectionServiceImpl implements DirectionService{
 
     DirectionRepository directionRepository;
@@ -17,6 +20,10 @@ public class DirectionServiceImpl implements DirectionService{
     }
 
     @Override
+    /**
+     * Returns a list with all the objects in the repository
+     * @return List<Direction>
+     */
     public List<Direction> findAll() {
         List<Direction> answer;
         answer = directionRepository.findAll();
@@ -26,6 +33,12 @@ public class DirectionServiceImpl implements DirectionService{
     }
 
     @Override
+    /**
+     * Returns the object with the id provided
+     * @param id id of the object requested
+     * @returns Optional with the object requested
+     * @returns Empty optional if the object doesn't exists
+     */
     public Optional<Direction> findOne(Long id) {
         try {
             Optional<Direction> optionalanswer = directionRepository.findById(id);
@@ -38,11 +51,21 @@ public class DirectionServiceImpl implements DirectionService{
             return Optional.empty();
         }
     }
+
     @Override
+    /**
+     * Checks if the object with the id provided
+     * exists in the repository
+     */
     public boolean existsById(Long id) {
         return directionRepository.existsById(id);
     }
+
     @Override
+    /**
+     * Saves the object provided in the repository
+     * @param category The object to save
+     */
     public Direction save(Direction direction) {
         try {
             if (direction != null) {
@@ -56,7 +79,13 @@ public class DirectionServiceImpl implements DirectionService{
         }
         return null;
     }
+
     @Override
+    /**
+     * Returns the current size of the repository
+     * as a number
+     * @return long number of elements present in the repo
+     */
     public Long count() {
 
         long answer =directionRepository.count();
@@ -66,6 +95,12 @@ public class DirectionServiceImpl implements DirectionService{
     }
 
     @Override
+    /**
+     * Deletes the object with the id provided
+     * @param id  id of the object to delete
+     * @returns true if deletion is completed
+     * @returns false if deletion fails
+     * */
     public boolean deleteById(Long id) {
 
         try {
@@ -86,6 +121,11 @@ public class DirectionServiceImpl implements DirectionService{
     }
 
     @Override
+    /**
+     * Deletes all the objects in the repo
+     * @returns true if deletion is completed
+     * @returns false if deletion fails
+     * */
     public boolean deleteAll() {
 
         try {
@@ -99,6 +139,13 @@ public class DirectionServiceImpl implements DirectionService{
     }
 
     @Override
+    /**
+     *
+     * @param city A string containing the city that contains the direction
+     * @param country A string containing the country of the Direction
+     * @return List<Direction> with the directions that match the param search
+     * @return empty ArrayList if either @param is null
+     */
     public List<Direction> findByCityAndCountry(String city, String country) {
         List<Direction> result = new ArrayList<>();
         if (city == null || country == null)

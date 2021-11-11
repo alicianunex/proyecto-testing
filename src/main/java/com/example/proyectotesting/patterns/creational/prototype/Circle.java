@@ -11,6 +11,9 @@ public class Circle extends Shape{
 	}
 
 	@Override
+	/**
+	 * Copies this object and returns the copy
+	 */
 	public Shape copy() {
 		return new Circle(this.getColor(), this.radius);
 	}

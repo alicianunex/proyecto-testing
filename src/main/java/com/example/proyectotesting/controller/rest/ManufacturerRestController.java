@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+/**
+ * Manages the CRUD operations for the Category class
+ */
 public class ManufacturerRestController {
 
     private ManufacturerService manufacturerService;
@@ -20,12 +23,21 @@ public class ManufacturerRestController {
     public ManufacturerRestController (ManufacturerService manufacturerService) {
         this.manufacturerService = manufacturerService;
     }
+
     // métodos HTTP
+    /**
+     * Returns a list with all the Repository's entries
+     * through Get protocol
+     */
     @GetMapping("/api/manufacturers")
     public List<Manufacturer> findAll(){
         return manufacturerService.findAll();
     }
 
+    /**
+     * Returns the object with the id specified
+     * through Get protocol
+     */
     @GetMapping("/api/manufacturers/{id}")
     public ResponseEntity<Manufacturer> findOne(@PathVariable Long id){
         Optional<Manufacturer> manufacturerOptional = manufacturerService.findOne(id);

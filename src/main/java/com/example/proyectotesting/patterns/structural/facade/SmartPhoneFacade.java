@@ -8,7 +8,11 @@ import java.util.List;
 
 public class SmartPhoneFacade {
 
-	
+
+	/**
+	 * Creates a Smartphone with all its components
+	 * @return the Smartphone created
+	 */
 	public static SmartPhone startSmartPhone() {
 		
 		// ensamblar el smartphone y encenderlo

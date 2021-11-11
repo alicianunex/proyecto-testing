@@ -3,6 +3,9 @@ package com.example.proyectotesting.patterns.behavioral.state;
 public class ShippedState implements OrderState {
 
 	@Override
+	/**
+	 * Changes the state to Delivered
+	 */
 	public void next(Order order) {
 
 		System.out.println(
@@ -16,6 +19,9 @@ public class ShippedState implements OrderState {
 	}
 
 	@Override
+	/**
+	 * Changes the state to Processing
+	 */
 	public void previous(Order order) {
 		
 		System.out.println(

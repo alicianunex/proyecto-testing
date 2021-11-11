@@ -1,5 +1,8 @@
 package com.example.proyectotesting.patterns.structural.adapter;
 
+/**
+ * Vehicle with speed
+ */
 public class Tractor {
 	
 	private double speed;
@@ -15,6 +18,11 @@ public class Tractor {
 	}
 
 
+	/**
+	 * Shifts gears in the movable and
+	 * adjusts speed accordingly
+	 * @param mode the gear to shift to
+	 */
 	public void changeMode(int mode) {
 		switch (mode) {
 		case 1:

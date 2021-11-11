@@ -3,6 +3,9 @@ package com.example.proyectotesting.patterns.behavioral.state;
 public class ProcessingState implements OrderState {
 
 	@Override
+	/**
+	 * Changes the state to Shipped
+	 */
 	public void next(Order order) {
 		
 		System.out.println(
@@ -18,6 +21,9 @@ public class ProcessingState implements OrderState {
 	}
 
 	@Override
+	/**
+	 * Notifies process not started
+	 */
 	public void previous(Order order) {
 
 		System.out.println("Root state");

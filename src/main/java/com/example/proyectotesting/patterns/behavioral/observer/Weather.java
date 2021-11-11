@@ -3,6 +3,11 @@ package com.example.proyectotesting.patterns.behavioral.observer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Weather obj and its observers
+ * changes the weather using WeatherType
+ * and notifies to the observers stored
+ */
 public class Weather {
  
     private WeatherType currentWeather;
@@ -22,13 +27,17 @@ public class Weather {
         this.observers.remove(obs);
     }
 
-    // cambio de tiempo
+    /**
+     * changes the weather
+      */
     void changeWeather(WeatherType currentWeather){
         this.currentWeather = currentWeather;
         this.notifyObservers();
     }
 
-    // notificar del cambio de tiempo
+    /** notificar del cambio de tiempo
+     *
+     */
     private void notifyObservers(){
         for (WeatherObserver observer: this.observers) {
             observer.update(this.currentWeather);

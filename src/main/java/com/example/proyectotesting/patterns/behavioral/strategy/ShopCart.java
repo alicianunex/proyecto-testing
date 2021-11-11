@@ -3,6 +3,10 @@ package com.example.proyectotesting.patterns.behavioral.strategy;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  Stores selected products
+ *  and allows payment
+ */
 public class ShopCart {
 
     private List<Product> products;
@@ -19,7 +23,10 @@ public class ShopCart {
         this.products.remove(product);
     }
 
-    // pagar utilizando una estrategia de pago
+    /**
+     * pagar utilizando una estrategia de pago
+     * @param paymentMethod
+     */
     public void pay(PaymentStrategy paymentMethod){
     	Double result = products.stream().map(x -> x.getPrice()).reduce(Double::sum).orElse(0d);
         double amount = 0;

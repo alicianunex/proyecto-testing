@@ -1,5 +1,8 @@
 package com.example.proyectotesting.patterns.behavioral.strategy;
 
+/**
+ * Credit card payment option
+ */
 public class PayPalStrategy implements PaymentStrategy{
 
     private String api;
@@ -37,6 +40,9 @@ public class PayPalStrategy implements PaymentStrategy{
     }
 
     @Override
+    /**
+     * Prints the payment of the provided amount
+     */
     public void pay(double amount) {
 
     }

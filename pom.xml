@@ -115,6 +115,11 @@
 			<artifactId>selenium-firefox-driver</artifactId>
 			<version>4.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.webdriver</groupId>
+			<artifactId>webdriver-chrome</artifactId>
+			<version>0.9.7376</version>
+		</dependency>
 <!--		<dependency>-->
 <!--			<groupId>org.jacoco</groupId>-->
 <!--			<artifactId>org.jacoco.report</artifactId>-->

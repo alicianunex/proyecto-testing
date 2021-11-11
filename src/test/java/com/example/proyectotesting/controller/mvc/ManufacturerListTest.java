@@ -5,10 +5,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,30 +17,36 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-@DisplayName("Selenium Product List Test")
-public class ProductListTest {
+@DisplayName("Selenium Manufacturer List Test")
+public class ManufacturerListTest {
 
-    // http://localhost:8080/products
+    // http://localhost:8080/manufacturers
 
     static WebDriver firefoxwebDriver;
     static WebDriver chromewebDriver;
 
     List<List> outerobjdata;
 
+    JavascriptExecutor js;
+
     @BeforeEach
     void setUp() {
+
+
 
 //      String dir = System.getProperty("user.dir");
         String driverUrl = "C:\\data\\chromedriver.exe";
         System.setProperty("webdriver.chrome.driver",driverUrl);
         chromewebDriver = new ChromeDriver();
-        chromewebDriver.get("http://localhost:8080/products");
+        chromewebDriver.get("http://localhost:8080/manufactures");
         /*
         String dir = System.getProperty("user.dir");
         String driverUrl = "C:\\data\\geckodriver.exe";
         System.setProperty("webdriver.gecko.driver",driverUrl);
         firefoxwebDriver = new FirefoxDriver();
         */
+
+        js = (JavascriptExecutor) chromewebDriver;
 
     }
 
@@ -74,28 +80,47 @@ public class ProductListTest {
     @Test
     @DisplayName("Title is displayed and stored correctly")
     void CheckTitletextTest(){
-        assertEquals("Products Directory", chromewebDriver.
+        assertEquals("Listado de fabricantes", chromewebDriver.
                 findElement(By.cssSelector("h1")).getText());
-        assertEquals("Product List | Awesome App", chromewebDriver.getTitle());
+        assertEquals("Manufacturer List | Awesome App", chromewebDriver.getTitle());
     }
 
     @Test
-    @DisplayName("Manufacturer links are displayed correctly")
+    @DisplayName("Product links are displayed correctly")
+    void CheckVerButtonTest(){
+
+        List<WebElement>  tableanchor = chromewebDriver.findElements(By.cssSelector("tbody  tr:last-child > a"));
+        for (WebElement count: tableanchor) {
+            //System.out.println(count.getAttribute("href"));
+            assertTrue(count.getAttribute("href").contains("/manufactures/") && count.getAttribute("href").contains("/view"));
+            count.click();
+            assertTrue(chromewebDriver.getCurrentUrl().contains("/manufactures/") && chromewebDriver.getCurrentUrl().contains("/view"));
+
+            WebElement buttonver = chromewebDriver.findElements(By.className("btn btn-info")).get(0);
+            js.executeScript("arguments[0].scrollIntoView();", buttonver);
+            buttonver.click();
+        }
+    }
+
+    @Test
+    @DisplayName("Product links are displayed correctly")
     void CheckManufacturerlinksTest(){
 
-        List<WebElement>  tableanchor = chromewebDriver.findElements(By.cssSelector("tbody  tr:nth-child(5) > a"));
+        List<WebElement>  tableanchor = chromewebDriver.findElements(By.cssSelector("tbody  tr:nth-child(7) > a"));
         for (WebElement count: tableanchor) {
                 //System.out.println(count.getAttribute("href"));
                 assertTrue(count.getAttribute("href").contains("/manufactures/"));
 
-                if (count.getText() == "Adidas")
-                   assertEquals("/manufacturers/1/view",count.getAttribute("href"));
-                if (count.getText() == "Nike")
-                    assertEquals("/manufacturers/3/view",count.getAttribute("href"));
-                if (count.getText() == "")
-                    assertEquals("/manufacturers//view",count.getAttribute("href"));
+                if (count.getText() == "Balón")
+                   assertEquals("/products/9/view",count.getAttribute("href"));
+                if (count.getText() == "Mesa")
+                    assertEquals("/products/10/view",count.getAttribute("href"));
+                if (count.getText() == "Botella")
+                    assertEquals("/products/11/view",count.getAttribute("href"));
+            if (count.getText() == "WebCam")
+                assertEquals("/products/12/view",count.getAttribute("href"));
                 else
-                    System.out.println("Manufacturer not recognized");
+                    System.out.println("Product not recognized");
                     assumeTrue(false);
             }
         }
@@ -105,62 +130,36 @@ public class ProductListTest {
         outerobjdata = new ArrayList<>();
         List<String> objdata = new ArrayList<>();
         objdata.add("Name");
-        objdata.add("Price");
-        objdata.add("Description");
-        objdata.add("Quantity");
-        objdata.add("Fabricante");
-        objdata.add("Categorías");
+        objdata.add("CIF");
+        objdata.add("Nº Empleados");
+        objdata.add("Año fundación");
+        objdata.add("Calle");
+        objdata.add("País");
+        objdata.add("Productos");
         objdata.add("Actions");
         outerobjdata.add(objdata);
 
         objdata = new ArrayList<>();
-        objdata.add("Balón");
-        objdata.add("10.99");
-        objdata.add("Lorem impsum dolor");
-        objdata.add("2");
         objdata.add("Adidas");
-        objdata.add("Libros Computación");
+        objdata.add("2343235325G");
+        objdata.add("60000");
+        objdata.add("1949");
+        objdata.add("Calle falsa");
+        objdata.add("Spain");
+        objdata.add("Balón Mesa Botella");
         objdata.add("Ver Editar Borrar");
         outerobjdata.add(objdata);
 
         objdata = new ArrayList<>();
-        objdata.add("Mesa");
-        objdata.add("99.99");
-        objdata.add("Lorem impsum dolor");
-        objdata.add("8");
-        objdata.add("Adidas");
-        objdata.add("Libros Computación Hogar");
-        objdata.add("Ver Editar Borrar");
-        outerobjdata.add(objdata);
-
-        objdata = new ArrayList<>();
-        objdata.add("Botella");
-        objdata.add("99.99");
-        objdata.add("Lorem impsum dolor");
-        objdata.add("5");
-        objdata.add("Adidas");
-        objdata.add("Libros Moda");
-        objdata.add("Ver Editar Borrar");
-        outerobjdata.add(objdata);
-
-        objdata = new ArrayList<>();
-        objdata.add("WebCam");
-        objdata.add("99.99");
-        objdata.add("Lorem impsum dolor");
-        objdata.add("12");
         objdata.add("Nike");
-        objdata.add("");
+        objdata.add("2343235325G");
+        objdata.add("60000");
+        objdata.add("1977");
+        objdata.add("Calle verdadera");
+        objdata.add("Spain");
+        objdata.add("WebCam");
         objdata.add("Ver Editar Borrar");
         outerobjdata.add(objdata);
 
-        objdata = new ArrayList<>();
-        objdata.add("Zapatillas");
-        objdata.add("99.99");
-        objdata.add("Lorem impsum dolor");
-        objdata.add("12");
-        objdata.add("");
-        objdata.add("");
-        objdata.add("Ver Editar Borrar");
-        outerobjdata.add(objdata);
     }
 }

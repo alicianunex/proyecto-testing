@@ -92,6 +92,46 @@ public class CategoryServiceImplTest {
             assertFalse(found.isPresent());
             assertTrue(true);
         }
+        @Test
+        void findOneIdCeroTest() {
+            Optional<Category> categoryOpt = categoryService.findOne(0L);
+            assertEquals(Optional.empty(), categoryOpt);
+        }
+
+
+        @Test
+        void findOneNegativeIdTest() {
+            Optional<Category> categoryOpt = categoryService.findOne(-5L);
+            assertEquals(Optional.empty(), categoryOpt);
+        }
+
+        @Test
+        void findByIdTest() {
+            List<Category> categories = new ArrayList<>();
+            Category c1 = new Category("New Category", "New Color");
+            Category c2 = new Category("Old Color", "Color Negro");
+
+            System.out.println(categories + "\n");
+
+            c1.setId(1L);
+            c2.setId(2L);
+
+            categories.add(c1);
+            categories.add(c2);
+
+            assertEquals(2, categories.size());
+
+            System.out.println("Category 1 :" + c1 + "\n" +
+                    "Category 2: " + c2);
+            Optional<Category> categoryOpt1 = categoryService.findOne(1L);
+            Optional<Category> categoryOpt2 = categoryService.findOne(2L);
+
+            assertNotNull(categoryOpt1);
+            assertNotNull(categoryOpt2);
+            assertTrue(categoryOpt1.isEmpty());
+            assertTrue(categoryOpt2.isEmpty());
+
+        }
     }
 
     @Nested

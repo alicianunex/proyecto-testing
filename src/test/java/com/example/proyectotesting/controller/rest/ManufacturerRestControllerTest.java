@@ -1,7 +1,8 @@
+
 package com.example.proyectotesting.controller.rest;
 
 
-import com.example.proyectotesting.controller.rest.ManufacturerRestController;
+
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

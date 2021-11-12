@@ -1,5 +1,6 @@
 package com.example.proyectotesting.controller.mvc;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -8,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.ArrayList;
@@ -29,6 +31,13 @@ public class ProductListTest {
 
     @BeforeEach
     void setUp() {
+
+        WebDriverManager.chromedriver().setup();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--headless");
+        chromewebDriver = new ChromeDriver(options);
 
 //      String dir = System.getProperty("user.dir");
         String driverUrl = "C:\\data\\chromedriver.exe";

@@ -38,18 +38,20 @@ public class ManufacturerListTest {
     @BeforeEach
     void setUp() {
 
-//      String dir = System.getProperty("user.dir");
-        String driverUrl = "C:\\data\\chromedriver.exe";
-        System.setProperty("webdriver.chrome.driver",driverUrl);
-        //chromewebDriver = new ChromeDriver();
-        chromewebDriver.get("http://localhost:8080/manufacturers");
-
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--headless");
         chromewebDriver = new ChromeDriver(options);
+
+//      String dir = System.getProperty("user.dir");
+        String driverUrl = "C:\\data\\chromedriver.exe";
+        System.setProperty("webdriver.chrome.driver",driverUrl);
+        //chromewebDriver = new ChromeDriver();
+        chromewebDriver.get("http://localhost:8080/manufacturers");
+
+
         /*
         String dir = System.getProperty("user.dir");
         String driverUrl = "C:\\data\\geckodriver.exe";

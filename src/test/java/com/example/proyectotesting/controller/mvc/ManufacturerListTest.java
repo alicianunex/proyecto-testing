@@ -1,6 +1,7 @@
 package com.example.proyectotesting.controller.mvc;
 
 import com.example.proyectotesting.ProyectoTestingApplication;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,6 +11,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -39,8 +41,15 @@ public class ManufacturerListTest {
 //      String dir = System.getProperty("user.dir");
         String driverUrl = "C:\\data\\chromedriver.exe";
         System.setProperty("webdriver.chrome.driver",driverUrl);
-        chromewebDriver = new ChromeDriver();
+        //chromewebDriver = new ChromeDriver();
         chromewebDriver.get("http://localhost:8080/manufacturers");
+
+        WebDriverManager.chromedriver().setup();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--headless");
+        chromewebDriver = new ChromeDriver(options);
         /*
         String dir = System.getProperty("user.dir");
         String driverUrl = "C:\\data\\geckodriver.exe";

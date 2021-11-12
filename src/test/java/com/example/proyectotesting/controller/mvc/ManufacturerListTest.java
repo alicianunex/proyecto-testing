@@ -2,10 +2,7 @@ package com.example.proyectotesting.controller.mvc;
 
 import com.example.proyectotesting.ProyectoTestingApplication;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -25,9 +22,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @DisplayName("Selenium Manufacturer List Test")
+@TestMethodOrder(value = MethodOrderer.DisplayName.class)
 public class ManufacturerListTest {
 
     // http://localhost:8080/manufacturers
+
 
     static WebDriver firefoxwebDriver;
     static WebDriver chromewebDriver;
@@ -39,17 +38,17 @@ public class ManufacturerListTest {
     @BeforeEach
     void setUp() {
 
-        WebDriverManager.chromedriver().setup();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--headless");
-        chromewebDriver = new ChromeDriver(options);
+//        WebDriverManager.chromedriver().setup();
+//        ChromeOptions options = new ChromeOptions();
+//        options.addArguments("--no-sandbox");
+//        options.addArguments("--disable-dev-shm-usage");
+//        options.addArguments("--headless");
+//        chromewebDriver = new ChromeDriver(options);
 
-////      String dir = System.getProperty("user.dir");
-//        String driverUrl = "C:\\data\\chromedriver.exe";
-//        System.setProperty("webdriver.chrome.driver",driverUrl);
-//        chromewebDriver = new ChromeDriver();
+        String dir = System.getProperty("user.dir");
+        String driverUrl = "C:\\data\\chromedriver.exe";
+        System.setProperty("webdriver.chrome.driver",driverUrl);
+        chromewebDriver = new ChromeDriver();
         chromewebDriver.get("http://localhost:8080/manufacturers");
         chromewebDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
@@ -169,31 +168,12 @@ public class ManufacturerListTest {
      * @DisplayName("Checks the add manufacturer button")
      */
     @Test
-    @DisplayName("Checks the add manufacturer button")
+    @DisplayName("Checks the remove all manufacturers button")
     void removeAllManufacturers(){
         assertTrue(false);
 
     }
 
-    /**
-     *  @DisplayName("Delete button is displayed correctly")
-     */
-    @Test
-    @DisplayName("Delete button is displayed correctly")
-    void CheckBorrarButtonTest(){
-
-        List<WebElement>  erasebuttons = chromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)"));
-        int initialsize = erasebuttons.size();
-
-        while (erasebuttons.size()>0) {
-
-            assertTrue(erasebuttons.get(0).getAttribute("href").contains("/manufacturers/")
-                    && erasebuttons.get(0).getAttribute("href").contains("/delete"));
-            erasebuttons.get(0).click();
-            assertTrue(initialsize < chromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)")).size());
-
-        }
-    }
 
     /**
      *     @DisplayName("Product links are displayed correctly")
@@ -220,6 +200,28 @@ public class ManufacturerListTest {
                 System.out.println("Product not recognized");
                 assumeTrue(false);
             }
+        }
+    }
+    /**
+     *  @DisplayName("Delete button is displayed correctly")
+     */
+    @Test
+    @DisplayName("zDelete button is displayed correctly")
+    void zCheckBorrarButtonTest(){
+
+        List<WebElement>  erasebuttons = chromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)"));
+        int initialsize = erasebuttons.size();
+
+        System.out.println(initialsize);
+        while (erasebuttons.size()>0) {
+
+            assertTrue(erasebuttons.get(0).getAttribute("href").contains("/manufacturers/")
+                    && erasebuttons.get(0).getAttribute("href").contains("/delete"));
+            erasebuttons.get(0).click();
+
+            System.out.println(chromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)")).size());
+            assertTrue(initialsize > chromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)")).size());
+
         }
     }
 

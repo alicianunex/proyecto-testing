@@ -1,10 +1,7 @@
 package com.example.proyectotesting.controller.mvc;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @DisplayName("Selenium Product List Test")
+@TestMethodOrder(value = MethodOrderer.DisplayName.class)
 public class ProductListTest {
 
     // http://localhost:8080/products
@@ -33,17 +31,17 @@ public class ProductListTest {
     @BeforeEach
     void setUp() {
 
-        WebDriverManager.chromedriver().setup();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--headless");
-        chromewebDriver = new ChromeDriver(options);
+//        WebDriverManager.chromedriver().setup();
+//        ChromeOptions options = new ChromeOptions();
+//        options.addArguments("--no-sandbox");
+//        options.addArguments("--disable-dev-shm-usage");
+//        options.addArguments("--headless");
+//        chromewebDriver = new ChromeDriver(options);
 
-//      String dir = System.getProperty("user.dir");
-//        String driverUrl = "C:\\data\\chromedriver.exe";
-//        System.setProperty("webdriver.chrome.driver",driverUrl);
-//        chromewebDriver = new ChromeDriver();
+      String dir = System.getProperty("user.dir");
+        String driverUrl = "C:\\data\\chromedriver.exe";
+        System.setProperty("webdriver.chrome.driver",driverUrl);
+        chromewebDriver = new ChromeDriver();
         chromewebDriver.get("http://localhost:8080/products");
         chromewebDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         /*

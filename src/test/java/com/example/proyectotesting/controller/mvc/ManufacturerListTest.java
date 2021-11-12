@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @DisplayName("Selenium Manufacturer List Test")
-@TestMethodOrder(value = MethodOrderer.DisplayName.class)
+@TestMethodOrder(value = MethodOrderer.MethodName.class)
 public class ManufacturerListTest {
 
     // http://localhost:8080/manufacturers
@@ -160,8 +160,15 @@ public class ManufacturerListTest {
     @Test
     @DisplayName("Checks the add manufacturer button")
     void addNewManufacturer(){
-        assertTrue(false);
 
+        chromewebDriver.findElement(By.cssSelector("p>a:first-child")).click();
+        assertTrue(chromewebDriver.getCurrentUrl().contains("/manufacturers/new"));
+
+        WebElement buttonsave = chromewebDriver.findElement(By.xpath("//button[@type='submit']"));
+        js.executeScript("arguments[0].scrollIntoView();", buttonsave);
+        buttonsave.click();
+
+        assertTrue(chromewebDriver.getCurrentUrl().contains("/manufacturers"));
     }
 
     /**
@@ -170,7 +177,13 @@ public class ManufacturerListTest {
     @Test
     @DisplayName("Checks the remove all manufacturers button")
     void removeAllManufacturers(){
-        assertTrue(false);
+
+        int initialsize = chromewebDriver.findElements(By.cssSelector("tbody tr")).size();
+
+        chromewebDriver.findElement(By.xpath("//p/a[@class='btn btn-danger']")).click();
+
+        assertTrue(initialsize > chromewebDriver.findElements(By.cssSelector("tbody tr")).size());
+        assertEquals(1, chromewebDriver.findElements(By.cssSelector("tbody tr")).size());
 
     }
 
@@ -206,20 +219,20 @@ public class ManufacturerListTest {
      *  @DisplayName("Delete button is displayed correctly")
      */
     @Test
-    @DisplayName("zDelete button is displayed correctly")
+    @DisplayName("Delete button is displayed correctly")
     void zCheckBorrarButtonTest(){
 
         List<WebElement>  erasebuttons = chromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)"));
         int initialsize = erasebuttons.size();
 
-        System.out.println(initialsize);
         while (erasebuttons.size()>0) {
 
-            assertTrue(erasebuttons.get(0).getAttribute("href").contains("/manufacturers/")
-                    && erasebuttons.get(0).getAttribute("href").contains("/delete"));
-            erasebuttons.get(0).click();
+            List<WebElement> innererasebuttons = chromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)"));
 
-            System.out.println(chromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)")).size());
+            assertTrue(innererasebuttons.get(0).getAttribute("href").contains("/manufacturers/")
+                    && innererasebuttons.get(0).getAttribute("href").contains("/delete"));
+            innererasebuttons.get(0).click();
+
             assertTrue(initialsize > chromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)")).size());
 
         }

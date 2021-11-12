@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @DisplayName("Selenium Product List Test")
-@TestMethodOrder(value = MethodOrderer.DisplayName.class)
+@TestMethodOrder(value = MethodOrderer.MethodName.class)
 public class ProductListTest {
 
     // http://localhost:8080/products

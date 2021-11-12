@@ -8,7 +8,8 @@ name: Run kArim Branch
 
 on:
   push:
-    branches: [ kArim ]
+    branches:
+            - kArim
 
 jobs:
   build:

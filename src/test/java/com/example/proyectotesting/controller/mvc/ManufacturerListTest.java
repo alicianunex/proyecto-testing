@@ -18,6 +18,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -50,6 +51,8 @@ public class ManufacturerListTest {
 //        System.setProperty("webdriver.chrome.driver",driverUrl);
 //        chromewebDriver = new ChromeDriver();
         chromewebDriver.get("http://localhost:8080/manufacturers");
+        chromewebDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+
         /*
         String dir = System.getProperty("user.dir");
         String driverUrl = "C:\\data\\geckodriver.exe";

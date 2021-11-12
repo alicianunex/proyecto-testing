@@ -9,6 +9,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -39,8 +41,11 @@ public class ProductListTest {
 //        chromewebDriver = new ChromeDriver(options);
 
       String dir = System.getProperty("user.dir");
-        String driverUrl = "C:\\data\\chromedriver.exe";
-        System.setProperty("webdriver.chrome.driver",driverUrl);
+//        String driverUrl = "C:\\data\\chromedriver.exe";
+//        System.setProperty("webdriver.chrome.driver",driverUrl);
+
+        Path path = Paths.get("C:\\data\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver",path.toString());
         chromewebDriver = new ChromeDriver();
         chromewebDriver.get("http://localhost:8080/products");
         chromewebDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);

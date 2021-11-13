@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import com.example.proyectotesting.service.CategoryService;
-import com.example.proyectotesting.service.CategoryServiceImpl;
+
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -78,7 +77,7 @@ public class CategoryServiceImplTest {
             assertAll(
                     () -> assertNotNull(found),
                     () -> assertFalse(found.isPresent()),
-                    () -> assertThrows(NoSuchElementException.class, () ->found.get().getId())
+                    () -> assertThrows(NoSuchElementException.class, () -> found.get().getId())
             );
         }
 
@@ -92,6 +91,7 @@ public class CategoryServiceImplTest {
             assertFalse(found.isPresent());
             assertTrue(true);
         }
+
         @Test
         void findOneIdCeroTest() {
             Optional<Category> categoryOpt = categoryService.findOne(0L);
@@ -196,7 +196,8 @@ public class CategoryServiceImplTest {
         }
     }
 
-
+    @Nested
+    public class Delete {
         @Test
         void deleteNull() {
             when(categoryRepository.findById(null))
@@ -226,7 +227,24 @@ public class CategoryServiceImplTest {
             assertEquals(0, categoryService.count());
         }
 
+        @Test
+        void deleteNegative() {
+            doThrow(RuntimeException.class).when(categoryRepository).deleteById(anyLong());
+            boolean result = categoryService.deleteById(-9L);
+            assertFalse(result);
+            assertThrows(Exception.class, () -> categoryRepository.deleteById(-9L));
+            verify(categoryRepository).deleteById(anyLong());
+        }
+
+        @Test
+        void deleteByIdOk() {
+            doThrow(RuntimeException.class).when(categoryRepository).deleteById(anyLong());
+            boolean result = categoryService.deleteById(anyLong());
+            assertFalse(result);
+            assertThrows(Exception.class, () -> categoryRepository.deleteById(anyLong()));
+            verify(categoryRepository).deleteById(anyLong());
+        }
 
 
     }
-
+}

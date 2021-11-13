@@ -77,7 +77,7 @@ public class ManufacturerListTest {
     }
 
     /**
-     *     @DisplayName("Displays the List of products with attributes")
+     *    Displays the List of products with attributes
      */
     @Test
     @DisplayName("Displays the List of products with attributes")
@@ -101,7 +101,7 @@ public class ManufacturerListTest {
     }
 
     /**
-     *     @DisplayName("Title is displayed and stored correctly")
+     *Title is displayed and stored correctly
      */
     @Test
     @DisplayName("Title is displayed and stored correctly")
@@ -116,7 +116,7 @@ public class ManufacturerListTest {
     }
 
     /**
-     *     @DisplayName("Details button is displayed correctly")
+     * Details button is displayed correctly
      */
     @Test
     @DisplayName("Details button is displayed correctly")
@@ -138,7 +138,7 @@ public class ManufacturerListTest {
     }
 
     /**
-     *     @DisplayName("Edit button is displayed correctly")
+     * Edit button is displayed correctly
      */
     @Test
     @DisplayName("Edit button is displayed correctly")
@@ -163,7 +163,7 @@ public class ManufacturerListTest {
     }
 
     /**
-     * @DisplayName("Checks the add manufacturer button")
+     * Checks the add manufacturer button
      */
     @Test
     @DisplayName("Checks the add manufacturer button")
@@ -180,7 +180,7 @@ public class ManufacturerListTest {
     }
 
     /**
-     * @DisplayName("Checks the add manufacturer button")
+     * Checks the add manufacturer button
      */
     @Test
     @DisplayName("Checks the remove all manufacturers button")
@@ -197,7 +197,7 @@ public class ManufacturerListTest {
 
 
     /**
-     *     @DisplayName("Product links are displayed correctly")
+     * Product links are displayed correctly
      */
     @Test
     @DisplayName("Product links are displayed correctly")
@@ -230,7 +230,7 @@ public class ManufacturerListTest {
         }
     }
     /**
-     *  @DisplayName("Delete button is displayed correctly")
+     *  Delete button is displayed correctly
      */
     @Test
     @DisplayName("Delete button is displayed correctly")

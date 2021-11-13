@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @DisplayName("Selenium Manufacturer Edit Test")
 @TestMethodOrder(value = MethodOrderer.MethodName.class)
@@ -86,6 +84,9 @@ public class ManufacturerEditTest {
         exit();
     }
 
+    /**
+     * Clicks on the Guardar button of the /edit HTML
+     */
     private void exit() {
 
         WebElement button = chromewebDriver.findElement(By.xpath("//button[@type='submit']"));
@@ -112,7 +113,7 @@ public class ManufacturerEditTest {
     }
 
     /**
-     * Subtitles are displayed correctly")
+     * Subtitles are displayed correctly
      */
     @Test
     @DisplayName("Subtitles are displayed correctly")
@@ -128,7 +129,7 @@ public class ManufacturerEditTest {
     }
 
     /**
-     * Subtitles are displayed correctly")
+     * Subtitles are displayed correctly
      */
     @Test
     @DisplayName("Subtitles are displayed correctly")
@@ -144,7 +145,7 @@ public class ManufacturerEditTest {
     }
 
     /**
-     * @DisplayName("Checks that the header and the info is displayed correctly")
+     * Checks that the header and the info is displayed correctly
      */
     @Test
     @DisplayName("Checks that the header and the info of Adidas is displayed correctly")
@@ -159,15 +160,15 @@ public class ManufacturerEditTest {
             assertEquals(outerobjdata.get(0).get(count),string_data.get(count).getAttribute("value"));
         }
 
-        assertTrue(chromewebDriver.findElements(By.xpath("//option")).size() == 4);
+        assertEquals(4,chromewebDriver.findElements(By.xpath("//option")).size());
 
-        assertTrue(chromewebDriver.findElements(By.xpath("//option[@selected='selected']")).size() == 3);
+        assertEquals(3,chromewebDriver.findElements(By.xpath("//option[@selected='selected']")).size());
 
         exit();
     }
 
     /**
-     * @DisplayName("Checks that the header and the info of Nike is displayed correctly")
+     * Checks that the header and the info of Nike is displayed correctly")
      */
     @Test
     @DisplayName("Checks that data for Nike is displayed correctly")
@@ -182,16 +183,16 @@ public class ManufacturerEditTest {
             assertEquals(outerobjdata.get(1).get(count),string_data.get(count).getAttribute("value"));
         }
 
-        assertTrue(chromewebDriver.findElements(By.xpath("//option")).size() == 2);
+        assertEquals(2,chromewebDriver.findElements(By.xpath("//option")).size());
 
-        assertTrue(chromewebDriver.findElements(By.xpath("//option[@selected='selected']")).size() == 1);
+        assertEquals(1,chromewebDriver.findElements(By.xpath("//option[@selected='selected']")).size());
 
         exit();
     }
 
     /**
-     *   Enters manufacturer/view from button in /manufacturers")
-     * @parm index of the manufacturer to access linked page
+     *   Enters manufacturer/view from button in /manufacturers
+     * @param index of the manufacturer to access linked page
      * */
     private void accessFromManufacturer(int index){
 
@@ -203,8 +204,8 @@ public class ManufacturerEditTest {
     }
 
     /**
-     *   Enters manufacturer/view from button in /manufacturers")
-     * @parm index of the manufacturer to access linked page
+     *   Enters manufacturer/view from button in /manufacturers
+     * @param name of the manufacturer to access linked page
      * */
     private void accessFromProducts(String name) {
 
@@ -252,7 +253,7 @@ public class ManufacturerEditTest {
             System.out.println("Test fails due to malfunctioning option tag ");
             System.out.println("the attribute selected stays on even when deselected");
         }
-        assertTrue(chromewebDriver.findElements(By.xpath("//option[@selected='selected']")).size() == 3);
+        assertEquals(3,chromewebDriver.findElements(By.xpath("//option[@selected='selected']")).size());
 
         WebElement button = chromewebDriver.findElement(By.xpath("//button[@type='submit']"));
         js.executeScript("arguments[0].scrollIntoView();", button);
@@ -260,13 +261,13 @@ public class ManufacturerEditTest {
         actions.click(button).perform();
 
         // TODO why can't you call exit() ?
-        ArrayList<String> tabs = new ArrayList<String>(chromewebDriver.getWindowHandles());
+        ArrayList<String> tabs = new ArrayList<>(chromewebDriver.getWindowHandles());
         String handleName = tabs.get(1);
         chromewebDriver.switchTo().window(handleName);
         System.setProperty("current.window.handle", handleName);
 
         List<WebElement> products = chromewebDriver.findElements(By.cssSelector("tr:nth-child(2) td span"));
-        assertTrue(products.size() == 4);
+        assertEquals(4,products.size());
     }
 
     /**

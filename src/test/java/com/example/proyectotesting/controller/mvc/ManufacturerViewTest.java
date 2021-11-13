@@ -6,14 +6,11 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -105,7 +102,7 @@ public class ManufacturerViewTest {
     }
 
     /**
-     * @DisplayName("SubTitles are displayed  correctly")
+     * SubTitles are displayed  correctly
      */
     @Test
     @DisplayName("SubTitles are displayed  correctly")
@@ -119,7 +116,7 @@ public class ManufacturerViewTest {
     }
 
     /**
-     * @DisplayName("SubTitles are displayed  correctly")
+     * Subtitles are displayed correctly
      */
     @Test
     @DisplayName("Subtitles are displayed  correctly")
@@ -133,7 +130,7 @@ public class ManufacturerViewTest {
     }
 
     /**
-     * @DisplayName("Checks that the header and the info is displayed correctly")
+     * Checks that the header and the info is displayed correctly
      */
     @Test
     @DisplayName("Checks that the header and the info is displayed correctly")
@@ -151,7 +148,7 @@ public class ManufacturerViewTest {
     }
 
     /**
-     * @DisplayName("Checks that the header and the info is displayed correctly")
+     * Checks that the header and the info is displayed correctly
      */
     @Test
     @DisplayName("Checks that data for Nike is displayed correctly")
@@ -171,7 +168,7 @@ public class ManufacturerViewTest {
 
     /**
      *   Enters manufacturer/view from button in /manufacturers")
-     * @parm index of the manufacturer to access linked page
+     * @param index of the manufacturer to access linked page
      * */
     private void accessFromManufacturer(int index){
 
@@ -184,7 +181,7 @@ public class ManufacturerViewTest {
 
     /**
      *   Enters manufacturer/view from button in /manufacturers")
-     * @parm index of the manufacturer to access linked page
+     * @param name of the manufacturer to access linked page
      * */
     private void accessFromProducts(String name){
 
@@ -267,7 +264,7 @@ public class ManufacturerViewTest {
     }
 
     /**
-     *  @DisplayName("Delete button is displayed correctly")
+     *  Delete button is displayed correctly
      */
     @Test
     @DisplayName("Delete button is displayed correctly")

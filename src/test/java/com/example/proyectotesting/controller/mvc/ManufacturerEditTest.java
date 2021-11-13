@@ -268,6 +268,8 @@ public class ManufacturerEditTest {
 
         List<WebElement> products = chromewebDriver.findElements(By.cssSelector("tr:nth-child(2) td span"));
         assertEquals(4,products.size());
+
+
     }
 
     /**

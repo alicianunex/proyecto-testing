@@ -211,6 +211,7 @@ public class ManufacturerViewTest {
         stringdata.add("Balón (10.99 €)");
         stringdata.add("Mesa (99.99 €)");
         stringdata.add("Botella (99.99 €)");
+        stringdata.add("Zapatillas (99.99 €)");
 
         List<WebElement> prodlist = chromewebDriver.findElements(By.xpath("//li/a"));
 

@@ -247,10 +247,45 @@ public class ManufacturerListTest {
                     && innererasebuttons.get(0).getAttribute("href").contains("/delete"));
             innererasebuttons.get(0).click();
 
-            assertTrue(initialsize > chromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)")).size());
+            erasebuttons = chromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)"));
+
+            assertTrue(initialsize > erasebuttons.size());
 
         }
+        createnew("Adidas");
+        createnew("Nike");
     }
+
+    private void createnew(String manufacturer) {
+
+        int manufacturerindex;
+        if (manufacturer.contains ("Adidas") )
+            manufacturerindex = 1;
+        else if (manufacturer.contains ("Nike"))
+            manufacturerindex = 2;
+        else
+            manufacturerindex = 0;
+        chromewebDriver.get("http://localhost:8080/manufacturers");
+
+        addStringData();
+
+        chromewebDriver.findElement(By.className("btn-primary")).click();
+
+        List<WebElement> input = chromewebDriver.findElements(By.cssSelector("input"));
+
+        for (int count = 0 ; count < 7 ; count++ ){
+
+            String[] splitted = outerobjdata.get(manufacturerindex).get(count).toString().split(": ");
+            input.get(count).sendKeys(splitted[0]);
+        }
+
+        WebElement buttonguardar = chromewebDriver.findElement(By.cssSelector("button"));
+
+        js.executeScript("arguments[0].scrollIntoView();", buttonguardar);
+
+        buttonguardar.click();
+    }
+
 
     /**
      * Creates a List with the manufacturer data

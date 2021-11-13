@@ -87,12 +87,12 @@ public class ManufacturerEditTest {
     }
 
     private void exit() {
+
         WebElement button = chromewebDriver.findElement(By.xpath("//button[@type='submit']"));
         js.executeScript("arguments[0].scrollIntoView();", button);
-        try {
-            chromewebDriver.wait(50);
-        }catch(InterruptedException error){}
-        button.click();
+        Actions actions = new Actions(chromewebDriver);
+        actions.click(button).perform();
+
     }
 
     /**
@@ -231,7 +231,7 @@ public class ManufacturerEditTest {
     @DisplayName(" Asserts that the option menu functions properly")
     void checkAdidasOptionMenu() {
 
-        // TODO Method fails check HTML intended usage
+        // TODO Method fails check <option >HTML for usage
 
         accessFromProducts("Adidas");
 
@@ -252,9 +252,19 @@ public class ManufacturerEditTest {
             System.out.println("Test fails due to malfunctioning option tag ");
             System.out.println("the attribute selected stays on even when deselected");
         }
-        assertTrue(chromewebDriver.findElements(By.xpath("//option[@selected='selected']")).size() == 4);
+        assertTrue(chromewebDriver.findElements(By.xpath("//option[@selected='selected']")).size() == 3);
 
-        exit();
+        WebElement button = chromewebDriver.findElement(By.xpath("//button[@type='submit']"));
+        js.executeScript("arguments[0].scrollIntoView();", button);
+        Actions actions = new Actions(chromewebDriver);
+        actions.click(button).perform();
+
+        // TODO why can't you call exit() ?
+        ArrayList<String> tabs = new ArrayList<String>(chromewebDriver.getWindowHandles());
+        String handleName = tabs.get(1);
+        chromewebDriver.switchTo().window(handleName);
+        System.setProperty("current.window.handle", handleName);
+
         List<WebElement> products = chromewebDriver.findElements(By.cssSelector("tr:nth-child(2) td span"));
         assertTrue(products.size() == 4);
     }

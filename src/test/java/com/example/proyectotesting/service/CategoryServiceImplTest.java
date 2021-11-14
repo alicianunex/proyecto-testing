@@ -132,6 +132,62 @@ public class CategoryServiceImplTest {
             assertTrue(categoryOpt2.isEmpty());
 
         }
+        @Test
+        void findAllTest() {
+            Category category1 = new Category("Bebes", "blue");
+            Category category2 = new Category("Electronica", "black");
+            Category category3 = new Category("Baño", "white");
+            Category category4 = new Category("Mascotas", "red");
+            List<Category> categories = new ArrayList<>();
+            when(categoryRepository.findAll()).thenReturn(categories);
+            List<Category> result = categoryService.findAll();
+            assertAll(
+                    () -> assertNotNull(result),
+                    () -> assertEquals(0,result.size())
+            );
+            verify(categoryRepository).findAll();
+        }
+
+
+        @Test
+        void findByColorTest() {
+            Category category1 = new Category("Bebes", "blue");
+            Category category2 = new Category("Electronica", "black");
+            Category category3 = new Category("Baño", "white");
+            Category category4 = new Category("Mascotas", "red");
+            when(categoryRepository.findByColor("blue")).thenReturn(Optional.of(category1));
+            when(categoryRepository.findByColor("black")).thenReturn(Optional.of(category2));
+            when(categoryRepository.findByColor("white")).thenReturn(Optional.of(category3));
+            when(categoryRepository.findByColor("red")).thenReturn(Optional.of(category4));
+            Optional<Category> categoryOne = categoryService.findOne("blue");
+            Optional<Category> categoryTwo = categoryService.findOne("black");
+            Optional<Category> categoryThree = categoryService.findOne("white");
+            Optional<Category> categoryFour = categoryService.findOne("red");
+            assertAll(
+                    () -> assertNotNull(categoryOne),
+                    // () -> assertEquals(1L, categoryOne.getId()),
+                    () -> assertEquals("Bebes", categoryOne.get().getName()),
+                    () -> assertEquals("blue", categoryOne.get().getColor()),
+                    () -> assertNotNull(categoryTwo),
+                    // () -> assertEquals(2L, categoryTwo.getId()),
+                    () -> assertEquals("Electronica", categoryTwo.get().getName()),
+                    () -> assertEquals("black", categoryTwo.get().getColor()),
+                    () -> assertNotNull(categoryThree),
+                    // () -> assertEquals(3L, categoryThree.getId()),
+                    () -> assertEquals("Baño", categoryThree.get().getName()),
+                    () -> assertEquals("white", categoryThree.get().getColor()),
+                    () -> assertNotNull(categoryFour),
+                    // () -> assertEquals(4L, categoryFour.getId()),
+                    () -> assertEquals("Mascotas", categoryFour.get().getName()),
+                    () -> assertEquals("red", categoryFour.get().getColor())
+
+            );
+            verify(categoryRepository).findByColor("blue");
+            verify(categoryRepository).findByColor("black");
+            verify(categoryRepository).findByColor("white");
+            verify(categoryRepository).findByColor("red");
+        }
+
     }
 
     @Nested

@@ -66,7 +66,7 @@ class UserTest {
         assertEquals("Juan",usuario.getFirstName());
     }
     @Test
-    void serLastNameTest() {
+    void setLastNameTest() {
         usuario.setLastName("Lopez");
         assertEquals("Lopez",usuario.getLastName());
     }
@@ -85,6 +85,27 @@ class UserTest {
         new User.Builder().setId(3L);
         assertEquals(1L,usuario.getId());
     }
+    @Test
+    void BuilderSetFirstNameTest() {
+        new User.Builder().setFirstName("Maria");
+        String firstName = new User.Builder().getFirstName();
+        assertEquals(null, firstName);
+    }
+
+    @Test
+    void BuilderSetLastNameTest() {
+        new User.Builder().setLastName("Garcia");
+        String lastName = new User.Builder().getLastName();
+        assertEquals(null, lastName);
+    }
+
+    @Test
+    void BuilderSetEmailTest() {
+        new User.Builder().setEmail("maria@hotmail.com");
+        String email = new User.Builder().getEmail();
+        assertEquals(null, email);
+    }
+
 
 }
 

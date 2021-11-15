@@ -35,6 +35,13 @@ public class ManufacturerServiceImplTest {
         assertNotNull(result);
         assertEquals(2, result);
     }
+    @Test
+    void countNull() {
+        when(manufacturerRepository.count()).thenReturn(0L);
+        Long result = manufacturerService.count();
+        assertNotNull(result);
+        assertEquals(0, result);
+    }
 
     @Nested
     class Find {
@@ -110,7 +117,7 @@ public class ManufacturerServiceImplTest {
         }
 
         @Test
-        void findOneNotContainsTest() {
+        void findOneNotContains() {
             Manufacturer adidas = new Manufacturer("Adidas","123456A",55000,1936);
             when(manufacturerRepository.findById(anyLong())).thenReturn(Optional.of(adidas));
             Optional<Manufacturer> result1 = manufacturerService.findOne(999L);
@@ -158,6 +165,22 @@ public class ManufacturerServiceImplTest {
                     );
             verify(manufacturerRepository).findByYear(1936);
             verify(manufacturerRepository).findByYear(1946);
+        }
+
+        @Test
+        void findYearNull() {
+
+            List<Manufacturer> manufacturer =
+                    manufacturerService.findByYear(null);
+            assertTrue(manufacturer.isEmpty());
+        }
+
+        @Test
+        void findYearEmpty() {
+
+            List<Manufacturer> manufacturer =
+                    manufacturerService.findByYear(0);
+            assertTrue(manufacturer.isEmpty());
         }
 
 
@@ -219,6 +242,26 @@ public class ManufacturerServiceImplTest {
             verify(manufacturerRepository).findManufacturerByDirectionCountry("China");
             verify(manufacturerRepository).findManufacturerByDirectionCountry("India");
         }
+        @Test
+        void findByCountryNull() {
+            List<Manufacturer> manufacturer = manufacturerService.findManufacturerByCountry(null);
+            assertTrue(manufacturer.isEmpty());
+            verify(manufacturerRepository).findManufacturerByDirectionCountry(null);
+        }
+        @Test
+        void findOneId() {
+            List<Manufacturer> manufacturers = new ArrayList<>();
+
+            Manufacturer manufacturer1 = new Manufacturer("name surname", "12345A", 10, 2010);
+            manufacturer1.setId(1L);
+            manufacturers.add(manufacturer1);
+
+            assertEquals(1, manufacturers.size());
+
+            Optional<Manufacturer> manufacturer = manufacturerService.findOne(1L);
+            assertNotNull(manufacturer);
+            assertTrue(manufacturer.isEmpty());
+        }
     }
 
     @Nested
@@ -252,6 +295,29 @@ public class ManufacturerServiceImplTest {
             assertFalse(result);
             assertThrows(Exception.class, () -> manufacturerRepository.deleteById(anyLong()));
             verify(manufacturerRepository).deleteById(anyLong());
+        }
+        @Test
+        void deleteByIdException() {
+
+            List<Manufacturer> manufacturers = new ArrayList<>();
+
+            Manufacturer manufacturer1 = new Manufacturer("name surname", "12345A", 10, 2010);
+            manufacturer1.setId(1L);
+            manufacturers.add(manufacturer1);
+
+            doThrow(RuntimeException.class).when(manufacturerRepository).deleteById(1L);
+
+            boolean result = manufacturerService.deleteById(1L);
+            assertThrows(Exception.class, () -> manufacturerRepository.deleteById(1L));
+            verify(manufacturerRepository, times(1)).deleteById(1L);
+            assertFalse(result);
+        }
+
+        @Test
+        void deleteByIdNullTest() {
+            manufacturerService.deleteById(null);
+            boolean result = manufacturerService.deleteById(null);
+            assertFalse(result);
         }
         @Test
         void deleteAll(){

@@ -249,6 +249,7 @@ public class ManufacturerEditTest {
 
         action.perform();
 
+
         if (chromewebDriver.findElements(By.xpath("//option[@selected='selected']")).size() == 4) {
             System.out.println("Test fails due to malfunctioning option tag ");
             System.out.println("the attribute selected stays on even when deselected");
@@ -260,14 +261,18 @@ public class ManufacturerEditTest {
         Actions actions = new Actions(chromewebDriver);
         actions.click(button).perform();
 
-        // TODO why can't you call exit() ?
+
         ArrayList<String> tabs = new ArrayList<>(chromewebDriver.getWindowHandles());
         String handleName = tabs.get(1);
         chromewebDriver.switchTo().window(handleName);
         System.setProperty("current.window.handle", handleName);
 
+        action.keyUp(Keys.CONTROL);
+
         List<WebElement> products = chromewebDriver.findElements(By.cssSelector("tr:nth-child(2) td span"));
         assertEquals(4,products.size());
+
+
 
 
     }

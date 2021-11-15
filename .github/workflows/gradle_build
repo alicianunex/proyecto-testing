@@ -1,5 +1,5 @@
 
-name: Gradle 3rd test
+name: Gradle test
 
 on: [push]
 

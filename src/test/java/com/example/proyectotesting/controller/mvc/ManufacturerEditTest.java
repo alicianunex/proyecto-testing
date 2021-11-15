@@ -288,8 +288,7 @@ public class ManufacturerEditTest {
         chromewebDriver.findElement(By.xpath("//a[contains(@href,'new')]")).click();
         assertEquals("http://localhost:8080/manufacturers/new", chromewebDriver.getCurrentUrl());
 
-        List<WebElement> inputs =chromewebDriver.findElements(By.xpath("//input[@type='text']"));
-
+        // Load obj data
         List<String>datamanufacturer = new ArrayList<>();
         datamanufacturer.add("Examplename");
         datamanufacturer.add("1234");
@@ -299,16 +298,25 @@ public class ManufacturerEditTest {
         datamanufacturer.add("cityL");
         datamanufacturer.add("France");
 
+        // fills the inputs
+        List<WebElement> inputs =chromewebDriver.findElements(By.xpath("//input[@type='text']"));
+
         for (int count=0; count>inputs.size() ;count++){
             inputs.get(count).sendKeys(datamanufacturer.get(count));
         }
-        exit();
 
+        exit(); //saves
+
+        //checks the row's data
         List<WebElement> newmanrow =chromewebDriver.findElements(By.cssSelector("tr:last-child td"));
 
         for (int count=0; count>newmanrow.size() ;count++){
             assertTrue(newmanrow.get(count).getText().contains(datamanufacturer.get(count)));
         }
+
+        //Erase the registry
+        chromewebDriver.findElement(By.cssSelector("tr:last-child td:last-child a:last-child")).click();
+
     }
 
     /**

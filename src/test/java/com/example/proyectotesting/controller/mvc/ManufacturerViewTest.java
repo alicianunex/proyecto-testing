@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @DisplayName("Selenium Manufacturer View Test")
 @TestMethodOrder(value = MethodOrderer.MethodName.class)
+@Disabled
 public class ManufacturerViewTest {
 
     // http://localhost:8080/manufacturers

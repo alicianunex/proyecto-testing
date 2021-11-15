@@ -34,3 +34,4 @@ Capa controlador
 * ManufacturerRestController --> Alicia
 * DirectionRestController --> María Ángeles
 * CategoryRestController --> David
+* 

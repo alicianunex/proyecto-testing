@@ -15,7 +15,7 @@ jobs:
           java-version: 17
       - name: Run Main # starts server
         run: |
-           .chmod +x ./src/test/java/com/example/proyectotesting/ProyectoTestingApplication
+           chmod +x ./src/test/java/com/example/proyectotesting/ProyectoTestingApplication
       - name: Install Google Chrome # Using shell script to install Google Chrome
         run: |
           chmod +x ./src/test/java/com/example/proyectotesting/controller/mvc/InstallChrome.sh

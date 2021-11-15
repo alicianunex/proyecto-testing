@@ -14,6 +14,8 @@ import java.util.Optional;
  */
 public class ManufacturerServiceImpl implements ManufacturerService {
 
+    // TODO bring changes from https://github.com/alansastre/proyecto-testing/commit/43547980e15c452400b92007c11e7a5b886a0f20
+
     private ManufacturerRepository repository;
 
     public ManufacturerServiceImpl(ManufacturerRepository repository){
@@ -42,6 +44,8 @@ public class ManufacturerServiceImpl implements ManufacturerService {
             return Optional.empty();
         return repository.findById(id);
     }
+
+
 
     @Override
     /**

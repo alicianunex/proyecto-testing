@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("Selenium Manufacturer Edit Test")
 @TestMethodOrder(value = MethodOrderer.MethodName.class)
@@ -232,7 +233,6 @@ public class ManufacturerEditTest {
     @DisplayName(" Asserts that the option menu functions properly")
     void checkAdidasOptionMenu() {
 
-        // TODO Method fails check <option >HTML for usage
 
         accessFromProducts("Adidas");
 
@@ -249,11 +249,6 @@ public class ManufacturerEditTest {
 
         action.perform();
 
-
-        if (chromewebDriver.findElements(By.xpath("//option[@selected='selected']")).size() == 4) {
-            System.out.println("Test fails due to malfunctioning option tag ");
-            System.out.println("the attribute selected stays on even when deselected");
-        }
         assertEquals(3,chromewebDriver.findElements(By.xpath("//option[@selected='selected']")).size());
 
         WebElement button = chromewebDriver.findElement(By.xpath("//button[@type='submit']"));
@@ -271,10 +266,6 @@ public class ManufacturerEditTest {
 
         List<WebElement> products = chromewebDriver.findElements(By.cssSelector("tr:nth-child(2) td span"));
         assertEquals(4,products.size());
-
-
-
-
     }
 
     /**
@@ -287,6 +278,36 @@ public class ManufacturerEditTest {
         accessFromProducts("Adidas");
         exit();
         assertEquals("Manufacturer List | Awesome App", chromewebDriver.getTitle());
+    }
+
+    @Test
+    @DisplayName("Creates a new manufacturer from scratch")
+    void CreateNewManufacturer(){
+
+        chromewebDriver.findElement(By.xpath("//a[contains(@href,'new')]")).click();
+        assertEquals("http://localhost:8080/manufacturers/new", chromewebDriver.getCurrentUrl());
+
+        List<WebElement> inputs =chromewebDriver.findElements(By.xpath("//input[@type='text']"));
+
+        List<String>datamanufacturer = new ArrayList<>();
+        datamanufacturer.add("Examplename");
+        datamanufacturer.add("1234");
+        datamanufacturer.add("001");
+        datamanufacturer.add("72");
+        datamanufacturer.add("streetex");
+        datamanufacturer.add("cityL");
+        datamanufacturer.add("France");
+
+        for (int count=0; count>inputs.size() ;count++){
+            inputs.get(count).sendKeys(datamanufacturer.get(count));
+        }
+        exit();
+
+        List<WebElement> newmanrow =chromewebDriver.findElements(By.cssSelector("tr:last-child td"));
+
+        for (int count=0; count>newmanrow.size() ;count++){
+            assertTrue(newmanrow.get(count).getText().contains(datamanufacturer.get(count)));
+        }
     }
 
     /**

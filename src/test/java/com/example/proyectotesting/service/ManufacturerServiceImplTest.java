@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import com.example.proyectotesting.repository.ProductRepository;
 import com.example.proyectotesting.service.ManufacturerService;
 import com.example.proyectotesting.service.ManufacturerServiceImpl;
 import org.junit.jupiter.api.*;
@@ -20,10 +21,12 @@ import static org.mockito.Mockito.*;
 public class ManufacturerServiceImplTest {
     private ManufacturerService manufacturerService;
     private ManufacturerRepository manufacturerRepository;
+    private ProductRepository productRepository;
 
     @BeforeEach
     protected void setUp() {
         manufacturerRepository = mock(ManufacturerRepository.class);
+        productRepository = mock(ProductRepository.class);
         this.manufacturerService = new ManufacturerServiceImpl(manufacturerRepository);
 
         List<Manufacturer> arrayList = new ArrayList<>();

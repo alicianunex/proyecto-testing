@@ -1,6 +1,10 @@
 name: Gradle test
 
-on: [push]
+
+on:
+  push:
+    branches:
+            - karim_jesus
 
 jobs:
   build:

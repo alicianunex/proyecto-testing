@@ -4,12 +4,6 @@ pipeline {
         maven "maven3.8.3"
         jdk "jdk_17"
     }
-    stages {
-        stage("Env Variables") {
-            steps {
-                sh "printenv"
-            }
-        }
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'

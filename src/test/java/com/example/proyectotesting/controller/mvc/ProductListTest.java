@@ -8,6 +8,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -30,6 +32,7 @@ public class ProductListTest {
     @BeforeEach
     void setUp() {
 
+        /*
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox");
@@ -41,7 +44,7 @@ public class ProductListTest {
         chromewebDriver.manage().timeouts().implicitlyWait(120, TimeUnit.MILLISECONDS);
     }
 
-    /*
+    */
 //        WebDriverManager.chromedriver().setup();
 //        ChromeOptions options = new ChromeOptions();
 //        options.addArguments("--no-sandbox");
@@ -57,17 +60,17 @@ public class ProductListTest {
         System.setProperty("webdriver.chrome.driver",path.toString());
         chromewebDriver = new ChromeDriver();
         chromewebDriver.get("http://localhost:8080/products");
-        chromewebDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+//        chromewebDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
+        /*
         String dir = System.getProperty("user.dir");
         String driverUrl = "C:\\data\\geckodriver.exe";
         System.setProperty("webdriver.gecko.driver",driverUrl);
         firefoxwebDriver = new FirefoxDriver();
 
+         */
 
     }
-
-    */
 
     @AfterEach
     void tearDown() {

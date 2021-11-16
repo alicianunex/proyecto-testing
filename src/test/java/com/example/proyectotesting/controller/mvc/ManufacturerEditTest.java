@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("Selenium Manufacturer Edit Test")
 @TestMethodOrder(value = MethodOrderer.MethodName.class)
-@Disabled
 public class ManufacturerEditTest {
 
     // http://localhost:8080/manufacturers

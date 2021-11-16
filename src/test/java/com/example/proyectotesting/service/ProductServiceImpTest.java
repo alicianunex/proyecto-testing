@@ -260,7 +260,7 @@ public class ProductServiceImpTest {
             void nullProductTest() {
 
                 demodirection.setCountry("a");
-                Double result = productService.calculateShippingCost(new Product(), demodirection);
+                Double result = productService.calculateShippingCost(null, demodirection);
                 assertEquals(0, result);
                 demodirection.setCountry(null);
             }
@@ -268,14 +268,14 @@ public class ProductServiceImpTest {
             @DisplayName("if product and country are null return 0, JaCoCo101")
             void nullProductNullCountryTest() {
 
-                Double result = productService.calculateShippingCost(new Product(), demodirection);
+                Double result = productService.calculateShippingCost(null, demodirection);
                 assertEquals(0, result);
             }
 
             @Test
             @DisplayName("if all args are null return 0, JaCoCo111")
             void nullAllTest () {
-                Double result = productService.calculateShippingCost(new Product(), new Direction());
+                Double result = productService.calculateShippingCost(null,null);
                 assertEquals(0, result);
             }
 
@@ -283,7 +283,7 @@ public class ProductServiceImpTest {
             @DisplayName("if direction is null return 0, JaCoCo011")
             void nullDirectionTest() {
 
-                Double result = productService.calculateShippingCost(demoproduct, new Direction());
+                Double result = productService.calculateShippingCost(demoproduct, null);
                 assertEquals(0, result);
             }
 

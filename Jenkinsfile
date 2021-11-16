@@ -4,6 +4,7 @@ pipeline {
         maven "maven3.8.3"
         jdk "jdk_17"
     }
+    stages {
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
@@ -12,7 +13,7 @@ pipeline {
         stage('Test') {
             steps {
                 sh 'mvn test'
-            }
+                }
             post {
                 always {
                     junit 'target/surefire-reports/*.xml'
@@ -25,5 +26,5 @@ pipeline {
                 sh 'mvn site'
             }
         }
-  
+    }
 }

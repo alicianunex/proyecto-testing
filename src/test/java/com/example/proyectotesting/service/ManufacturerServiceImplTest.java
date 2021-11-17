@@ -32,8 +32,8 @@ public class ManufacturerServiceImplTest {
     void setUp() {
         manufacturerRepository = mock(ManufacturerRepository.class);
         productRepository = mock(ProductRepository.class);
-        this.manufacturerService = new ManufacturerServiceImpl(manufacturerRepository,productRepository);
-
+        this.manufacturerService = new ManufacturerServiceImpl(manufacturerRepository, productRepository);
+    }
     @Test
     void count() {
         when(manufacturerRepository.count()).thenReturn(2l);

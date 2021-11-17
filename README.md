@@ -26,7 +26,9 @@ Proceso
 
 
 1 Test Unitario con JUnit 4.13 de los servicios utilizando Mockito 4.00 si es necesario
+
 DOD. Cobertura > 100%-metodos 80%-lineas.
+
     1.1 Tests de Category
     1.2 Tests de Direction
     1.3 Tests de Manufacturer
@@ -38,7 +40,9 @@ DOD. Cobertura > 100%-metodos 80%-lineas.
     // 1.6 Test de los metodos basicos (Entities)
     
 2. Test de Integracion con JUnit 4.13
+
 DOD. Comprobar que los repositorios funcionan de forma adecuada.
+
     2.1 Tests de Category
     2.2 Tests de Direction
     2.3 Tests de Manufacturer
@@ -46,15 +50,19 @@ DOD. Comprobar que los repositorios funcionan de forma adecuada.
     2.5 Tests de Patterns
 
 3. Test web de los metodos REST con JUnit 4.13
+
 DOD. Las llamadas REST devuelven respuestas adecuadas.
+
     3.1 Tests de Category
     3.2 Tests de Direction
     3.3 Tests de Manufacturer
     3.4 Tests de Product
 
 4. Web Test de metodos MVC con Selenium Webdriver 3.14
+
 DOD. Las paginas web se muestran correctamente y se puede interactuar con los elementos de la forma prevista. 
 DOD. La interaccion de los HTML con la base de datos es correcta.
+
     4.1 Tests de Product/list
     4.2 Tests de Product/edit
     4.3 Tests de Product/edit-manufacturer
@@ -64,7 +72,9 @@ DOD. La interaccion de los HTML con la base de datos es correcta.
     4.7 Tests de Manufacturer/view
 
 5. Integracion de analisis de codigo
+
 DOD. Los reportes se generan de manera correcta y se almacenan diariamente.
+
     5.1 MAVEN reporting tools
         5.1.1 JaCoCo
         5.1.2 Spotsbugs
@@ -76,17 +86,23 @@ DOD. Los reportes se generan de manera correcta y se almacenan diariamente.
     5.4 Jenkins
     
 6. Integracion de automatizacion
+
 DOD. El proyecto es ejecutado por las herramientas correctamente
+
     6.1 GitHub Actions
     6.2 Jenkins
     
 7. Integracion de Cucumber
+
 DOD. Cucumber esta integrado correctamente
+
     7.1 Integracion basica
     7.2 Cucumber Reports
 
 8. Preparar informes de resultados
+
 DOD. Se crea un historico con la evolucion del proyecto a lo largo del tiempo incluyendo todos los datos relevantes
+
     8.1 Revisar analisis de codigo
         8.1.1 Ver cambios a lo largo del tiempo
         8.1.2 Revisar y/o completar la cobertura hasta 100%-lineas
@@ -94,7 +110,9 @@ DOD. Se crea un historico con la evolucion del proyecto a lo largo del tiempo in
         8.1.5 ¿ HTML con todos los reportes ?
         
 9. Presentacion de resultados
+
 DOD. El objetivo del proyecto se ha cumplido, y el resultado se ha transmitido correctamente
+
     9.1 Preparar presentacion
         9.1.1 Crear diapositivas con los informes del punto 6
         9.1.2 ¿ Video ?

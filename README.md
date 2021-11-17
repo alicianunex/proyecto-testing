@@ -26,7 +26,7 @@ Proceso
 
 
 1 Test Unitario con JUnit 4.13 de los servicios utilizando Mockito 4.00 si es necesario
-DOD. Cobertura > 80%.
+DOD. Cobertura > 100%-metodos 80%-lineas.
     1.1 Tests de Category
     1.2 Tests de Direction
     1.3 Tests de Manufacturer
@@ -89,7 +89,7 @@ DOD. Cucumber esta integrado correctamente
 DOD. Se crea un historico con la evolucion del proyecto a lo largo del tiempo incluyendo todos los datos relevantes
     8.1 Revisar analisis de codigo
         8.1.1 Ver cambios a lo largo del tiempo
-        8.1.2 Revisar y/o completar la cobertura hasta 100%
+        8.1.2 Revisar y/o completar la cobertura hasta 100%-lineas
         8.1.4 Destacar momento de grandes mejoras
         8.1.5 ¿ HTML con todos los reportes ?
         
@@ -105,7 +105,13 @@ DOD. El objetivo del proyecto se ha cumplido, y el resultado se ha transmitido c
             9.2.1.3 Dificultades/Retos
             9.2.1.4 Resultados finales
             9.2.1.5 Posibilidades de Mantenimiento de tests a largo plazo
-            9.2.1.6 Metodologia efectiva / resultados satisfactorios
+            9.2.1.6 Metodologia efectiva / resultados satisfactor   
+    9.Notas (Recomendaciones originales)
+        1. Presentación del problema / necesidad
+        2. Equipo y roles
+        3. Herramientas de metodología y metodología
+        4. Pantallas de la aplicación (mostrar capturas y explicar brevemente las funcionalidades): login, pantalla principal, pantalla detalle, etc.
+        5 . Conclusiones
             
 
 ----- ORIGINAL -----

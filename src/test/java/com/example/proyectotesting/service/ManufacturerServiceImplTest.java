@@ -27,7 +27,7 @@ public class ManufacturerServiceImplTest {
     protected void setUp() {
         manufacturerRepository = mock(ManufacturerRepository.class);
         productRepository = mock(ProductRepository.class);
-        this.manufacturerService = new ManufacturerServiceImpl(manufacturerRepository);
+        this.manufacturerService = new ManufacturerServiceImpl(manufacturerRepository,productRepository);
 
         List<Manufacturer> arrayList = new ArrayList<>();
         arrayList.add(new Manufacturer());

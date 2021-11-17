@@ -243,12 +243,6 @@ public class ManufacturerServiceImplTest {
             verify(manufacturerRepository).findManufacturerByDirectionCountry("India");
         }
         @Test
-        void findByCountryNull() {
-            List<Manufacturer> manufacturer = manufacturerService.findManufacturerByCountry(null);
-            assertTrue(manufacturer.isEmpty());
-            verify(manufacturerRepository).findManufacturerByDirectionCountry(null);
-        }
-        @Test
         void findOneId() {
             List<Manufacturer> manufacturers = new ArrayList<>();
 

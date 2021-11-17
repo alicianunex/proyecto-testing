@@ -123,7 +123,7 @@ DOD. El objetivo del proyecto se ha cumplido, y el resultado se ha transmitido c
             9.2.1.3 Dificultades/Retos
             9.2.1.4 Resultados finales
             9.2.1.5 Posibilidades de Mantenimiento de tests a largo plazo
-            9.2.1.6 Metodologia efectiva / resultados satisfactor   
+            9.2.1.6 Metodologia efectiva / resultados satisfactorios
     9.Notas (Recomendaciones originales)
         1. Presentación del problema / necesidad
         2. Equipo y roles

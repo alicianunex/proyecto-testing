@@ -233,39 +233,70 @@ public class ManufacturerEditTest {
     @DisplayName(" Asserts that the option menu functions properly")
     void checkAdidasOptionMenu() {
 
-
         accessFromProducts("Adidas");
 
-        List<WebElement> options = chromewebDriver.findElements(By.xpath("//option"));
-
-        js.executeScript("arguments[0].scrollIntoView();", options.get(3));
+        assertEquals(3,chromewebDriver.findElements(By.xpath("//option[@selected='selected']")).size());
 
         Actions action = new Actions(chromewebDriver);
+
+        adidasSelectZapatillas(action);
+
+        saveEditManufacturer();
+        action.keyUp(Keys.CONTROL).perform();
+        changeToNewTab();
+
+
+        List<WebElement> products = chromewebDriver.findElements(By.cssSelector("tr:nth-child(2) td span"));
+        assertEquals(1,products.size());
+
+        // reset products
+        accessFromManufacturer(0);
+        adidasSelectZapatillas(action);
+        saveEditManufacturer();
+        action.keyUp(Keys.CONTROL).perform();
+        changeToNewTab();
+
+    }
+
+    /**
+     * Changes to a new tab opened before the calls
+     */
+    private void changeToNewTab() {
+        ArrayList<String> tabs = new ArrayList<>(chromewebDriver.getWindowHandles());
+        String handleName = tabs.get(1);
+        chromewebDriver.switchTo().window(handleName);
+        System.setProperty("current.window.handle", handleName);
+    }
+
+    /**
+     * Once inside the /edit page
+     * saves the changes scrolling and clicking on the Guardar btn
+     */
+    private void saveEditManufacturer() {
+        WebElement button = chromewebDriver.findElement(By.xpath("//button[@type='submit']"));
+        js.executeScript("arguments[0].scrollIntoView();", button);
+        Actions actions = new Actions(chromewebDriver);
+        actions.click(button).perform();
+    }
+
+    /**
+     *  If called an odd number of times
+     *      Selects only zapatillas in the adidas Manufacturer
+     * OR if called an even number of times
+     *      Reassigns the original products to Adidas
+     * @param action
+     */
+    private void adidasSelectZapatillas(Actions action){
+
+        List<WebElement> options = chromewebDriver.findElements(By.xpath("//option"));
+        js.executeScript("arguments[0].scrollIntoView();", options.get(3));
+
         action.keyDown(Keys.CONTROL);
         options.get(0).click();
         options.get(1).click();
         options.get(2).click();
         options.get(3).click();
-
         action.perform();
-
-        assertEquals(3,chromewebDriver.findElements(By.xpath("//option[@selected='selected']")).size());
-
-        WebElement button = chromewebDriver.findElement(By.xpath("//button[@type='submit']"));
-        js.executeScript("arguments[0].scrollIntoView();", button);
-        Actions actions = new Actions(chromewebDriver);
-        actions.click(button).perform();
-
-
-        ArrayList<String> tabs = new ArrayList<>(chromewebDriver.getWindowHandles());
-        String handleName = tabs.get(1);
-        chromewebDriver.switchTo().window(handleName);
-        System.setProperty("current.window.handle", handleName);
-
-        action.keyUp(Keys.CONTROL);
-
-        List<WebElement> products = chromewebDriver.findElements(By.cssSelector("tr:nth-child(2) td span"));
-        assertEquals(4,products.size());
     }
 
     /**

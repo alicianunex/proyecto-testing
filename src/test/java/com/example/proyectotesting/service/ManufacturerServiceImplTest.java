@@ -14,6 +14,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.proyectotesting.repository.ProductRepository;
+import com.example.proyectotesting.service.ManufacturerService;
+import com.example.proyectotesting.service.ManufacturerServiceImpl;
+import org.junit.jupiter.api.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -21,12 +26,13 @@ public class ManufacturerServiceImplTest {
 
     private ManufacturerService manufacturerService;
     private ManufacturerRepository manufacturerRepository;
+    private ProductRepository productRepository;
 
     @BeforeEach
     void setUp() {
         manufacturerRepository = mock(ManufacturerRepository.class);
-        manufacturerService = new ManufacturerServiceImpl(manufacturerRepository);
-    }
+        productRepository = mock(ProductRepository.class);
+        this.manufacturerService = new ManufacturerServiceImpl(manufacturerRepository,productRepository);
 
     @Test
     void count() {

@@ -105,8 +105,20 @@ public class ProductServiceImpTest {
             assertTrue(found.isEmpty());
             //verify(repository).findById(null);
         }
-    }
 
+    @Test
+    @DisplayName("Returns empty optional if the id is negative")
+    void findOneNegativeIdTest() {
+
+        when(repository.findById(-1L))
+                .thenThrow(IllegalArgumentException.class);
+
+        Optional<Product> found = productService.findOne(-1L);
+        assertFalse(found.isPresent());
+        assertTrue(found.isEmpty());
+        //verify(repository).findById(null);
+    }
+}
     @Nested
     @DisplayName("Check if id exists")
     public class ExistsById {
@@ -244,31 +256,48 @@ public class ProductServiceImpTest {
             Direction demodirection = new Direction("s", "p", "ci", null);
 
             @Test
-            @DisplayName("if product is null return 0")
+            @DisplayName("if product is null return 0; JaCoCo100")
             void nullProductTest() {
 
-                Double result = productService.calculateShippingCost(new Product(), demodirection);
+                demodirection.setCountry("a");
+                Double result = productService.calculateShippingCost(null, demodirection);
+                assertEquals(0, result);
+                demodirection.setCountry(null);
+            }
+            @Test
+            @DisplayName("if product and country are null return 0, JaCoCo101")
+            void nullProductNullCountryTest() {
+
+                Double result = productService.calculateShippingCost(null, demodirection);
                 assertEquals(0, result);
             }
 
             @Test
-            @DisplayName("if direction is null return 0")
+            @DisplayName("if all args are null return 0, JaCoCo111")
+            void nullAllTest () {
+                Double result = productService.calculateShippingCost(null,null);
+                assertEquals(0, result);
+            }
+
+            @Test
+            @DisplayName("if direction is null return 0, JaCoCo011")
             void nullDirectionTest() {
 
-                Double result = productService.calculateShippingCost(demoproduct, new Direction());
+                Double result = productService.calculateShippingCost(demoproduct, null);
                 assertEquals(0, result);
             }
 
             @Test
-            @DisplayName("if country is null return 0")
+            @DisplayName("if country is null return 0, JaCoCo001")
             void nullCountryTest() {
 
                 Double result = productService.calculateShippingCost(demoproduct, demodirection);
                 assertEquals(0, result);
             }
 
+
             @Test
-            @DisplayName("if country is spain return 2.99")
+            @DisplayName("if country is spain return 2.99, JaCoCo000")
             void CountrySpainLowercaseTest() {
                 demodirection.setCountry("spain");
                 Double result = productService.calculateShippingCost(demoproduct, demodirection);

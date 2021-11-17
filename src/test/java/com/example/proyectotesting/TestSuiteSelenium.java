@@ -7,6 +7,6 @@ import org.junit.platform.suite.api.SelectPackages;
 import org.junit.runner.RunWith;
 
 @RunWith(JUnitPlatform.class)
-@SelectPackages({"com.example.proyectotesting"})
+@SelectPackages({"com.example.proyectotesting.controller.mvc"})
 @TestMethodOrder(value = MethodOrderer.MethodName.class)
-public class TestSuite {}
+public class TestSuiteSelenium {}

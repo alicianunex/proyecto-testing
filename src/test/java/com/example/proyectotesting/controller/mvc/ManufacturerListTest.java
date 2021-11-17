@@ -1,32 +1,31 @@
 package com.example.proyectotesting.controller.mvc;
 
-import com.example.proyectotesting.ProyectoTestingApplication;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @DisplayName("Selenium Manufacturer List Test")
+@TestMethodOrder(value = MethodOrderer.MethodName.class)
 public class ManufacturerListTest {
 
     // http://localhost:8080/manufacturers
+
 
     static WebDriver firefoxwebDriver;
     static WebDriver chromewebDriver;
@@ -38,6 +37,8 @@ public class ManufacturerListTest {
     @BeforeEach
     void setUp() {
 
+        // TODO Phantom broswer for GitHub actions, not working throws CONNECTION ERROR
+/*
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox");
@@ -45,12 +46,19 @@ public class ManufacturerListTest {
         options.addArguments("--headless");
         chromewebDriver = new ChromeDriver(options);
 
-//      String dir = System.getProperty("user.dir");
-        String driverUrl = "C:\\data\\chromedriver.exe";
-        System.setProperty("webdriver.chrome.driver",driverUrl);
-        //chromewebDriver = new ChromeDriver();
-        chromewebDriver.get("http://localhost:8080/manufacturers");
+ */
 
+        String dir = System.getProperty("user.dir");
+
+//        String driverUrl = "C:\\data\\chromedriver.exe";
+//        System.setProperty("webdriver.chrome.driver",driverUrl);
+        Path path = Paths.get("C:\\data\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver",path.toString());
+        chromewebDriver = new ChromeDriver();
+        chromewebDriver.get("http://localhost:8080/manufacturers");
+        chromewebDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+
+        // TODO Firefox driver setup
 
         /*
         String dir = System.getProperty("user.dir");
@@ -69,7 +77,7 @@ public class ManufacturerListTest {
     }
 
     /**
-     *     @DisplayName("Displays the List of products with attributes")
+     *    Displays the List of products with attributes
      */
     @Test
     @DisplayName("Displays the List of products with attributes")
@@ -93,7 +101,7 @@ public class ManufacturerListTest {
     }
 
     /**
-     *     @DisplayName("Title is displayed and stored correctly")
+     *Title is displayed and stored correctly
      */
     @Test
     @DisplayName("Title is displayed and stored correctly")
@@ -108,7 +116,7 @@ public class ManufacturerListTest {
     }
 
     /**
-     *     @DisplayName("Details button is displayed correctly")
+     * Details button is displayed correctly
      */
     @Test
     @DisplayName("Details button is displayed correctly")
@@ -130,7 +138,7 @@ public class ManufacturerListTest {
     }
 
     /**
-     *     @DisplayName("Edit button is displayed correctly")
+     * Edit button is displayed correctly
      */
     @Test
     @DisplayName("Edit button is displayed correctly")
@@ -155,72 +163,134 @@ public class ManufacturerListTest {
     }
 
     /**
-     * @DisplayName("Checks the add manufacturer button")
+     * Checks the add manufacturer button
      */
     @Test
     @DisplayName("Checks the add manufacturer button")
     void addNewManufacturer(){
-        assertTrue(false);
 
+        chromewebDriver.findElement(By.cssSelector("p>a:first-child")).click();
+        assertTrue(chromewebDriver.getCurrentUrl().contains("/manufacturers/new"));
+
+        WebElement buttonsave = chromewebDriver.findElement(By.xpath("//button[@type='submit']"));
+        js.executeScript("arguments[0].scrollIntoView();", buttonsave);
+        buttonsave.click();
+
+        assertTrue(chromewebDriver.getCurrentUrl().contains("/manufacturers"));
     }
 
     /**
-     * @DisplayName("Checks the add manufacturer button")
+     * Checks the remove all manufacturers button
+     * Disabled to prevent other tests from failing
      */
     @Test
-    @DisplayName("Checks the add manufacturer button")
+    @Disabled
+    @DisplayName("Checks the remove all manufacturers button")
     void removeAllManufacturers(){
-        assertTrue(false);
+
+        // TODO recreate all the manufacturers erased to execute in suite
+
+        int initialsize = chromewebDriver.findElements(By.cssSelector("tbody tr")).size();
+
+        chromewebDriver.findElement(By.xpath("//p/a[@class='btn btn-danger']")).click();
+
+        assertTrue(initialsize > chromewebDriver.findElements(By.cssSelector("tbody tr")).size());
+        assertEquals(1, chromewebDriver.findElements(By.cssSelector("tbody tr")).size());
 
     }
 
-    /**
-     *  @DisplayName("Delete button is displayed correctly")
-     */
-    @Test
-    @DisplayName("Delete button is displayed correctly")
-    void CheckBorrarButtonTest(){
-
-        List<WebElement>  erasebuttons = chromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)"));
-        int initialsize = erasebuttons.size();
-
-        while (erasebuttons.size()>0) {
-
-            assertTrue(erasebuttons.get(0).getAttribute("href").contains("/manufacturers/")
-                    && erasebuttons.get(0).getAttribute("href").contains("/delete"));
-            erasebuttons.get(0).click();
-            assertTrue(initialsize < chromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)")).size());
-
-        }
-    }
 
     /**
-     *     @DisplayName("Product links are displayed correctly")
+     * Product links are displayed correctly
      */
     @Test
     @DisplayName("Product links are displayed correctly")
     void CheckManufacturerlinksTest(){
 
         List<WebElement>  tableanchor = chromewebDriver.findElements(By.cssSelector("td:nth-child(7) a"));
-        for (WebElement count: tableanchor) {
+        for (int count=0; count < tableanchor.size()-1; count++) {
                 //System.out.println(count.getAttribute("href"));
-            assertTrue(count.getAttribute("href").contains("/products/")
-                        && count.getAttribute("href").contains("/view"));
+            List<WebElement>  innertableanchor = chromewebDriver.findElements(By.cssSelector("td:nth-child(7) a"));
+            assertTrue(innertableanchor.get(count).getAttribute("href").contains("/products/")
+                        && innertableanchor.get(count).getAttribute("href").contains("/view"));
 
-            if (count.getText().equalsIgnoreCase("Balón"))
-                assertTrue(count.getAttribute("href").contains("/products/9/view"));
-            else if (count.getText().equalsIgnoreCase("Mesa"))
-                assertTrue(count.getAttribute("href").contains("/products/10/view"));
-            else if (count.getText().equalsIgnoreCase("Botella"))
-                assertTrue(count.getAttribute("href").contains("/products/11/view"));
-            else if (count.getText().equalsIgnoreCase("WebCam"))
-                assertTrue(count.getAttribute("href").contains("/products/12/view"));
+            if (innertableanchor.get(count).getText().equalsIgnoreCase("Balón"))
+                assertTrue(innertableanchor.get(count).getAttribute("href").contains("/products/9/view"));
+
+            else if (innertableanchor.get(count).getText().equalsIgnoreCase("Mesa"))
+                assertTrue(innertableanchor.get(count).getAttribute("href").contains("/products/10/view"));
+            else if (innertableanchor.get(count).getText().equalsIgnoreCase("Botella"))
+                assertTrue(innertableanchor.get(count).getAttribute("href").contains("/products/11/view"));
+            else if (innertableanchor.get(count).getText().equalsIgnoreCase("WebCam"))
+                assertTrue(innertableanchor.get(count).getAttribute("href").contains("/products/12/view"));
             else {
                 System.out.println("Product not recognized");
                 assumeTrue(false);
             }
+            innertableanchor.get(count).click();
+            assertTrue(chromewebDriver.getCurrentUrl().contains("/view"));
+
+//          chromewebDriver.back();
+            js.executeScript("window.history.go(-1)");
         }
     }
+    /**
+     *  Delete button is displayed correctly
+     */
+    @Test
+    @DisplayName("Delete button is displayed correctly")
+    void zCheckBorrarButtonTest(){
+
+        createnew("Adidas");
+        createnew("Nike");
+
+        List<WebElement>  erasebuttons = chromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)"));
+        int initialsize = erasebuttons.size();
+
+        for (int i=0; i<2; i++) {
+
+            List<WebElement> innererasebuttons = chromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)"));
+
+            assertTrue(innererasebuttons.get(innererasebuttons.size()-1).getAttribute("href").contains("/manufacturers/")
+                    && innererasebuttons.get(innererasebuttons.size()-1).getAttribute("href").contains("/delete"));
+            innererasebuttons.get(innererasebuttons.size()-1).click();
+
+            erasebuttons = chromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)"));
+
+            assertTrue(initialsize > erasebuttons.size());
+        }
+    }
+
+    private void createnew(String manufacturer) {
+
+        int manufacturerindex;
+        if (manufacturer.contains ("Adidas") )
+            manufacturerindex = 1;
+        else if (manufacturer.contains ("Nike"))
+            manufacturerindex = 2;
+        else
+            manufacturerindex = 0;
+        chromewebDriver.get("http://localhost:8080/manufacturers");
+
+        addStringData();
+
+        chromewebDriver.findElement(By.className("btn-primary")).click();
+
+        List<WebElement> input = chromewebDriver.findElements(By.cssSelector("input"));
+
+        for (int count = 0 ; count < 7 ; count++ ){
+
+            String[] splitted = outerobjdata.get(manufacturerindex).get(count).toString().split(": ");
+            input.get(count).sendKeys(splitted[0]);
+        }
+
+        WebElement buttonguardar = chromewebDriver.findElement(By.cssSelector("button"));
+
+        js.executeScript("arguments[0].scrollIntoView();", buttonguardar);
+
+        buttonguardar.click();
+    }
+
 
     /**
      * Creates a List with the manufacturer data

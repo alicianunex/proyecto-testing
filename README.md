@@ -115,6 +115,7 @@ DOD. El objetivo del proyecto se ha cumplido, y el resultado se ha transmitido c
             
 
 ----- ORIGINAL -----
+
 Proceso : 
 1. Crear Issue en GitHub
 2. Implementar cambio solicitado

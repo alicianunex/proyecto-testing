@@ -270,7 +270,10 @@ public class ManufacturerListTest {
             manufacturerindex = 2;
         else
             manufacturerindex = 0;
+
         chromewebDriver.get("http://localhost:8080/manufacturers");
+        //chromewebDriver.get("https://dashboard.heroku.com/apps/proyecto-testinggrupo2/deploy/github");
+
 
         addStringData();
 

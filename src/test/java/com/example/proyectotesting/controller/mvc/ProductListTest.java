@@ -66,7 +66,9 @@ public class ProductListTest {
         Path path = Paths.get("C:\\data\\chromedriver.exe");
         System.setProperty("webdriver.chrome.driver",path.toString());
         chromewebDriver = new ChromeDriver();
-        chromewebDriver.get("http://localhost:8080/products");
+        
+        //chromewebDriver.get("http://localhost:8080/products");
+        chromewebDriver.get("https://dashboard.heroku.com/apps/proyecto-testinggrupo2/deploy/github");
 //        chromewebDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
         /*

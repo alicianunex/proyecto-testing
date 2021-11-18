@@ -1,0 +1,1543 @@
+
+
+-------------------
+-------------------
+
+
+Cucumber Expressions
+
+Cucumber Expressions is an alternative to Regular Expressions with a more intuitive syntax.
+
+Try Cucumber Expressions in your browser.
+
+Cucumber supports both Cucumber Expressions and Regular Expressions for defining Step Definitions, but you cannot mix Cucumber Expression syntax with Regular Expression syntax in the same expression.
+
+On platforms that don't have a literal syntax for regular expressions (such as Java), Cucumber will create a Cucumber Expression by default. To use Regular Expressions, add anchors (starting with ^ and ending with $) or forward slashes (/). For more information, see Cucumber Expression - Java Heuristics.
+
+Introduction
+Let's write a Cucumber Expression that matches the following Gherkin step (the Given keyword has been removed here, as it's not part of the match).
+
+I have 42 cucumbers in my belly
+The simplest Cucumber Expression that matches that text would be the text itself, but we can also write a more generic expression, with an int output parameter:
+
+I have {int} cucumbers in my belly
+When the text is matched against that expression, the number 42 is extracted from the {int} output parameter and passed as an argument to the step definition.
+
+The following text would not match the expression:
+
+I have 42.5 cucumbers in my belly
+This is because 42.5 has a decimal part, and doesn't fit into an int. Let's change the output parameter to float instead:
+
+I have {float} cucumbers in my belly
+Now the expression will match the text, and the float 42.5 is extracted.
+
+Parameter types
+Text between curly braces reference a parameter type. Cucumber comes with the following built-in parameter types:
+
+Parameter Type	Description
+{int}	Matches integers, for example 71 or -19.
+{float}	Matches floats, for example 3.6, .8 or -9.2.
+{word}	Matches words without whitespace, for example banana (but not banana split).
+{string}	Matches single-quoted or double-quoted strings, for example "banana split" or 'banana split' (but not banana split). Only the text between the quotes will be extracted. The quotes themselves are discarded. Empty pairs of quotes are valid and will be matched and passed to step code as empty strings.
+{} anonymous	Matches anything (/.*/).
+Cucumber-JVM additions
+On the JVM, there are additional parameter types for biginteger, bigdecimal, byte, short, long and double.
+
+The anonymous parameter type will be converted to the parameter type of the step definition using an object mapper. Cucumber comes with a built-in object mapper that can handle most basic types. Aside from Enum it supports conversion to BigInteger, BigDecimal, Boolean, Byte, Short, Integer, Long, Float, Double and String.
+
+To automatically convert to other types it is recommended to install an object mapper. See configuration to learn how.
+
+Custom Parameter types
+Cucumber Expressions can be extended so they automatically convert output parameters to your own types. Consider this Cucumber Expression:
+
+I have a {color} ball
+If we want the {color} output parameter to be converted to a Color object, we can define a custom parameter type in Cucumber's configuration.
+
+The table below explains the various arguments you can pass when defining a parameter type.
+
+Argument	Description
+name	The name the parameter type will be recognised by in output parameters.
+regexp	A regexp that will match the parameter. May include capture groups.
+type	The return type of the transformer {{% stepdef-body %}}.
+transformer	A function or method that transforms the match from the regexp. Must have arity 1 if the regexp doesn't have any capture groups. Otherwise the arity must match the number of capture groups in regexp.
+useForSnippets / use_for_snippets	Defaults to true. That means this parameter type will be used to generate snippets for undefined steps. If the regexp frequently matches text you don't intend to be used as arguments, disable its use for snippets with false.
+preferForRegexpMatch / prefer_for_regexp_match	Defaults to false. Set to true if you have step definitions that use regular expressions, and you want this parameter type to take precedence over others during a match.
+Java
+@ParameterType("red|blue|yellow")  // regexp
+public Color color(String color){  // type, name (from method)
+    return new Color(color);       // transformer function
+}
+Kotlin
+@ParameterType("red|blue|yellow")   // regexp
+fun color(color: String): Color {   // name (from method), type
+    return Color(color)             // transformer function
+}
+Scala
+ParameterType("color", "red|blue|yellow") { color: String => // name, regexp
+    Color(color)                                             // transformer function, type
+}
+JavaScript / TypeScript
+import { defineParameterType } from 'cucumber'
+
+defineParameterType({
+    name: 'color',
+    regexp: /red|blue|yellow/,
+    transformer: s => new Color(s)
+})
+The transformer function may return a Promise.
+
+Ruby
+ParameterType(
+  name:        'color',
+  regexp:      /red|blue|yellow/,
+  type:        Color,
+  transformer: ->(s) { Color.new(s) }
+)
+Optional text
+It's grammatically incorrect to say 1 cucumbers, so we should make the plural s optional. That can be done by surrounding the optional text with parentheses:
+
+I have {int} cucumber(s) in my belly
+That expression would match this text:
+
+I have 1 cucumber in my belly
+It would also match this text:
+
+I have 42 cucumbers in my belly
+In Regular Expressions, parentheses indicate a capture group, but in Cucumber Expressions they mean optional text.
+
+Alternative text
+Sometimes you want to relax your language, to make it flow better. For example:
+
+I have {int} cucumber(s) in my belly/stomach
+This would match either of those texts:
+
+I have 42 cucumbers in my belly
+I have 42 cucumbers in my stomach
+Alternative text only works when there is no whitespace between the alternative parts.
+
+Escaping
+If you ever need to match () or {} literally, you can escape the opening ( or { with a backslash:
+
+I have {int} \{what} cucumber(s) in my belly \(amazing!)
+This expression would match the following examples:
+
+I have 1 {what} cucumber in my belly (amazing!)
+I have 42 {what} cucumbers in my belly (amazing!)
+You may have to escape the \ character itself with another \, depending on your programming language. For example, in Java, you have to use escape character \ with another backslash.
+
+I have {int} \\{what} cucumber(s) in my belly \\(amazing!)
+Then this expression would match the following example:
+
+I have 1 \{what} cucumber in my belly \(amazing!)
+I have 42 \{what} cucumbers in my belly \(amazing!)
+There is currently no way to escape a / character - it will always be interpreted as alternative text.
+
+
+-------------------
+-------------------
+
+Cucumber configuration
+
+Type Registry
+Parameter types let you convert parameters from cucumber-expressions to objects. Data table and doc string types let you convert data tables and doc strings to objects. Like step definitions, type definitions are part of the glue. When placed on the glue path Cucumber will detect them automatically.
+
+For example, the following class registers a custom “Author” data table type:
+
+package com.example;
+
+import io.cucumber.java.DataTableType;
+import io.cucumber.java.en.Given;
+
+import java.util.List;
+import java.util.Map;
+
+public class StepDefinitions {
+
+    @DataTableType
+    public Author authorEntry(Map<String, String> entry) {
+        return new Author(
+            entry.get("firstName"),
+            entry.get("lastName"),
+            entry.get("famousBook"));
+    }
+
+    @Given("There are my favorite authors")
+    public void these_are_my_favourite_authors(List<Author> authors) {
+        // step implementation
+    }
+}
+The parameter type example:
+
+package com.example;
+
+import io.cucumber.java.ParameterType;
+import io.cucumber.java.en.Given;
+
+public class StepDefinitions {
+
+    @ParameterType(".*")
+    public Book book(String bookName) {
+    	return new Book(bookName);
+    }
+
+    @Given("{book} is my favorite book")
+    public void this_is_my_favorite_book(Book book) {
+        // step implementation
+    }
+}
+The docstring type example:
+
+package com.example;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.cucumber.java.DocStringType;
+import io.cucumber.java.en.Given;
+
+public class StepsDefinitions {
+
+    private static ObjectMapper objectMapper = new ObjectMapper();
+
+    @DocStringType
+    public JsonNode json(String docString) throws JsonProcessingException {
+        return objectMapper.readValue(docString, JsonNode.class);
+    }
+
+    @Given("Books are defined by json")
+    public void books_are_defined_by_json(JsonNode books) {
+        // step implementation
+    }
+}
+For lambda defined step definitions, there are DataTableType, ParameterType and DocStringType functions:
+
+package com.example;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.cucumber.java8.En;
+
+import java.util.Map;
+
+public class LambdaStepDefinitions implements En {
+
+    private static ObjectMapper objectMapper = new ObjectMapper();
+
+    public LambdaStepDefinitions() {
+
+        DataTableType((Map<String, String> entry) -> new Author(
+            entry.get("firstName"),
+            entry.get("lastName"),
+            entry.get("famousBook")
+        ));
+
+        ParameterType("book", ".*", (String bookName) -> new Book(bookName));
+
+        DocStringType("json", (String docString) ->
+            objectMapper.readValue(docString, JsonNode.class));
+    }
+}
+Using the @DefaultParameterTransformer, @DefaultDataTableEntryTransformer and @DefaultDataTableCellTransformer annotations, it is also possible to plug in an ObjectMapper. The object mapper (Jackson in this example) will handle the conversion of anonymous parameter types and data table entries.
+
+package com.example;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.cucumber.java.DefaultDataTableCellTransformer;
+import io.cucumber.java.DefaultDataTableEntryTransformer;
+import io.cucumber.java.DefaultParameterTransformer;
+
+import java.lang.reflect.Type;
+
+public class StepDefinitions {
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @DefaultParameterTransformer
+    @DefaultDataTableEntryTransformer
+    @DefaultDataTableCellTransformer
+    public Object transformer(Object fromValue, Type toValueType) {
+        return objectMapper.convertValue(fromValue, objectMapper.constructType(toValueType));
+    }
+}
+For lambda defined step definitions, there are DefaultParameterTransformer, DefaultDataTableCellTransformer and DefaultDataTableEntryTransformer method:
+
+package com.example;
+
+import io.cucumber.java8.En;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.lang.reflect.Type;
+
+public class LambdaStepDefinitions implements En {
+
+    public LambdaStepDefinitions() {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        DefaultParameterTransformer((String fromValue, Type toValueType) ->
+            objectMapper.convertValue(fromValue, objectMapper.constructType(toValueType)));
+
+        DefaultDataTableCellTransformer((fromValue, toValueType) ->
+            objectMapper.convertValue(fromValue, objectMapper.constructType(toValueType)));
+
+        DefaultDataTableEntryTransformer((fromValue, toValueType) ->
+            objectMapper.convertValue(fromValue, objectMapper.constructType(toValueType)));
+    }
+}
+If you are using a type that has not yet been defined, you will get an error similar to:
+
+The parameter type "person" is not defined.
+Recommended location
+The recommended location to define custom parameter types, would be in src/test/java/com/example/ParameterTypes.java. This is just a convention though; Cucumber will pick them up from any file on the glue path.
+Profiles
+Cucumber profiles are not available on Cucumber-JVM. However, it is possible to set configuration options using Maven profiles.
+
+For instance, we can configure separate profiles for scenarios which are to be run in separate environments like so:
+
+    <profiles>
+        <profile>
+          <id>dev</id>
+            <properties>
+                <cucumber.filter.tags>@dev and not @ignore</cucumber.filter.tags>
+            </properties>
+        </profile>
+        <profile>
+          <id>qa</id>
+            <properties>
+                <cucumber.filter.tags>@qa</cucumber.filter.tags>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <plugins>
+            ...
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M4</version>
+                <configuration>
+                    <systemPropertyVariables>
+                       <cucumber.filter.tags>${cucumber.filter.tags}</cucumber.filter.tags>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+To mimick similar behavior using Gradle, see the Gradle docs on Migrating Maven profiles and properties.
+
+Default Profile
+Cucumber profiles are not available on Cucumber-JVM. See above.
+
+Preprocessing with ERB
+ERB (Embedded RuBy) is a Ruby specific tool.
+
+Environment Variables
+Cucumber-JVM does not support configuration of Cucumber with an env file.
+
+-------------------
+-------------------
+
+
+Step definition
+
+A Step Definition is a Java method with an expression that links it to one or more Gherkin steps. When Cucumber executes a Gherkin step in a scenario, it will look for a matching step definition to execute.
+
+To illustrate how this works, look at the following Gherkin Scenario:
+
+Scenario: Some cukes
+  Given I have 48 cukes in my belly
+The I have 48 cukes in my belly part of the step (the text following the Given keyword) will match the following step definition:
+
+package com.example;
+import io.cucumber.java.en.Given;
+
+public class StepDefinitions {
+    @Given("I have {int} cukes in my belly")
+    public void i_have_n_cukes_in_my_belly(int cukes) {
+        System.out.format("Cukes: %n\n", cukes);
+    }
+}
+Or, using Java8 lambdas:
+
+package com.example;
+import io.cucumber.java8.En;
+
+public class StepDefinitions implements En {
+    public StepDefinitions() {
+        Given("I have {int} cukes in my belly", (Integer cukes) -> {
+            System.out.format("Cukes: %n\n", cukes);
+        });
+    }
+}
+Expressions
+A step definition’s expression can either be a Regular Expression or a Cucumber Expression. The examples in this section use Cucumber Expressions. If you prefer to use Regular Expressions, each capture group from the match will be passed as arguments to the step definition’s method.
+
+@Given("I have {int} cukes in my belly")
+public void i_have_n_cukes_in_my_belly(int cukes) {
+}
+If the capture group expression is identical to one of the registered parameter types’s regexp, the captured string will be transformed before it is passed to the step definition’s method. In the example above, the cukes argument will be an integer, because the built-in int parameter type’s regexp is \d+ .
+
+State management
+A step definition can transfer state to a subsequent step definition by storing state in instance variables.
+
+Scope
+Step definitions aren’t linked to a particular feature file or scenario. The file, class or package name of a step definition does not affect what Gherkin steps it will match. The only thing that matters is the step definition’s expression.
+
+Snippets
+When Cucumber encounters a Gherkin step without a matching step definition, it will print a step definition snippet with a matching Cucumber Expression. You can use this as a starting point for new step definitions.
+
+Consider this Gherkin step:
+
+Given I have 3 red balls
+If you don’t have a matching step definition, Cucumber will suggest the following snippet:
+
+@Given("I have {int} red balls")
+public void i_have_red_balls(int int1) {
+}
+Suggested snippets will use your own parameter types if they match parts of your undefined step. If a color parameter type exists, Cucumber would use that in the suggested expression:
+
+@Given("I have {int} {color} balls")
+public void i_have_color_balls(int int1, Color color) {
+}
+}
+Make sure you use the summary plugin when running Cucumber in order to have the snippets printed.
+
+-------------------
+-------------------
+
+
+Cucumber api reference
+
+Cucumber can be used to implement automated tests based on scenarios described in your Gherkin feature files.
+
+Step Arguments
+In the example given in step definitions, Cucumber extracts the text 48 from the step, converts it to an int and passes it as an argument to the method.
+
+The number of parameters in the method has to match the number of capture group s in the expression. (If there is a mismatch, Cucumber will throw an error).
+
+Data Tables
+Data tables from Gherkin can be accessed by using the DataTable object as the last parameter in a step definition. This conversion can be done either by Cucumber or manually.
+
+Depending on the table shape as one of the following collections:
+
+List<List<String>> table
+List<Map<String, String>> table
+Map<String, String> table
+Map<String, List<String>> table
+Map<String, Map<String, String>> table
+The simplest way to pass a List<String> to a step definition is to use a data table:
+
+Given the following animals:
+  | cow   |
+  | horse |
+  | sheep |
+Declare the argument as a List<String> , but don’t define any capture groups in the expression:
+
+@Given("the following animals:")
+public void the_following_animals(List<String> animals) {
+}
+In this case, the DataTable is automatically flattened to a List<String> by Cucumber (using DataTable.asList(String.class)) before invoking the step definition.
+
+Note: In addition to collections of String, Integer, Float, BigInteger and BigDecimal, Byte, Short, Long and Double are also supported.
+
+In addition, see cucumber-jvm data-tables
+
+Steps
+A step is analogous to a method call or function invocation.
+
+For example:
+
+Given I have 93 cucumbers in my belly
+In this step, you’re “calling” the above step definition with one argument: the value 93.
+
+Steps are declared in your *.feature files.
+
+Matching steps
+Cucumber matches a step against a step definition’s Regexp
+Cucumber gathers any capture groups or variables
+Cucumber passes them to the step definition’s method and executes it
+Recall that step definitions start with a preposition or an adverb (Given, When, Then, And, But).
+
+All step definitions are loaded (and defined) before Cucumber starts to execute the plain text in the feature file.
+
+Once execution begins, for each step, Cucumber will look for a registered step definition with a matching Regexp. If it finds one, it will execute it, passing all capture groups and variables from the Regexp as arguments to the method or function.
+
+The specific preposition/adverb used has no significance when Cucumber is registering or looking up step definitions.
+
+Also, check out multiline step arguments for more info on how to pass entire tables or bigger strings to your step definitions.
+
+Step Results
+Each step can have one of the following results:
+
+Success
+When Cucumber finds a matching step definition it will execute it. If the block in the step definition doesn’t raise an error, the step is marked as successful (green). Anything you return from a step definition has no significance whatsoever.
+
+Undefined
+When Cucumber can’t find a matching step definition, the step gets marked as undefined (yellow), and all subsequent steps in the scenario are skipped. If you use --strict, this will cause Cucumber to exit with 1.
+
+Pending
+When a step definition’s method or function invokes the pending method, the step is marked as pending (yellow, as with undefined ones), indicating that you have work to do. If you use --strict, this will cause Cucumber to exit with 1.
+
+Failed Steps
+When a step definition’s method or function is executed and raises an error, the step is marked as failed (red). What you return from a step definition has no significance whatsoever.
+
+Returning null or false will not cause a step definition to fail.
+
+Skipped
+Steps that follow undefined, pending, or failed steps are never executed, even if there is a matching step definition. These steps are marked as skipped (cyan).
+
+Ambiguous
+Step definitions have to be unique for Cucumber to know what to execute. If you use ambiguous step definitions, Cucumber will raise an AmbiguousStepDefinitionsException, telling you to fix the ambiguity.
+
+Hooks
+Hooks are blocks of code that can run at various points in the Cucumber execution cycle. They are typically used for setup and teardown of the environment before and after each scenario.
+
+Where a hook is defined has no impact on what scenarios or steps it is run for. If you want more fine-grained control, you can use conditional hooks.
+
+You can declare hooks in any class.
+
+Scenario hooks
+Scenario hooks run for every scenario.
+
+Before
+Before hooks run before the first step of each scenario.
+
+Annotated method style:
+
+@Before
+public void doSomethingBefore() {
+}
+Lambda style:
+
+Before(() -> {
+});
+Think twice before you use Before
+
+Whatever happens in a Before hook is invisible to people who only read the features. You should consider using a background as a more explicit alternative, especially if the setup should be readable by non-technical people. Only use a Before hook for low-level logic such as starting a browser or deleting data from a database.
+
+You can specify an explicit order for hooks if you need to.
+
+Annotated method style:
+
+@Before(order = 10)
+public void doSomething(){
+    // Do something before each scenario
+}
+Lambda style:
+
+Before(10, () -> {
+    // Do something before each scenario
+});
+After
+After hooks run after the last step of each scenario, even when the step result is failed, undefined, pending, or skipped.
+
+Annotated method style:
+
+@After
+public void doSomethingAfter(Scenario scenario){
+    // Do something after after scenario
+}
+Lambda style:
+
+After((Scenario scenario) -> {
+});
+The scenario parameter is optional. If you use it, you can inspect the status of the scenario.
+
+For example, you can take a screenshot with WebDriver for failed scenarios and embed them in Cucumber’s report.
+
+See the browser automation page for an example on how to do so.
+
+Around
+Cucumber-JVM does not support Around hooks.
+Step hooks
+Step hooks invoked before and after a step. The hooks have ‘invoke around’ semantics. Meaning that if a BeforeStep hook is executed the AfterStep hooks will also be executed regardless of the result of the step. If a step did not pass, the following step and its hooks will be skipped.
+
+BeforeStep
+@BeforeStep
+public void doSomethingBeforeStep(Scenario scenario){
+}
+Lambda style:
+
+BeforeStep((Scenario scenario) -> {
+
+});
+AfterStep
+@AfterStep
+public void doSomethingAfterStep(Scenario scenario){
+}
+Lambda style:
+
+AfterStep((Scenario scenario) -> {
+});
+Conditional hooks
+Hooks can be conditionally selected for execution based on the tags of the scenario. To run a particular hook only for certain scenarios, you can associate a Before or After hook with a tag expression.
+
+Annotated method style:
+
+@After("@browser and not @headless")
+public void doSomethingAfter(Scenario scenario){
+}
+Lambda style:
+
+After("@browser and not @headless", (Scenario scenario) -> {
+});
+See more documentation on tags.
+
+Global hooks
+Global hooks will run once before any scenario is run or after all scenario have been run. Put the code at the top-level in your env.rb file (or any other file under features/support directory).
+
+BeforeAll
+BeforeAll run before any scenario is run.
+
+@BeforeAll
+public static void beforeAll() {
+    // Runs before all scenarios
+}
+AfterAll
+AfterAll run after all scenarios have been executed.
+
+@AfterAll
+public static void afterAll() {
+    // Runs after all scenarios
+}
+InstallPlugin
+Cucumber-JVM does not support the InstallPlugin hook.
+AfterConfiguration
+AfterConfiguration has been deprecated in favor of BeforeAll and InstallPlugin depending on your needs.
+
+Tags
+Tags are a great way to organise your features and scenarios.
+
+They can be used for two purposes:
+
+Running a subset of scenarios
+Restricting hooks to a subset of scenarios
+Consider the following example:
+
+@billing
+Feature: Verify billing
+
+  @important
+  Scenario: Missing product description
+    Given hello
+
+  Scenario: Several products
+    Given hello
+A feature or scenario can have as many tags as you like. Separate them with spaces:
+
+@billing @bicker @annoy
+Feature: Verify billing
+Tags can be placed above the following Gherkin elements:
+
+Feature
+Scenario
+Scenario Outline
+Examples
+In Scenario Outline, you can use tags on different example like below:
+
+Scenario Outline: Steps will run conditionally if tagged
+  Given user is logged in
+  When user clicks <link>
+  Then user will be logged out
+
+  @mobile
+  Examples:
+    | link                  |
+    | logout link on mobile |
+
+  @desktop
+  Examples:
+    | link                   |
+    | logout link on desktop |
+It is not possible to place tags above Background or steps (Given, When, Then, And and But).
+
+Tag Inheritance
+Tags are inherited by child elements.
+
+Tags that are placed above a Feature will be inherited by Scenario, Scenario Outline, or Examples.
+
+Tags that are placed above a Scenario Outline will be inherited by Examples.
+
+Running a subset of scenarios
+You can tell Cucumber to only run scenarios with a particular tag:
+
+Using a JVM system property:
+
+mvn test -Dcucumber.filter.tags="@smoke and @fast"
+Or an environment variable:
+
+# Linux / OS X:
+CUCUMBER_FILTER_TAGS="@smoke and @fast" mvn test
+
+# Windows:
+set CUCUMBER_FILTER_TAGS="@smoke and @fast"
+mvn test
+Or changing your JUnit runner class:
+
+@CucumberOptions(tags = "@smoke and @fast")
+public class RunCucumberTest {}
+Ignoring a subset of scenarios
+You can tell Cucumber to ignore scenarios with a particular tag:
+
+Using JUnit runner class:
+
+@CucumberOptions(tags = "not @smoke")
+public class RunCucumberTest {}
+Filtering by line
+
+Another way to run a subset of scenarios is to use the file.feature:line pattern or the --scenario option.
+
+Tag expressions
+A tag expression is an infix boolean expression. Below are some examples:
+
+Expression	Description
+@fast	Scenarios tagged with @fast
+@wip and not @slow	Scenarios tagged with @wip that aren’t also tagged with @slow
+@smoke and @fast	Scenarios tagged with both @smoke and @fast
+@gui or @database	Scenarios tagged with either @gui or @database
+For even more advanced tag expressions you can use parenthesis for clarity, or to change operator precedence:
+
+(@smoke or @ui) and (not @slow)
+Using tags for documentation
+Your imagination is the only limitation when it comes to using tags for documentation.
+
+Link to other documents
+Tags can refer to IDs in external systems such as requirement management tools, issue trackers or test management tools:
+
+@BJ-x98.77 @BJ-z12.33
+Feature: Convert transaction
+You can use a custom Cucumber reporting plugin that will turn tags into links pointing to documents in your external tool.
+
+Development Process
+Another creative way to use tags is to keep track of where in the development process a certain feature is:
+
+@qa_ready
+Feature: Index projects
+Running Cucumber
+Cucumber is a JUnit extension. It is launched by running JUnit from your build tool or your IDE.
+It is possible to configure how Cucumber should run features.
+
+From the command line
+The most common option is to run Cucumber from the command line.
+
+By default, Cucumber will treat anything ending in .java under the root resource directory as a step definition file.
+
+Thus, a step contained in features/models/entities/step-definitions/anything.java can be used in a feature file contained in features/views/entity-new , provided that:
+
+Cucumber is invoked on a root directory common to both (./features, in this example); OR
+explicitly required on the command line
+The Command-Line Interface Runner (CLI Runner) is an executable Java class that can be run from the command-line.
+
+java io.cucumber.core.cli.Main
+Note that you will need to add the cucumber-core jar and all of its transitive dependencies to your classpath, in addition to the location of your compiled .class files. You can find these jars in Maven Central.
+
+You will also need to provide the CLI with your step definitions via the --glue option followed by its package name, and the filepath of your feature file(s).
+
+For example:
+
+java -cp "path/to/each/jar:path/to/compiled/.class/files" io.cucumber.core.cli.Main /path/to/your/feature/files --glue hellocucumber --glue anotherpackage
+Alternatively if you are using a Maven project, you can run the CLI using the Exec Maven plugin:
+
+mvn exec:java                                  \
+    -Dexec.classpathScope=test                 \
+    -Dexec.mainClass=io.cucumber.core.cli.Main \
+    -Dexec.args="/path/to/your/feature/files --glue hellocucumber --glue anotherpackage"
+You can also run features using a build tool or an IDE.
+
+JUnit
+To use JUnit to execute cucumber scenarios add the cucumber-junit dependency to your pom.
+
+<dependencies>
+  [...]
+    <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-junit</artifactId>
+        <version>${cucumber.version}</version>
+        <scope>test</scope>
+    </dependency>
+  [...]
+</dependencies>
+Cucumber is based on JUnit 4. If you’re using JUnit 5, remember to include junit-vintage-engine dependency, as well. For more information, please refer to JUnit 5 documentation.
+
+Create an empty class that uses the Cucumber JUnit runner.
+
+package com.example;
+
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions()
+public class RunCucumberTest {
+}
+This will execute all scenarios in same package as the runner, by default glue code is also assumed to be in the same package.
+
+The @CucumberOptions can be used to provide additional configuration to the runner.
+
+Using plugins:
+
+For example if you want to tell Cucumber to use the two formatter plugins pretty and html, you can specify it like this:
+
+package com.example;
+
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(plugin = {"pretty", "html:target/cucumber"})
+public class RunCucumberTest {
+}
+For example if you want to tell Cucumber to print code snippets for missing step definitions use the summary plugin, you can specify it like this:
+
+package com.example;
+
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(plugin = {"pretty", "summary"}, snippets = CAMELCASE)
+public class RunCucumberTest {
+}
+The default option for snippets is UNDERSCORE. This settings can be used to specify the way code snippets will be created by Cucumber.
+
+Performing a dry-run:
+
+For example if you want to check whether all feature file steps have corresponding step definitions, you can specify it like this:
+
+package com.example;
+
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(dryRun=true)
+public class RunCucumberTest {
+}
+The default option for dryRun is false.
+
+Formatting console output:
+
+For example if you want console output from Cucumber in a readable format, you can specify it like this:
+
+package com.example;
+
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(monochrome=true)
+public class RunCucumberTest {
+}
+The default option for monochrome is false.
+
+Skip undefined tests:
+
+For example if you want to skip undefined steps from execution, you can specify it like this:
+
+package com.example;
+
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(strict=false)
+public class RunCucumberTest {
+}
+The default option for strict is true.
+
+Select scenarios using tags:
+
+For example if you want to tell Cucumber to only run the scenarios specified with specific tags, you can specify it like this:
+
+package com.example;
+
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(tags = {"@foo and not @bar"})
+public class RunCucumberTest {
+}
+Specify an object factory:
+
+For example if you are using Cucumber with a DI framework and want to use a custom object factory, you can specify it like this:
+
+package com.example;
+
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(objectFactory = FooFactory.class)
+public class RunCucumberTest {
+}
+The default option for objectFactory is to use the default object factory. Additional information about using custom object factories can be found here.
+
+There are additional options available in the @CucumberOptions annotation.
+
+Usually, the test class will be empty. You can, however, specify several JUnit rules.
+
+Supported JUnit annotations
+
+Cucumber supports JUnits @ClassRule, @BeforeClass and @AfterClass annotations. These will executed before and after all scenarios. Using these is not recommended, as it limits the portability between different runners; they may not execute correctly when using the commandline, IntelliJ IDEA or Cucumber-Eclipse. Instead it is recommended to use Cucumbers Before and After hooks.
+
+The Cucumber runner acts like a suite of a JUnit tests. As such other JUnit features such as Categories, Custom JUnit Listeners and Reporters can all be expected to work.
+
+For more information on JUnit, see the JUnit web site.
+
+Options
+Cucumber provides several options that can be passed to on the command-line.
+
+List configuration options
+You can list the options available for the Cucumber version you are using.
+
+Pass the --help option to print out all the available configuration options:
+
+java io.cucumber.core.cli.Main --help
+You can also use tags to specify what to run.
+
+Cucumber will in order of precedence parse properties from system properties, environment variables and the cucumber.properties file.
+
+Note that options provided by @CucumberOptions take precedence over the properties file and CLI arguments take precedence over all.
+
+Note that the cucumber-junit-platform-engine is provided with properties by the Junit Platform rather then Cucumber. See junit-platform-engine Configuration Options for more information.
+
+For example, if you are using Maven and want to run a subset of scenarios tagged with @smoke:
+
+mvn test -Dcucumber.filter.tags="@smoke"
+Supported properties are:
+
+cucumber.ansi-colors.disabled=  # true or false. default: false
+cucumber.execution.dry-run=     # true or false. default: false
+cucumber.execution.limit=       # number of scenarios to execute (CLI only).
+cucumber.execution.order=       # lexical, reverse, random or random:[seed] (CLI only). default: lexical
+cucumber.execution.strict=      # true or false. default: true.
+cucumber.execution.wip=         # true or false. default: false.
+cucumber.features=              # comma separated paths to feature files. example: path/to/example.feature, path/to/other.feature
+cucumber.filter.name=           # regex. example: .*Hello.*
+cucumber.filter.tags=           # tag expression. example: @smoke and not @slow
+cucumber.glue=                  # comma separated package names. example: com.example.glue
+cucumber.plugin=                # comma separated plugin strings. example: pretty, json:path/to/report.json
+cucumber.object-factory=        # object factory class name. example: com.example.MyObjectFactory
+cucumber.snippet-type=          # underscore or camelcase. default: underscore
+
+-------------------
+-------------------
+
+Checking assertions
+
+Your Then steps should make assertions comparing expected results to actual results from your application.
+
+Cucumber does not come with an assertion library. Instead, use the assertion methods from a unit testing tool.
+
+Java
+JUnit
+We recommend using JUnit’s assert* methods.
+
+If you are using Maven, add the following to your pom.xml:
+
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.13.2</version>
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>io.cucumber</groupId>
+    <artifactId>cucumber-junit</artifactId>
+    <version>7.0.0</version>
+    <scope>test</scope>
+</dependency>
+Cucumber version
+
+Make sure to use the same version for cucumber-junit that you are using for cucumber-java or cucumber-java8.
+
+JUnit 5
+
+JUnit 5 is not directly supported by Cucumber.
+
+If you wish to use JUnit 5 assertions, please add a runtime test dependency on the junit-vintage-engine artifact from the org.junit.vintage group.
+
+Below is an example using assertEquals:
+
+import static org.junit.Assert.*;
+
+public class Example {
+
+    @Then("the result should be {int}")
+    public void the_result_should_be(int expectedResult) {
+        assertEquals(expectedResult, result);
+    }
+}
+For more examples of how to use JUnit assertions, see the JUnit Wiki.
+
+TestNG
+You can also use TestNG’s assertions’.
+
+If you are using Maven, add the following to your pom.xml:
+
+<dependency>
+    <groupId>org.testng</groupId>
+    <artifactId>testng</artifactId>
+    <version>7.4.0</version>
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>io.cucumber</groupId>
+    <artifactId>cucumber-testng</artifactId>
+    <version>7.0.0</version>
+    <scope>test</scope>
+</dependency>
+TestNG assertions are similar JUnit. For a more extensive example of how to use TestNG with Cucumber, see the java-calculator-testng example.
+
+For more information on how to use TestNG assertions, see the TestNG documentation.
+
+JavaScript
+Node.js
+We recommend using Node.js’ built-in assert module.
+
+const assert = require('assert')
+
+Then('the result should be {word}', function (expected) {
+  // this.actual is typically set in a previous step
+  assert.equal(this.actual, expected)
+})
+Other Assertion Libraries
+You can use any other assertion library if you wish. Here is an example using Chai:
+
+const { expect } = require('chai')
+
+Then('the result should be {word}', function (expected) {
+  expect(this.actual).to.eql(expected)
+})
+Ruby
+RSpec
+We recommend using RSpec for assertions.
+
+Add the rspec-expectations gem to your Gemfile. Cucumber will automatically load RSpec’s matchers and expectation methods to be available in your step definitions. For example:
+
+Given /^a nice new bike$/ do
+  expect(bike).to be_shiny
+end
+If you want to configure RSpec, you’ll need to also add the rspec-core gem to your Gemfile. Then, you can add to your features/support/env.rb configuration, such as:
+
+RSpec.configure do |config|
+  config.expect_with :rspec do |c|
+    c.syntax = :expect
+  end
+end
+Realize that tests/assertions/expectations either “pass” or “fail” (raise an error), and that “fail” is not the same as false. Anything besides “fail” is a pass.
+
+When, in RSpec, something.should_be 0 and it is not, then what is returned is an error exception, not a Boolean value. In Cucumber, one writes fail if false and not only false. This is because false might be the expected successful outcome of a test, and thus not an error.
+
+Sometimes however, we wish to test how our application handles an exception and therefore do not want that exception to be handled by Cucumber. For that situation use the @allow-rescue tag.
+
+Test::Unit
+If you prefer to use Test::Unit’s assert methods you can mix them into your World.
+
+require 'test/unit/assertions'
+
+World(Test::Unit::Assertions)
+
+
+
+-------------------
+-------------------
+
+
+
+Step Organization
+You can have all of your step definitions in one file, or in multiple files. When you start with your project, all your step definitions will probably be in one file. As your project grows, you should split your step definitions into meaningful groups in different files. This will make your project more logical and easier to maintain.
+
+How Cucumber finds your features and step definitions
+Be aware that, regardless of the directory structure employed, Cucumber effectively flattens the features/ directory tree when running tests. This means that anything ending in .java inside the directory in which Cucumber is run is treated as a step definition. In the same directory, Cucumber will search for a Feature corresponding to that step definition. This is either the default case or the location specified with the relevant option.
+
+Grouping step definitions
+Technically it doesn’t matter how you name your step definition files, or which step definitions you put in a file. You could have one giant file containing all your step definitions. However, as the project grows, the file can become messy and hard to maintain. Instead, we recommend creating a separate StepDefinitions.java file for each domain concept.
+
+A good rule of thumb is to have one file for each major domain object.
+For example, in a Curriculum Vitae application, we might have:
+
+EmployeeStepDefinitions.java
+EducationStepDefinitions.java
+ExperienceStepDefinitions.java
+AuthenticationStepDefinitions.java
+The first three files would define all the Given, When, and Then step definitions related to creating, reading, updating, and deleting the various types of objects. The last file would define step definitions related to logging in and out, and the different things a certain user is allowed to do in the system.
+
+If you follow this pattern, you also avoid the Feature-coupled step definitions anti-pattern.
+
+Of course, how you group your step definitions is really up to you and your team. They should be grouped in a way that is meaningful to your project.
+
+Writing step definitions
+Don’t write step definitions for steps that are not present in one of your scenarios. These might end up as unused cruft that will need to be cleaned up later. Only implement step definitions that you actually need. You can always refactor your code as your project grows.
+
+Avoid duplication
+Avoid writing similar step definitions, as they can lead to clutter. While documenting your steps helps, making use of helper methods to abstract them can do wonders.
+
+For example, take the following steps:
+
+    Given I go to the home page
+    Given I check the about page of the website
+    Given I get the contact details
+If all of these steps open their respective web pages, you might be writing redundant steps. While the underlying code for these steps could be different, their behaviour is essentially the same, i.e. to open the Home, About or Contact page.
+
+As such, you can use abstract helper methods to reduce them into a single step:
+
+Given I go to the {} page
+And the following step definition:
+
+@Given("I go to the {string} page")
+public void i_want_to_open_page(String webpage) {
+  webpageFactory.openPage(webpage);
+}
+Your step definitions are the glue to the actual code (in this example, a factory method to decide which page to open). They can also be used to hide implementation details by calling several reusable helper methods from one step definition.
+
+This helps in a number of ways:
+
+Increased maintainability.
+Increased scalability with reusable steps.
+More understandable tests.
+You can handle other behaviours, like validating a web page, clicking a button, etc., the same way.
+
+We suggest taking a look at the Factory Design Pattern as well. Also, using Data Tables for providing inputs to steps helps increase maintainability and understandability.
+
+Helper methods
+Always keep in mind that Cucumber is a DSL wrapper around the programming language whose full expressiveness remains available to you in the step definition files (but not in feature files). On the other hand, do not lose sight that every step called as such in a step definition file is first parsed by Gherkin and therefore must conform to the same syntax as used in feature files.
+
+In fact, it is recommended to refactor step definitions into helper methods for greater modularity and reuse. The method can reside in the same .java file as the step definition.
+
+This makes your project more understandable for people who join your project at a later date; which also makes your project easier to maintain.
+
+
+-------------------
+-------------------
+
+
+Gherkin Reference
+Gherkin uses a set of special keywords to give structure and meaning to executable specifications. Each keyword is translated to many spoken languages; in this reference we’ll use English.
+
+Most lines in a Gherkin document start with one of the keywords.
+
+Comments are only permitted at the start of a new line, anywhere in the feature file. They begin with zero or more spaces, followed by a hash sign (#) and some text.
+
+Block comments are currently not supported by Gherkin.
+
+Either spaces or tabs may be used for indentation. The recommended indentation level is two spaces. Here is an example:
+
+Feature: Guess the word
+
+  # The first example has two steps
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join
+
+  # The second example has three steps
+  Scenario: Breaker joins a game
+    Given the Maker has started a game with the word "silky"
+    When the Breaker joins the Maker's game
+    Then the Breaker must guess a word with 5 characters
+The trailing portion (after the keyword) of each step is matched to a code block, called a step definition.
+
+Please note that some keywords are followed by a colon (:) and some are not. If you add a colon after a keyword that should not be followed by one, your test(s) will be ignored.
+
+Keywords
+Each line that isn’t a blank line has to start with a Gherkin keyword, followed by any text you like. The only exceptions are the feature and scenario descriptions.
+
+The primary keywords are:
+
+Feature
+Rule (as of Gherkin 6)
+Example (or Scenario)
+Given, When, Then, And, But for steps (or *)
+Background
+Scenario Outline (or Scenario Template)
+Examples (or Scenarios)
+There are a few secondary keywords as well:
+
+""" (Doc Strings)
+| (Data Tables)
+@ (Tags)
+# (Comments)
+Localisation
+
+Gherkin is localised for many spoken languages; each has their own localised equivalent of these keywords.
+
+Feature
+The purpose of the Feature keyword is to provide a high-level description of a software feature, and to group related scenarios.
+
+The first primary keyword in a Gherkin document must always be Feature, followed by a : and a short text that describes the feature.
+
+You can add free-form text underneath Feature to add more description.
+
+These description lines are ignored by Cucumber at runtime, but are available for reporting (they are included by reporting tools like the official HTML formatter).
+
+Feature: Guess the word
+
+  The word guess game is a turn-based game for two players.
+  The Maker makes a word for the Breaker to guess. The game
+  is over when the Breaker guesses the Maker's word.
+
+  Example: Maker starts a game
+The name and the optional description have no special meaning to Cucumber. Their purpose is to provide a place for you to document important aspects of the feature, such as a brief explanation and a list of business rules (general acceptance criteria).
+
+The free format description for Feature ends when you start a line with the keyword Background, Rule, Example or Scenario Outline (or their alias keywords).
+
+You can place tags above Feature to group related features, independent of your file and directory structure.
+
+Descriptions
+Free-form descriptions (as described above for Feature) can also be placed underneath Example/Scenario, Background, Scenario Outline and Rule.
+
+You can write anything you like, as long as no line starts with a keyword.
+
+Descriptions can be in the form of Markdown - formatters including the official HTML formatter support this.
+
+Rule
+The (optional) Rule keyword has been part of Gherkin since v6.
+
+Cucumber Support for Rule
+
+The Rule keyword is still pretty new. It has been ported in a lot of Cucumber implementation already. Yet if you encounter issues, check the documentation of your Cucumber implementation to make sure it supports it.
+
+The purpose of the Rule keyword is to represent one business rule that should be implemented. It provides additional information for a feature. A Rule is used to group together several scenarios that belong to this business rule. A Rule should contain one or more scenarios that illustrate the particular rule.
+
+For example:
+
+# -- FILE: features/gherkin.rule_example.feature
+Feature: Highlander
+
+  Rule: There can be only One
+
+    Example: Only One -- More than one alive
+      Given there are 3 ninjas
+      And there are more than one ninja alive
+      When 2 ninjas meet, they will fight
+      Then one ninja dies (but not me)
+      And there is one ninja less alive
+
+    Example: Only One -- One alive
+      Given there is only 1 ninja alive
+      Then he (or she) will live forever ;-)
+
+  Rule: There can be Two (in some cases)
+
+    Example: Two -- Dead and Reborn as Phoenix
+      ...
+Example
+This is a concrete example that illustrates a business rule. It consists of a list of steps.
+
+The keyword Scenario is a synonym of the keyword Example.
+
+You can have as many steps as you like, but we recommend 3-5 steps per example. Having too many steps will cause the example to lose its expressive power as a specification and documentation.
+
+In addition to being a specification and documentation, an example is also a test. As a whole, your examples are an executable specification of the system.
+
+Examples follow this same pattern:
+
+Describe an initial context (Given steps)
+Describe an event (When steps)
+Describe an expected outcome (Then steps)
+Steps
+Each step starts with Given, When, Then, And, or But.
+
+Cucumber executes each step in a scenario one at a time, in the sequence you’ve written them in. When Cucumber tries to execute a step, it looks for a matching step definition to execute.
+
+Keywords are not taken into account when looking for a step definition. This means you cannot have a Given, When, Then, And or But step with the same text as another step.
+
+Cucumber considers the following steps duplicates:
+
+Given there is money in my account
+Then there is money in my account
+This might seem like a limitation, but it forces you to come up with a less ambiguous, more clear domain language:
+
+Given my account has a balance of £430
+Then my account should have a balance of £430
+Given
+Given steps are used to describe the initial context of the system - the scene of the scenario. It is typically something that happened in the past.
+
+When Cucumber executes a Given step, it will configure the system to be in a well-defined state, such as creating and configuring objects or adding data to a test database.
+
+The purpose of Given steps is to put the system in a known state before the user (or external system) starts interacting with the system (in the When steps). Avoid talking about user interaction in Given’s. If you were creating use cases, Given’s would be your preconditions.
+
+It’s okay to have several Given steps (use And or But for number 2 and upwards to make it more readable).
+
+Examples:
+
+Mickey and Minnie have started a game
+I am logged in
+Joe has a balance of £42
+When
+When steps are used to describe an event, or an action. This can be a person interacting with the system, or it can be an event triggered by another system.
+
+It’s strongly recommended you only have a single When step per Scenario. If you feel compelled to add more, it’s usually a sign that you should split the scenario up into multiple scenarios.
+
+Examples:
+
+Guess a word
+Invite a friend
+Withdraw money
+Imagine it's 1922
+
+Most software does something people could do manually (just not as efficiently).
+
+Try hard to come up with examples that don’t make any assumptions about technology or user interface. Imagine it’s 1922, when there were no computers.
+
+Implementation details should be hidden in the step definitions.
+
+Then
+Then steps are used to describe an expected outcome, or result.
+
+The step definition of a Then step should use an assertion to compare the actual outcome (what the system actually does) to the expected outcome (what the step says the system is supposed to do).
+
+An outcome should be on an observable output. That is, something that comes out of the system (report, user interface, message), and not a behaviour deeply buried inside the system (like a record in a database).
+
+Examples:
+
+See that the guessed word was wrong
+Receive an invitation
+Card should be swallowed
+While it might be tempting to implement Then steps to look in the database - resist that temptation!
+
+You should only verify an outcome that is observable for the user (or external system), and changes to a database are usually not.
+
+And, But
+If you have successive Given’s, When’s, or Then’s, you could write:
+
+Example: Multiple Givens
+  Given one thing
+  Given another thing
+  Given yet another thing
+  When I open my eyes
+  Then I should see something
+  Then I shouldn't see something else
+Or, you could make the example more fluidly structured by replacing the successive Given’s, When’s, or Then’s with And’s and But’s:
+
+Example: Multiple Givens
+  Given one thing
+  And another thing
+  And yet another thing
+  When I open my eyes
+  Then I should see something
+  But I shouldn't see something else
+*
+Gherkin also supports using an asterisk (*) in place of any of the normal step keywords. This can be helpful when you have some steps that are effectively a list of things, so you can express it more like bullet points where otherwise the natural language of And etc might not read so elegantly.
+
+For example:
+
+Scenario: All done
+  Given I am out shopping
+  And I have eggs
+  And I have milk
+  And I have butter
+  When I check my list
+  Then I don't need anything
+Could be expressed as:
+
+Scenario: All done
+  Given I am out shopping
+  * I have eggs
+  * I have milk
+  * I have butter
+  When I check my list
+  Then I don't need anything
+Background
+Occasionally you’ll find yourself repeating the same Given steps in all of the scenarios in a Feature.
+
+Since it is repeated in every scenario, this is an indication that those steps are not essential to describe the scenarios; they are incidental details. You can literally move such Given steps to the background, by grouping them under a Background section.
+
+A Background allows you to add some context to the scenarios that follow it. It can contain one or more Given steps, which are run before each scenario, but after any Before hooks.
+
+A Background is placed before the first Scenario/Example, at the same level of indentation.
+
+For example:
+
+Feature: Multiple site support
+  Only blog owners can post to a blog, except administrators,
+  who can post to all blogs.
+
+  Background:
+    Given a global administrator named "Greg"
+    And a blog named "Greg's anti-tax rants"
+    And a customer named "Dr. Bill"
+    And a blog named "Expensive Therapy" owned by "Dr. Bill"
+
+  Scenario: Dr. Bill posts to his own blog
+    Given I am logged in as Dr. Bill
+    When I try to post to "Expensive Therapy"
+    Then I should see "Your article was published."
+
+  Scenario: Dr. Bill tries to post to somebody else's blog, and fails
+    Given I am logged in as Dr. Bill
+    When I try to post to "Greg's anti-tax rants"
+    Then I should see "Hey! That's not your blog!"
+
+  Scenario: Greg posts to a client's blog
+    Given I am logged in as Greg
+    When I try to post to "Expensive Therapy"
+    Then I should see "Your article was published."
+Background is also supported at the Rule level, for example:
+
+Feature: Overdue tasks
+  Let users know when tasks are overdue, even when using other
+  features of the app
+
+  Rule: Users are notified about overdue tasks on first use of the day
+    Background:
+      Given I have overdue tasks
+
+    Example: First use of the day
+      Given I last used the app yesterday
+      When I use the app
+      Then I am notified about overdue tasks
+
+    Example: Already used today
+      Given I last used the app earlier today
+      When I use the app
+      Then I am not notified about overdue tasks
+  ...
+You can only have one set of Background steps per Feature or Rule. If you need different Background steps for different scenarios, consider breaking up your set of scenarios into more Rules or more Features.
+
+For a less explicit alternative to Background, check out conditional hooks.
+
+Tips for using Background
+Don’t use Background to set up complicated states, unless that state is actually something the client needs to know.
+For example, if the user and site names don’t matter to the client, use a higher-level step such as Given I am logged in as a site owner.
+Keep your Background section short.
+The client needs to actually remember this stuff when reading the scenarios. If the Background is more than 4 lines long, consider moving some of the irrelevant details into higher-level steps.
+Make your Background section vivid.
+Use colourful names, and try to tell a story. The human brain keeps track of stories much better than it keeps track of names like "User A", "User B", "Site 1", and so on.
+Keep your scenarios short, and don’t have too many.
+If the Background section has scrolled off the screen, the reader no longer has a full overview of what’s happening. Think about using higher-level steps, or splitting the *.feature file.
+Scenario Outline
+The Scenario Outline keyword can be used to run the same Scenario multiple times, with different combinations of values.
+
+The keyword Scenario Template is a synonym of the keyword Scenario Outline.
+
+Copying and pasting scenarios to use different values quickly becomes tedious and repetitive:
+
+Scenario: eat 5 out of 12
+  Given there are 12 cucumbers
+  When I eat 5 cucumbers
+  Then I should have 7 cucumbers
+
+Scenario: eat 5 out of 20
+  Given there are 20 cucumbers
+  When I eat 5 cucumbers
+  Then I should have 15 cucumbers
+We can collapse these two similar scenarios into a Scenario Outline.
+
+Scenario outlines allow us to more concisely express these scenarios through the use of a template with < >-delimited parameters:
+
+Scenario Outline: eating
+  Given there are <start> cucumbers
+  When I eat <eat> cucumbers
+  Then I should have <left> cucumbers
+
+  Examples:
+    | start | eat | left |
+    |    12 |   5 |    7 |
+    |    20 |   5 |   15 |
+Examples
+A Scenario Outline must contain one or more Examples (or Scenarios) section(s). Its steps are interpreted as a template which is never directly run. Instead, the Scenario Outline is run once for each row in the Examples section beneath it (not counting the first header row).
+
+The steps can use <> delimited parameters that reference headers in the examples table. Cucumber will replace these parameters with values from the table before it tries to match the step against a step definition.
+
+You can also use parameters in multiline step arguments.
+
+Step Arguments
+In some cases you might want to pass more data to a step than fits on a single line. For this purpose Gherkin has Doc Strings and Data Tables.
+
+Doc Strings
+Doc Strings are handy for passing a larger piece of text to a step definition.
+
+The text should be offset by delimiters consisting of three double-quote marks on lines of their own:
+
+Given a blog post named "Random" with Markdown body
+  """
+  Some Title, Eh?
+  ===============
+  Here is the first paragraph of my blog post. Lorem ipsum dolor sit amet,
+  consectetur adipiscing elit.
+  """
+In your step definition, there’s no need to find this text and match it in your pattern. It will automatically be passed as the last argument in the step definition.
+
+Indentation of the opening """ is unimportant, although common practice is two spaces in from the enclosing step. The indentation inside the triple quotes, however, is significant. Each line of the Doc String will be dedented according to the opening """. Indentation beyond the column of the opening """ will therefore be preserved.
+
+Doc strings also support using three backticks as the delimiter:
+
+Given a blog post named "Random" with Markdown body
+  ```
+  Some Title, Eh?
+  ===============
+  Here is the first paragraph of my blog post. Lorem ipsum dolor sit amet,
+  consectetur adipiscing elit.
+  ```
+This might be familiar for those used to writing with Markdown.
+
+Tool support for backticks
+
+Whilst all current versions of Cucumber support backticks as the delimiter, many tools like text editors don’t (yet).
+
+It’s possible to annotate the DocString with the type of content it contains. You specify the content type after the triple quote, as follows:
+
+Given a blog post named "Random" with Markdown body
+  """markdown
+  Some Title, Eh?
+  ===============
+  Here is the first paragraph of my blog post. Lorem ipsum dolor sit amet,
+  consectetur adipiscing elit.
+  """
+Tool support for content types
+
+Whilst all current versions of Cucumber support content types as the delimiter, many tools like text editors don’t (yet).
+
+Data Tables
+Data Tables are handy for passing a list of values to a step definition:
+
+Given the following users exist:
+  | name   | email              | twitter         |
+  | Aslak  | aslak@cucumber.io  | @aslak_hellesoy |
+  | Julien | julien@cucumber.io | @jbpros         |
+  | Matt   | matt@cucumber.io   | @mattwynne      |
+Just like Doc Strings, Data Tables will be passed to the step definition as the last argument.
+
+Table Cell Escaping
+If you want to use a newline character in a table cell, you can write this as \n. If you need a | as part of the cell, you can escape it as \|. And finally, if you need a \, you can escape that with \\.
+
+Data Table API
+Cucumber provides a rich API for manipulating tables from within step definitions. See the Data Table API reference reference for more details.
+
+Spoken Languages
+The language you choose for Gherkin should be the same language your users and domain experts use when they talk about the domain. Translating between two languages should be avoided.
+
+This is why Gherkin has been translated to over 70 languages .
+
+Here is a Gherkin scenario written in Norwegian:
+
+# language: no
+Funksjonalitet: Gjett et ord
+
+  Eksempel: Ordmaker starter et spill
+    Når Ordmaker starter et spill
+    Så må Ordmaker vente på at Gjetter blir med
+
+  Eksempel: Gjetter blir med
+    Gitt at Ordmaker har startet et spill med ordet "bløtt"
+    Når Gjetter blir med på Ordmakers spill
+    Så må Gjetter gjette et ord på 5 bokstaver
+A # language: header on the first line of a feature file tells Cucumber what spoken language to use - for example # language: fr for French. If you omit this header, Cucumber will default to English (en).
+
+Some Cucumber implementations also let you set the default language in the configuration, so you don’t need to place the # language header in every file.
+
+
+-------------------
+-------------------

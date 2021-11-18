@@ -90,9 +90,16 @@ DOD. Los reportes se generan de manera correcta y se almacenan diariamente.
 DOD. El proyecto es ejecutado por las herramientas correctamente
 
     6.1 GitHub Actions
+        6.1.1 Navegador fantasma
+        6.1.2 Heroku server (https://proyecto-testinggrupo2.herokuapp.com/products)
     6.2 Jenkins
+        6.2.1 Pipelines
+        6.2.2 BlueOcean
     
 7. Integracion de Cucumber
+    7.1 Crear Features
+    7.2 Crear Steps
+    7.3 Integrar el punto 4. Selenium Webdriver en Pages
 
 DOD. Cucumber esta integrado correctamente
 

@@ -41,14 +41,18 @@ public class ManufacturerEditTest {
 
  */
 
-        String dir = System.getProperty("user.dir");
+        String dir = System.
+            Property("user.dir");
 
 //        String driverUrl = "C:\\data\\chromedriver.exe";
 //        System.setProperty("webdriver.chrome.driver",driverUrl);
         Path path = Paths.get("C:\\data\\chromedriver.exe");
         System.setProperty("webdriver.chrome.driver",path.toString());
+        
         chromewebDriver = new ChromeDriver();
-        chromewebDriver.get("http://localhost:8080/manufacturers");
+        
+        //chromewebDriver.get("http://localhost:8080/manufacturers");
+        chromewebDriver.get("https://dashboard.heroku.com/apps/proyecto-testinggrupo2/deploy/github");
 //        chromewebDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
         // TODO Firefox driver setup

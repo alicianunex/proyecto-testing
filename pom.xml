@@ -132,16 +132,61 @@
 
 		<dependency>
 			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-bom</artifactId>
+			<version>7.0.0</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit</groupId>
+			<artifactId>junit-bom</artifactId>
+			<version>5.8.1</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>7.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.cucumber</groupId>
 			<artifactId>cucumber-junit</artifactId>
 			<version>7.0.0</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit-platform-engine</artifactId>
+			<version>7.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-suite</artifactId>
+			<version>1.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.masterthought</groupId>
+			<artifactId>cucumber-reporting</artifactId>
+			<version>5.6.1</version>
+		</dependency>
+
+		<dependency>
 			<groupId>me.jvt.cucumber</groupId>
 			<artifactId>reporting-plugin</artifactId>
-			<version>5.0.0</version>
+			<version>7.0.0</version>
 		</dependency>
+
+
+
+
 		<!--		<dependency>-->
 <!--			<groupId>org.jacoco</groupId>-->
 <!--			<artifactId>org.jacoco.report</artifactId>-->

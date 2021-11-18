@@ -15,16 +15,13 @@ import static com.example.proyectotesting.controller.mvc.Pages.IndexManufacturer
 public class GuardarFabricanteSteps{
 
 
-    @Given("pagina de inicio {string}")
-    public void pagina_de_inicio(String entrada) {
-        // TODO Refactor
-        if (entrada.contains("manufacturer")) {
+    @Given("pagina de inicio")
+    public void pagina_de_inicio() {
 
-            getManufacturerIndex();
-            clickonNuevoManufacturer();
-        }
-
+        getManufacturerIndex();
+        clickonNuevoManufacturer();
     }
+
 
     @When("Hago click en guardar {string}")
     public void hago_click_en_guardar(String fabricante) {

@@ -1,6 +1,7 @@
 package com.example.proyectotesting.controller.mvc.Steps;
 
 
+import com.example.proyectotesting.controller.mvc.Pages.IndexManufacturerPage;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.junit.CucumberOptions;
@@ -35,7 +36,7 @@ public class GuardarFabricanteSteps{
     public void el_fabricante_se_añade_a_db(String fabricante) {
 
         checkNewManufacturer(fabricante);
+        IndexManufacturerPage.eraseNewManufacturer();
         closeDriver();
     }
-
 }

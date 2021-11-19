@@ -53,4 +53,12 @@ public class IndexManufacturerPage {
         }
     }
 
+    public static void eraseNewManufacturer() {
+
+        List<WebElement>  erasebuttons = ChromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)"));
+        erasebuttons.get(erasebuttons.size()-1).click();
+
+    }
+
+
 }

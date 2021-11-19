@@ -1,11 +1,13 @@
 package com.example.proyectotesting.controller.mvc;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,6 +23,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 public class ManufacturerViewTest {
 
     // http://localhost:8080/manufacturers
+    // https://proyecto-testinggrupo2.herokuapp.com
 
 
     static WebDriver firefoxwebDriver;
@@ -33,8 +36,6 @@ public class ManufacturerViewTest {
     @BeforeEach
     void setUp() {
 
-        // TODO Phantom broswer for GitHub actions, not working throws CONNECTION ERROR
-/*
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox");
@@ -42,8 +43,8 @@ public class ManufacturerViewTest {
         options.addArguments("--headless");
         chromewebDriver = new ChromeDriver(options);
 
- */
 
+/*
         String dir = System.getProperty("user.dir");
 
 //        String driverUrl = "C:\\data\\chromedriver.exe";
@@ -51,7 +52,9 @@ public class ManufacturerViewTest {
         Path path = Paths.get("C:\\data\\chromedriver.exe");
         System.setProperty("webdriver.chrome.driver",path.toString());
         chromewebDriver = new ChromeDriver();
-        chromewebDriver.get("http://localhost:8080/manufacturers");
+
+ */
+        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
 //        chromewebDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
         // TODO Firefox driver setup
@@ -185,7 +188,7 @@ public class ManufacturerViewTest {
      * */
     private void accessFromProducts(String name){
 
-        chromewebDriver.get("http://localhost:8080/products");
+        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
 
         if (name.contains("Adidas")) {
             WebElement webElement = chromewebDriver.findElements(By.xpath("//td/a[contains(@href, 'view')]")).get(0);
@@ -297,7 +300,7 @@ public class ManufacturerViewTest {
             manufacturerindex = 1;
         else
             manufacturerindex = 0;
-        chromewebDriver.get("http://localhost:8080/manufacturers");
+        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
 
         addStringData();
 

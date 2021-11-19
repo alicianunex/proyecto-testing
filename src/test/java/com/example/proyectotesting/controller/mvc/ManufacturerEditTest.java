@@ -1,8 +1,10 @@
 package com.example.proyectotesting.controller.mvc;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 
 import java.nio.file.Path;
@@ -18,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ManufacturerEditTest {
 
     // http://localhost:8080/manufacturers
+//    https://proyecto-testinggrupo2.herokuapp.com
 
 
     static WebDriver firefoxwebDriver;
@@ -30,25 +33,23 @@ public class ManufacturerEditTest {
     @BeforeEach
     void setUp() {
 
-        // TODO Phantom broswer for GitHub actions, not working throws CONNECTION ERROR
-/*
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--headless");
         chromewebDriver = new ChromeDriver(options);
+        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
 
- */
+        // Chrome setup
 
-        String dir = System.getProperty("user.dir");
-
-//        String driverUrl = "C:\\data\\chromedriver.exe";
-//        System.setProperty("webdriver.chrome.driver",driverUrl);
-        Path path = Paths.get("C:\\data\\chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver",path.toString());
-        chromewebDriver = new ChromeDriver();
-        chromewebDriver.get("http://localhost:8080/manufacturers");
+//        String dir = System.getProperty("user.dir");
+//
+////        String driverUrl = "C:\\data\\chromedriver.exe";
+////        System.setProperty("webdriver.chrome.driver",driverUrl);
+//        Path path = Paths.get("C:\\data\\chromedriver.exe");
+//        System.setProperty("webdriver.chrome.driver",path.toString());
+//        chromewebDriver = new ChromeDriver();
 //        chromewebDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
         // TODO Firefox driver setup
@@ -210,7 +211,7 @@ public class ManufacturerEditTest {
      * */
     private void accessFromProducts(String name) {
 
-        chromewebDriver.get("http://localhost:8080/products");
+        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
 
         if (name.contains("Adidas")) {
             WebElement webElement = chromewebDriver.findElement(By.cssSelector("tr:nth-child(2) td:nth-child(5) a"));
@@ -316,7 +317,7 @@ public class ManufacturerEditTest {
     void CreateNewManufacturer(){
 
         chromewebDriver.findElement(By.xpath("//a[contains(@href,'new')]")).click();
-        assertEquals("http://localhost:8080/manufacturers/new", chromewebDriver.getCurrentUrl());
+        assertEquals("https://proyecto-testinggrupo2.herokuapp.com/manufacturers/new", chromewebDriver.getCurrentUrl());
 
         // Load obj data
         List<String>datamanufacturer = new ArrayList<>();

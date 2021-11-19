@@ -1,5 +1,6 @@
 package com.example.proyectotesting.controller.mvc;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -7,11 +8,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,6 +20,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 public class ProductListTest {
 
     // http://localhost:8080/products
+    // https://proyecto-testinggrupo2.herokuapp.com
 
     static WebDriver firefoxwebDriver;
     static WebDriver chromewebDriver;
@@ -31,41 +30,41 @@ public class ProductListTest {
     @BeforeEach
     void setUp() {
 
-        /*
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--headless");
         chromewebDriver = new ChromeDriver(options);
-        chromewebDriver.navigate().to("http://localhost:8080/products");
+        chromewebDriver.navigate().to("https://proyecto-testinggrupo2.herokuapp.com/products");
         chromewebDriver.manage().window().maximize();
-        chromewebDriver.manage().timeouts().implicitlyWait(120, TimeUnit.MILLISECONDS);
-    }
+        //chromewebDriver.manage().timeouts().implicitlyWait(120, TimeUnit.MILLISECONDS);
 
-    */
-//        WebDriverManager.chromedriver().setup();
-//        ChromeOptions options = new ChromeOptions();
-//        options.addArguments("--no-sandbox");
-//        options.addArguments("--disable-dev-shm-usage");
-//        options.addArguments("--headless");
-//        chromewebDriver = new ChromeDriver(options);
+    /*
+        WebDriverManager.chromedriver().setup();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--headless");
+        chromewebDriver = new ChromeDriver(options);
 
-      String dir = System.getProperty("user.dir");
-//        String driverUrl = "C:\\data\\chromedriver.exe";
-//        System.setProperty("webdriver.chrome.driver",driverUrl);
+     String dir = System.getProperty("user.dir");
+        String driverUrl = "C:\\data\\chromedriver.exe";
+        System.setProperty("webdriver.chrome.driver",driverUrl);
 
         Path path = Paths.get("C:\\data\\chromedriver.exe");
         System.setProperty("webdriver.chrome.driver",path.toString());
         chromewebDriver = new ChromeDriver();
-        chromewebDriver.get("http://localhost:8080/products");
-//        chromewebDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
-        /*
+        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
+        chromewebDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+
+
         String dir = System.getProperty("user.dir");
         String driverUrl = "C:\\data\\geckodriver.exe";
         System.setProperty("webdriver.gecko.driver",driverUrl);
         firefoxwebDriver = new FirefoxDriver();
+
 
          */
 

@@ -95,6 +95,7 @@ DOD. El proyecto es ejecutado por las herramientas correctamente
     6.2 Jenkins
         6.2.1 Pipelines
         6.2.2 BlueOcean
+    6.3 LambdaTest
     
 7. Integracion de Cucumber
     7.1 Crear Features

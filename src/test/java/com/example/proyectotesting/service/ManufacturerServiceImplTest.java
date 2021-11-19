@@ -9,8 +9,6 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import com.example.proyectotesting.repository.ProductRepository;
-import com.example.proyectotesting.service.ManufacturerService;
-import com.example.proyectotesting.service.ManufacturerServiceImpl;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -97,7 +95,6 @@ public class ManufacturerServiceImplTest {
         }
     }
 
-
     @Nested
     public class Save {
 
@@ -110,7 +107,7 @@ public class ManufacturerServiceImplTest {
         void saveOK() {
 
             when(manufacturerRepository.save(any(Manufacturer.class)))
-                    .thenReturn(new Manufacturer());
+                    .thenReturn(new Manufacturer("","",223,2134));
 
             Manufacturer result = manufacturerService.save(new Manufacturer());
             assertNotNull(result);

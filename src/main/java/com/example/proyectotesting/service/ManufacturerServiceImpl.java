@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Service
 /**
  * Implementation for the CRUD operations of the Manufacturer object
  */
+@Service
 public class ManufacturerServiceImpl implements ManufacturerService {
 
     private ManufacturerRepository manufacturerRepository;
@@ -65,38 +65,44 @@ public class ManufacturerServiceImpl implements ManufacturerService {
     }
 
     @Override
-    /**
-     * Saves the object provided in the repository
-     * @param category The object to save
-     */
-    public Manufacturer save(Manufacturer manufacturer) {
-        if(manufacturer == null)
-            return null;
-        Optional<Manufacturer> manufacturerOptional = this.manufacturerRepository.findById(manufacturer.getId());
-        if(manufacturerOptional.isEmpty())
-            return null;
+    public boolean existsById(Long id) {
+        return manufacturerRepository.existsById(id);
+    }
 
-        Manufacturer manufacturerDB = manufacturerOptional.get();
+    @Override
+    public Manufacturer save(Manufacturer manufacturer) {
+        if (manufacturer == null)
+            return null;
 
         for (Product product : manufacturer.getProducts())
             product.setManufacturer(manufacturer);
 
+        if (manufacturer.getId() == null) // crear un nuevo fabricante
+            return manufacturerRepository.save(manufacturer);
+
+        // editar un fabricante existente
+        Optional<Manufacturer> manufacturerOptional = this.manufacturerRepository.findById(manufacturer.getId());
+        if (manufacturerOptional.isEmpty())
+            return null;
+
+        Manufacturer manufacturerDB = manufacturerOptional.get();
+
         List<Product> products = new ArrayList<>(manufacturer.getProducts());
-        for (Product productDB : manufacturerDB.getProducts()){ // productos originales
+        for (Product productDB : manufacturerDB.getProducts()) { // productos originales
             boolean check = false;
-            for(Product product : manufacturer.getProducts()){ // nuevos productos
+            for (Product product : manufacturer.getProducts()) { // nuevos productos
                 if (productDB.getId() == product.getId()) {
                     check = true;
                     break;
                 }
             }
-            if(!check){
+            if (!check) {
                 productDB.setManufacturer(null);
             }
         }
         products.addAll(manufacturerDB.getProducts());
 
-        if (products.size() > 0)
+        if (!products.isEmpty())
             productRepository.saveAll(products);
 
         return manufacturerRepository.save(manufacturer);

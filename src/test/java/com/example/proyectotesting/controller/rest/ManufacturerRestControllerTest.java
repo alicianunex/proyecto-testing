@@ -1,5 +1,6 @@
 package com.example.proyectotesting.controller.rest;
 
+
 import com.example.proyectotesting.entities.Manufacturer;
 import com.example.proyectotesting.repository.ManufacturerRepository;
 import com.example.proyectotesting.service.ManufacturerService;
@@ -47,10 +48,10 @@ public class ManufacturerRestControllerTest {
     private Manufacturer createDemoManufacturer(){
         String json = """
                         {
-                            "name": "demo name",
-                            "description": "demo description",
+                            "name": "name2",
+                            "description": "reg354363",
                             "quantity": 2,
-                            "price": 0.99
+                            "price": 4.99
                         }
                         """;
         HttpHeaders headers = new HttpHeaders();
@@ -71,10 +72,10 @@ public class ManufacturerRestControllerTest {
         String json = String.format("""
                         {
                             "id": %d,
-                            "name": "demo name",
-                            "description": "demo description",
+                            "name": "name2",
+                            "description": "reg354363",
                             "quantity": 2,
-                            "price": 0.99
+                            "price": 4.99
                         }
                         """,id);
         return new HttpEntity<>(json, headers);
@@ -82,11 +83,12 @@ public class ManufacturerRestControllerTest {
 
     @Nested
     @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-    public class FindTests {
+    public class Find {
 
         @Test
         @Order(2)
         void findAll() {
+
 
             ResponseEntity<Manufacturer[]> response = restController.getForEntity(URL, Manufacturer[].class);
             assertAll(
@@ -96,65 +98,50 @@ public class ManufacturerRestControllerTest {
                     () ->assertTrue(response.hasBody()),
                     () ->assertNotNull(response.getBody()));
 
-            List<Manufacturer> manufacturers = List.of(response.getBody());
-            assertNotNull(manufacturers);
+            List<Manufacturer> Manufacturers = List.of(response.getBody());
+            assertNotNull(Manufacturers);
 
-            assertTrue(manufacturers.size() >= 2);
+            assertTrue(Manufacturers.size() >= 2);
         }
 
-        @Test
-        void findOK() {
-
-            Manufacturer manufacturer = createDemoManufacturer();
-            manufacturerService.save(manufacturer);
-            ResponseEntity<Manufacturer> response = restController.getForEntity
-                    (URL + "/" + manufacturer.getId(), Manufacturer.class);
-
-            assertAll(
-                    () -> assertTrue(response.hasBody()),
-                    () -> assertNotNull(response.getBody()),
-                    () -> assertNotNull(response.getBody().getId()),
-                    () -> assertEquals(200, response.getStatusCodeValue()),
-                    () -> assertEquals(HttpStatus.OK, response.getStatusCode()));
-        }
 
     }
 
     @Nested
     @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-    public class CreateTests {
+    public class Create {
 
         @Test
-        void create200() {
+        void create400() {
+
 
             ResponseEntity<Manufacturer> response =
-                    restController.postForEntity(URL, createHttpRequest(null), Manufacturer.class);
+                    restController.postForEntity(URL, createHttpRequest(2L), Manufacturer.class);
 
-            assertEquals(200, response.getStatusCodeValue());
-            assertEquals(HttpStatus.OK, response.getStatusCode());
-            assertTrue(response.hasBody());
-
-            Manufacturer manufacturer = response.getBody();
-            assertNotNull(manufacturer);
-            assertEquals("demo name", manufacturer.getName());
+            assertEquals(400, response.getStatusCodeValue());
+            assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         }
 
+        @Test
+        void create415() {
+            String json = """
+                        {
+                            "id": "1"
+                            "name": "nombre falso",
+                        }
+                        """;
 
+            ResponseEntity<Manufacturer> response =
+                    restController.postForEntity(URL, (json), Manufacturer.class);
+
+            assertEquals(415, response.getStatusCodeValue());
+            assertEquals(HttpStatus.UNSUPPORTED_MEDIA_TYPE, response.getStatusCode());
+        }
     }
 
     @Nested
-    public class UpdateTests {
-
-        @Test
-        void update200OK() {
-
-            ResponseEntity<Manufacturer> created =
-                    restController.postForEntity(URL, createHttpRequest(null), Manufacturer.class);
-
-            ResponseEntity<Manufacturer> manufacturerResponseEntity =  restController.exchange(URL,
-                    HttpMethod.PUT, createHttpRequest(created.getBody().getId()), Manufacturer.class);
-            assertEquals(HttpStatus.OK,manufacturerResponseEntity.getStatusCode());
-        }
+    @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+    public class Update {
 
 
         @Test
@@ -170,7 +157,7 @@ public class ManufacturerRestControllerTest {
     }
 
     @Nested
-    public class deleteTest {
+    public class delete {
 
         @Test
         void deleteNull() {
@@ -193,10 +180,10 @@ public class ManufacturerRestControllerTest {
         }
 
         @Test
-        void deleteNotAllowed() {
+        void deleteOKNoContent() {
 
             Manufacturer manufacturer = createDemoManufacturer();
-            Manufacturer save = manufacturerService.save(manufacturer);
+            manufacturerService.save(manufacturer);
 
             ResponseEntity<Manufacturer> response =
                     restController.exchange(URL + "/"+manufacturer.getId() ,HttpMethod.DELETE, createHttpRequest(null), Manufacturer.class);
@@ -204,8 +191,6 @@ public class ManufacturerRestControllerTest {
             assertEquals(405,response.getStatusCodeValue());
             assertEquals(HttpStatus.METHOD_NOT_ALLOWED,response.getStatusCode());
         }
-
-
 
 
         @Test
@@ -221,13 +206,14 @@ public class ManufacturerRestControllerTest {
         @Test
         void deleteAllFail() {
 
-            ResponseEntity<Manufacturer> response = deleteAllFailmock();
+
+            ResponseEntity<Manufacturer> response = deleteAllFailMock();
 
             assertEquals(409,response.getStatusCodeValue());
             assertEquals(HttpStatus.CONFLICT,response.getStatusCode());
         }
 
-        private ResponseEntity<Manufacturer> deleteAllFailmock() {
+        private ResponseEntity<Manufacturer> deleteAllFailMock() {
             ManufacturerRepository repository = mock(ManufacturerRepository.class);
             doReturn(false).when(manufacturerService).deleteAll();
             doThrow(RuntimeException.class).when(repository).deleteById(null);

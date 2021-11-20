@@ -36,7 +36,8 @@ public class ProductListTest {
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--headless");
         chromewebDriver = new ChromeDriver(options);
-        chromewebDriver.navigate().to("https://proyecto-testinggrupo2.herokuapp.com/products");
+//        chromewebDriver.navigate().to("https://proyecto-testinggrupo2.herokuapp.com/products");
+        chromewebDriver.navigate().to("http://localhost:8080/products");
         chromewebDriver.manage().window().maximize();
         //chromewebDriver.manage().timeouts().implicitlyWait(120, TimeUnit.MILLISECONDS);
 
@@ -57,6 +58,7 @@ public class ProductListTest {
         chromewebDriver = new ChromeDriver();
 
         chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
+        chromewebDriver.get("http://localhost:8080/products");
         chromewebDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
 

@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -33,23 +34,28 @@ public class ManufacturerEditTest {
     @BeforeEach
     void setUp() {
 
+
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--headless");
         chromewebDriver = new ChromeDriver(options);
-        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
+//        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
+        chromewebDriver.get("http://localhost:8080/manufacturers");
+
 
         // Chrome setup
+/*
+        String dir = System.getProperty("user.dir");
 
-//        String dir = System.getProperty("user.dir");
-//
-////        String driverUrl = "C:\\data\\chromedriver.exe";
-////        System.setProperty("webdriver.chrome.driver",driverUrl);
-//        Path path = Paths.get("C:\\data\\chromedriver.exe");
-//        System.setProperty("webdriver.chrome.driver",path.toString());
-//        chromewebDriver = new ChromeDriver();
+//        String driverUrl = "C:\\data\\chromedriver.exe";
+//        System.setProperty("webdriver.chrome.driver",driverUrl);
+        Path path = Paths.get("C:\\data\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver",path.toString());
+        chromewebDriver = new ChromeDriver();
+        //        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
+        chromewebDriver.get("http://localhost:8080/manufacturers");
 //        chromewebDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
         // TODO Firefox driver setup
@@ -211,7 +217,8 @@ public class ManufacturerEditTest {
      * */
     private void accessFromProducts(String name) {
 
-        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
+//        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
+        chromewebDriver.get("http://localhost:8080/products");
 
         if (name.contains("Adidas")) {
             WebElement webElement = chromewebDriver.findElement(By.cssSelector("tr:nth-child(2) td:nth-child(5) a"));
@@ -246,6 +253,8 @@ public class ManufacturerEditTest {
         action.keyUp(Keys.CONTROL).perform();
         changeToNewTab();
 
+        chromewebDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+
 
         List<WebElement> products = chromewebDriver.findElements(By.cssSelector("tr:nth-child(2) td span"));
         assertEquals(1,products.size());
@@ -253,9 +262,14 @@ public class ManufacturerEditTest {
         // reset products
         accessFromManufacturer(0);
         adidasSelectZapatillas(action);
-        saveEditManufacturer();
         action.keyUp(Keys.CONTROL).perform();
-        changeToNewTab();
+        saveEditManufacturer();
+//        changeToNewTab();
+
+        String balon =chromewebDriver.findElements(By.xpath("//a[contains(@href, 'products')]")).get(0).getText();
+        assertEquals("Balón",balon);
+
+
 
     }
 
@@ -276,8 +290,7 @@ public class ManufacturerEditTest {
     private void saveEditManufacturer() {
         WebElement button = chromewebDriver.findElement(By.xpath("//button[@type='submit']"));
         js.executeScript("arguments[0].scrollIntoView();", button);
-        Actions actions = new Actions(chromewebDriver);
-        actions.click(button).perform();
+        button.click();
     }
 
     /**
@@ -317,7 +330,8 @@ public class ManufacturerEditTest {
     void CreateNewManufacturer(){
 
         chromewebDriver.findElement(By.xpath("//a[contains(@href,'new')]")).click();
-        assertEquals("https://proyecto-testinggrupo2.herokuapp.com/manufacturers/new", chromewebDriver.getCurrentUrl());
+        //assertEquals("https://proyecto-testinggrupo2.herokuapp.com/manufacturers/new", chromewebDriver.getCurrentUrl());
+        assertTrue(chromewebDriver.getCurrentUrl().contains("/new"));
 
         // Load obj data
         List<String>datamanufacturer = new ArrayList<>();

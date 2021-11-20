@@ -54,7 +54,8 @@ public class ManufacturerViewTest {
         chromewebDriver = new ChromeDriver();
 
  */
-        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
+        //chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
+        chromewebDriver.get("http://localhost:8080/manufacturers");
 //        chromewebDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
         // TODO Firefox driver setup
@@ -188,7 +189,8 @@ public class ManufacturerViewTest {
      * */
     private void accessFromProducts(String name){
 
-        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
+//        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
+        chromewebDriver.get("http://localhost:8080/products");
 
         if (name.contains("Adidas")) {
             WebElement webElement = chromewebDriver.findElements(By.xpath("//td/a[contains(@href, 'view')]")).get(0);
@@ -300,7 +302,8 @@ public class ManufacturerViewTest {
             manufacturerindex = 1;
         else
             manufacturerindex = 0;
-        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
+//        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
+        chromewebDriver.get("http://localhost:8080/manufacturers");
 
         addStringData();
 

@@ -1,11 +1,9 @@
 package com.example.proyectotesting.controller.mvc;
 
-import com.example.proyectotesting.ProyectoTestingApplication;
 import com.example.proyectotesting.entities.Manufacturer;
 import com.example.proyectotesting.entities.Product;
 import com.example.proyectotesting.repository.ProductRepository;
 import com.example.proyectotesting.service.ManufacturerService;
-import com.example.proyectotesting.service.ManufacturerServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -29,7 +29,7 @@ public class GuardarFabricanteSteps{
     public void hago_click_en_guardar(String fabricante) {
 
         selectInput();
-        rellenarInput(fabricante);
+        fillInput(fabricante);
         clickonGuardar();
     }
 
@@ -37,7 +37,7 @@ public class GuardarFabricanteSteps{
     public void el_fabricante_se_añade_a_db(String fabricante) {
 
         checkNewManufacturer(fabricante);
-        IndexManufacturerPage.eraseNewManufacturer();
+        IndexManufacturerPage.eraseNewManufacturerFromList();
         closeDriver();
     }
 }

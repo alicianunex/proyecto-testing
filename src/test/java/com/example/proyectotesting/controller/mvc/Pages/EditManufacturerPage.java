@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import static com.example.proyectotesting.controller.mvc.Pages.Driver.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class EditManufacturerPage {
 
@@ -44,7 +45,7 @@ public class EditManufacturerPage {
         inputs = ChromewebDriver.findElements(By.xpath("//input[@type='text']"));
     }
 
-    public static void rellenarInput(String fabricante) {
+    public static void fillInput(String fabricante) {
 
         for (int count = 0; count > inputs.size(); count++) {
             inputs.get(count).sendKeys(fabricante.split(" ")[count]);
@@ -55,7 +56,20 @@ public class EditManufacturerPage {
         WebElement buttonsave = ChromewebDriver.findElement(By.xpath("//button[@type='submit']"));
         js.executeScript("arguments[0].scrollIntoView();", buttonsave);
         buttonsave.click();
+    }
 
+    public static void recreateManufacturers() {
+
+        // TODO
+
+        // Create manufacturers
+
+        // Create Products
+
+        // Link both
+
+
+        assertTrue(false);
     }
 }
 

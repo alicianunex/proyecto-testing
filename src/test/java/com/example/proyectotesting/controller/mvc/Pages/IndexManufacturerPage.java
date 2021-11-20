@@ -36,12 +36,17 @@ public class IndexManufacturerPage {
         ChromewebDriver.get("http://localhost:8080/manufacturers");
 
         js = (JavascriptExecutor) ChromewebDriver;
-
     }
+
     public static void clickonNuevoManufacturer(){
 
         ChromewebDriver.findElement(By.cssSelector("p>a:first-child")).click();
+    }
+    public static void clickOnVerManufacturer(){
 
+        List<WebElement>  verbuttons = ChromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(2)"));
+        js.executeScript("arguments[0].scrollIntoView();", verbuttons);
+        verbuttons.get(verbuttons.size()-1).click();
     }
 
     public static void checkNewManufacturer(String fabricante) {
@@ -53,13 +58,24 @@ public class IndexManufacturerPage {
         }
     }
 
-    public static void eraseNewManufacturer() {
-
+    public static void eraseNewManufacturerFromList() {
 
         List<WebElement>  erasebuttons = ChromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)"));
         erasebuttons.get(erasebuttons.size()-1).click();
-
     }
 
+    public static void checkErasedManufacturer() {
+        List<WebElement> erasebuttons = ChromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)"));
+        assertTrue(erasebuttons.size() == 2);
+    }
 
+    public static void clickDeleteAllManufacturers() {
+
+        ChromewebDriver.findElement(By.xpath("//p/a[@class='btn btn-danger']")).click();
+    }
+
+    public static void checkEmptyTable() {
+
+        assertTrue(ChromewebDriver.findElements(By.xpath("//tr")).size()<2);
+    }
 }

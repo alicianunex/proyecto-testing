@@ -1,8 +1,5 @@
 package com.example.proyectotesting.controller.mvc;
 
-import com.example.proyectotesting.entities.Direction;
-import com.example.proyectotesting.entities.Manufacturer;
-import com.example.proyectotesting.repository.ManufacturerRepository;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
@@ -11,19 +8,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.swing.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static com.example.proyectotesting.controller.mvc.Pages.Driver.ChromewebDriver;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
@@ -34,10 +24,6 @@ public class ManufacturerListTest {
 
     // http://localhost:8080/manufacturers
 //   https://proyecto-testinggrupo2.herokuapp.com
-
-    @Autowired
-    ManufacturerRepository manRepository;
-
 
     static WebDriver firefoxwebDriver;
     static WebDriver chromewebDriver;
@@ -223,19 +209,13 @@ public class ManufacturerListTest {
         assertEquals(1, chromewebDriver.findElements(By.cssSelector("tbody tr")).size());
 
 
-        Direction direction1 = new Direction("Calle falsa", "33010", "León", "Spain");
-        Direction direction2 = new Direction("Calle verdadera", "11322", "Madrid", "Spain");
-/*
-        Manufacturer adidas = new Manufacturer("Adidas","2343235325G",60000,1949);
-        adidas.setDirection(direction1);
-        manRepository.save(adidas);
-        Manufacturer nike = new Manufacturer("Nike","2343235325G",60000,1977);
-        nike.setDirection(direction2);
-        manRepository.save(nike);
-        */
-
+      // Create manufacturers
         createnew("Adidas");
         createnew("Nike");
+
+        // Create Products
+
+        // Link to Manufacturer
 
         assertTrue(chromewebDriver.findElements(By.xpath("//tr")).size() == 3);
     }
@@ -311,6 +291,8 @@ public class ManufacturerListTest {
     }
 
     private void createnew(String manufacturer) {
+
+        // FIX last input not writing
 
         int manufacturerindex;
         if (manufacturer.contains ("Adidas") )

@@ -18,9 +18,6 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 
     private ManufacturerRepository manufacturerRepository;
     private ProductRepository productRepository;
-
-    // TODO bring changes from https://github.com/alansastre/proyecto-testing/commit/43547980e15c452400b92007c11e7a5b886a0f20
-
     private ManufacturerRepository repository;
 
     public ManufacturerServiceImpl(ManufacturerRepository manufacturerRepository, ProductRepository productRepository) {

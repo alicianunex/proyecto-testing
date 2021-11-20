@@ -24,8 +24,8 @@ public class EditManufacturerPage {
         System.setProperty("webdriver.chrome.driver",path.toString());
 
         ChromewebDriver = new ChromeDriver();
-        ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers/new");
-        //        chromewebDriver.get("http://localhost:8080/manufacturers");
+       //ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers/new");
+        ChromewebDriver.get("http://localhost:8080/manufacturers/new");
         js = (JavascriptExecutor) ChromewebDriver;
 
     }
@@ -35,8 +35,8 @@ public class EditManufacturerPage {
         Path path = Paths.get("C:\\data\\chromedriver.exe");
         System.setProperty("webdriver.chrome.driver",path.toString());
         ChromewebDriver = new ChromeDriver();
-        ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers/"+id+"/edit");
-        //        chromewebDriver.get("http://localhost:8080/manufacturers");
+        //ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers/"+id+"/edit");
+        ChromewebDriver.get("http://localhost:8080/manufacturers/"+id+"/edit");
         js = (JavascriptExecutor) ChromewebDriver;
     }
 

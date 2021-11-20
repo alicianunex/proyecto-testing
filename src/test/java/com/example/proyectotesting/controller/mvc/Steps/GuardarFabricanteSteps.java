@@ -12,7 +12,8 @@ import static com.example.proyectotesting.controller.mvc.Pages.EditManufacturerP
 import static com.example.proyectotesting.controller.mvc.Pages.IndexManufacturerPage.*;
 
 
-@CucumberOptions(features = "src/test/resources/Cucumber.Features/GuardarFabricante.feature")
+@CucumberOptions(
+        features = "src/test/resources/Cucumber/Features")
 public class GuardarFabricanteSteps{
 
 

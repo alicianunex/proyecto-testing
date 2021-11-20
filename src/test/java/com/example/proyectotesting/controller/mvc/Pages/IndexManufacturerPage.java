@@ -32,8 +32,8 @@ public class IndexManufacturerPage {
         Path path = Paths.get("C:\\data\\chromedriver.exe");
         System.setProperty("webdriver.chrome.driver",path.toString());
 
-        ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
-//        chromewebDriver.get("http://localhost:8080/manufacturers");
+//        ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
+        ChromewebDriver.get("http://localhost:8080/manufacturers");
 
         js = (JavascriptExecutor) ChromewebDriver;
 
@@ -54,6 +54,7 @@ public class IndexManufacturerPage {
     }
 
     public static void eraseNewManufacturer() {
+
 
         List<WebElement>  erasebuttons = ChromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)"));
         erasebuttons.get(erasebuttons.size()-1).click();

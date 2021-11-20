@@ -400,6 +400,14 @@ public class ManufacturerServiceImplTest {
             );
             verifyNoInteractions(manufacturerRepository);
         }
+        @Test
+        void saveOKTest() {
+            when(manufacturerRepository.save(any(Manufacturer.class)))
+                    .thenReturn(new Manufacturer());
+            Manufacturer manufacturer = manufacturerService.save(new Manufacturer());
+            assertNull(manufacturer);
+        }
+
     }
 }
 

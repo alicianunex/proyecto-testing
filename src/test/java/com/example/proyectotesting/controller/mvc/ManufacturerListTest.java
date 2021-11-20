@@ -323,6 +323,8 @@ public class ManufacturerListTest {
         addStringData();
 
         chromewebDriver.findElement(By.className("btn-primary")).click();
+        //chromewebDriver.get("http://localhost:8080/manufacturers/new");
+
 
         List<WebElement> input = chromewebDriver.findElements(By.cssSelector("input"));
 
@@ -333,22 +335,27 @@ public class ManufacturerListTest {
         }
 
         List<WebElement> options = chromewebDriver.findElements(By.xpath("//option"));
-        js.executeScript("arguments[0].scrollIntoView();", options.get(3));
 
-        Actions action = new Actions(chromewebDriver);
 
-        if (manufacturerindex == 1) {
-            action.keyDown(Keys.CONTROL);
-            options.get(0).click();
-            options.get(1).click();
-            options.get(2).click();
-            action.perform();
-        }else{
-            action.keyDown(Keys.CONTROL);
-            options.get(3).click();
-            action.perform();
-        }
-        action.keyUp(Keys.CONTROL).perform();
+        // TODO Create products in catch !!
+        try {
+            js.executeScript("arguments[0].scrollIntoView();", options.get(3));
+
+            Actions action = new Actions(chromewebDriver);
+
+            if (manufacturerindex == 1) {
+                action.keyDown(Keys.CONTROL);
+                options.get(0).click();
+                options.get(1).click();
+                options.get(2).click();
+                action.perform();
+            } else {
+                action.keyDown(Keys.CONTROL);
+                options.get(3).click();
+                action.perform();
+            }
+            action.keyUp(Keys.CONTROL).perform();
+        }catch(IndexOutOfBoundsException error){error.printStackTrace();}
 
         WebElement buttonguardar = chromewebDriver.findElement(By.cssSelector("button"));
 

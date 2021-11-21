@@ -98,6 +98,7 @@ DOD. El proyecto es ejecutado por las herramientas correctamente
     6.3 LambdaTest
     
 7. Integracion de Cucumber
+
     7.1 Crear Features
     7.2 Crear Steps
     7.3 Integrar el punto 4. Selenium Webdriver en Pages

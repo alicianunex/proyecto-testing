@@ -1,6 +1,6 @@
 package com.example.proyectotesting.controller.mvc.Steps;
 
-import com.example.proyectotesting.controller.mvc.ProductEditTest;
+import com.example.proyectotesting.controller.mvc.Pages.ProductEditPage;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -11,7 +11,7 @@ import static com.example.proyectotesting.controller.mvc.Pages.Driver.closeDrive
 import static com.example.proyectotesting.controller.mvc.Pages.EditManufacturerPage.*;
 import static com.example.proyectotesting.controller.mvc.Pages.IndexManufacturerPage.*;
 import static com.example.proyectotesting.controller.mvc.Pages.ViewManufacturerPage.eraseNewManufacturerFromView;
-import static com.example.proyectotesting.controller.mvc.ProductEditTest.*;
+import static com.example.proyectotesting.controller.mvc.Pages.ProductEditPage.*;
 
 @CucumberOptions(
         features = "src/test/resources/Cucumber/Features")
@@ -94,38 +94,38 @@ public class BorrarFabricanteSteps {
         // Create Products
         getProductsNew();
             createbalondata();
-            ProductEditTest.selectInput();
-            ProductEditTest.fillInput();
-            ProductEditTest.selectManufacturer("adidas");
-            ProductEditTest.fillcategoriesbalon();
-            ProductEditTest.clickonGuardar();
+            ProductEditPage.selectInput();
+            ProductEditPage.fillInput();
+            ProductEditPage.selectManufacturer("adidas");
+            ProductEditPage.fillcategoriesbalon();
+            ProductEditPage.clickonGuardar();
         closeDriver();
 
         getProductsNew();
             createmesadata();
-            ProductEditTest.selectInput();
-            ProductEditTest.fillInput();
-            ProductEditTest.selectManufacturer("adidas");
-            ProductEditTest.fillcategoriesmesa();
-            ProductEditTest.clickonGuardar();
+            ProductEditPage.selectInput();
+            ProductEditPage.fillInput();
+            ProductEditPage.selectManufacturer("adidas");
+            ProductEditPage.fillcategoriesmesa();
+            ProductEditPage.clickonGuardar();
         closeDriver();
 
         getProductsNew();
             createbotelladata();
-            ProductEditTest.selectInput();
-            ProductEditTest.fillInput();
-            ProductEditTest.selectManufacturer("adidas");
-            ProductEditTest.fillcategoriesbotella();
-            ProductEditTest.clickonGuardar();
+            ProductEditPage.selectInput();
+            ProductEditPage.fillInput();
+            ProductEditPage.selectManufacturer("adidas");
+            ProductEditPage.fillcategoriesbotella();
+            ProductEditPage.clickonGuardar();
         closeDriver();
 
         getProductsNew();
             createwebcamdata();
-            ProductEditTest.selectInput();
-            ProductEditTest.fillInput();
-            ProductEditTest.selectManufacturer("nike");
-            ProductEditTest.fillcategorieswebcam();
-            ProductEditTest.clickonGuardar();
+            ProductEditPage.selectInput();
+            ProductEditPage.fillInput();
+            ProductEditPage.selectManufacturer("nike");
+            ProductEditPage.fillcategorieswebcam();
+            ProductEditPage.clickonGuardar();
         closeDriver();
 
         getManufacturerIndex();

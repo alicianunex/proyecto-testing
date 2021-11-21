@@ -1,4 +1,4 @@
-package com.example.proyectotesting.controller.mvc;
+package com.example.proyectotesting.controller.mvc.Pages;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
@@ -15,7 +15,7 @@ import java.util.List;
 import static com.example.proyectotesting.controller.mvc.Pages.Driver.ChromewebDriver;
 import static com.example.proyectotesting.controller.mvc.Pages.Driver.js;
 
-public class ProductEditTest {
+public class ProductEditPage {
 
     public static List<String> objdata;
     public static List<WebElement> inputs;

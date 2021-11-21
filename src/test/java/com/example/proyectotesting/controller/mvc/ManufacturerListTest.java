@@ -346,5 +346,36 @@ public class ManufacturerListTest {
 
         buttonguardar.click();
     }
+    /**
+     * Creates a List with the manufacturer data
+     * to compare with info shown in the webpage
+     */
+    public void addStringData() {
+
+        outerobjdata = new ArrayList<>();
+        List<String> objdata = new ArrayList<>();
+
+        objdata.add("Nombre: Adidas");
+        objdata.add("CIF: 2343235325G");
+        objdata.add("Nº Empleados: 60000");
+        objdata.add("Calle: 1949");
+        objdata.add("Código postal: 1949");
+        objdata.add("Ciudad: 1949");
+        objdata.add("País: 1949");
+        outerobjdata.add(objdata);
+
+        objdata = new ArrayList<>();
+
+        objdata.add("Nombre: Nike");
+        objdata.add("CIF: 2343235325G");
+        objdata.add("Nº Empleados: 60000");
+        objdata.add("Calle: 1977");
+        objdata.add("Código postal: 1977");
+        objdata.add("Ciudad: 1977");
+        objdata.add("País: 1977");
+        outerobjdata.add(objdata);
+    }
+
+
 
 }

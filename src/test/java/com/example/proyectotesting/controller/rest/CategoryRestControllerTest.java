@@ -179,8 +179,6 @@ public class CategoryRestControllerTest {
             assertEquals(HttpStatus.UNSUPPORTED_MEDIA_TYPE, response.getStatusCode());
         }
     }
-
-
     @Nested
     public class delete {
 
@@ -241,7 +239,7 @@ public class CategoryRestControllerTest {
             ResponseEntity<Category> response =
                     restController.exchange(URL ,HttpMethod.DELETE, createHttpRequest(null), Category.class);
 
-            assertEquals(204,response.getStatusCodeValue());
+            assertEquals(409,response.getStatusCodeValue());
             assertEquals(HttpStatus.CONFLICT,response.getStatusCode());
         }
 

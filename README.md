@@ -99,14 +99,11 @@ DOD. El proyecto es ejecutado por las herramientas correctamente
     
 7. Integracion de Cucumber
 
+DOD. Cucumber esta integrado correctamente
+
     7.1 Crear Features
     7.2 Crear Steps
     7.3 Integrar el punto 4. Selenium Webdriver en Pages
-
-DOD. Cucumber esta integrado correctamente
-
-    7.1 Integracion basica
-    7.2 Cucumber Reports
 
 8. Preparar informes de resultados
 

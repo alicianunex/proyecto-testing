@@ -28,9 +28,9 @@ public class GuardarFabricanteSteps{
     @When("Hago click en guardar {string}")
     public void hago_click_en_guardar(String fabricante) {
 
-        selectInput();
+        editSelectInput();
         fillInput(fabricante);
-        clickonGuardar();
+        editClickonGuardar();
     }
 
     @Then("El fabricante se añade a DB {string}")

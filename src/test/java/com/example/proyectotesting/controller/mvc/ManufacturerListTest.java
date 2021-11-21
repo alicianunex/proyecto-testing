@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static com.example.proyectotesting.controller.mvc.Pages.IndexManufacturerPage.addStringData;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
@@ -346,46 +347,4 @@ public class ManufacturerListTest {
         buttonguardar.click();
     }
 
-
-    /**
-     * Creates a List with the manufacturer data
-     * to compare with info shown in the webpage
-     */
-    public void addStringData() {
-
-        outerobjdata = new ArrayList<>();
-        List<String> objdata = new ArrayList<>();
-        objdata.add("Name");
-        objdata.add("CIF");
-        objdata.add("Nº Empleados");
-        objdata.add("Año fundación");
-        objdata.add("Calle");
-        objdata.add("País");
-        objdata.add("Productos");
-        objdata.add("Actions");
-        outerobjdata.add(objdata);
-
-        objdata = new ArrayList<>();
-        objdata.add("Adidas");
-        objdata.add("2343235325G");
-        objdata.add("60000");
-        objdata.add("1949");
-        objdata.add("Calle falsa");
-        objdata.add("Spain");
-        objdata.add("Balón Mesa Botella");
-        objdata.add("Ver Editar Borrar");
-        outerobjdata.add(objdata);
-
-        objdata = new ArrayList<>();
-        objdata.add("Nike");
-        objdata.add("2343235325G");
-        objdata.add("60000");
-        objdata.add("1977");
-        objdata.add("Calle verdadera");
-        objdata.add("Spain");
-        objdata.add("WebCam");
-        objdata.add("Ver Editar Borrar");
-        outerobjdata.add(objdata);
-
-    }
 }

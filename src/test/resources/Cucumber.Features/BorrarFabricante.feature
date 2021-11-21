@@ -7,30 +7,29 @@ Feature: Borrar Fabricante
     Then El fabricante se ha borrado de DB
 
     Examples:
-      | fabricante                                         |
-      | Examplename 1234 d001 72 streetex cityL France     |
-      | Name 657688 fdsf32 srfes cdsfr34 cacs Germany      |
+      | fabricante                                      |
+      | Examplename 1234 001 72 street ex cityL France  |
+      | Name 657688 32 99976 cdsfr street cacs Germany  |
 
   Scenario Outline: Borrar "<fabricante>" desde -view
     Given Crear nuevo fabricante "<fabricante>"
-    And Pagina de ver "<fabricante>"
+    And Pagina de ver
     When Hago click en borrar desde ver
     Then El fabricante se ha borrado de DB
 
     Examples:
-      | fabricante                                         |
-      | Examplename 1234 d001 72 streetex cityL France     |
-      | Name 657688 fdsf32 srfes cdsfr34 cacs Germany      |
+      | fabricante                                      |
+      | Examplename 1234 001 72 street ex cityL France  |
+      | Name 657688 32 99976 cdsfr street cacs Germany  |
 
-  Scenario Outline: Borrar "<fabricante>" desde borrar todos
-    Given pagina de inicio
+  Scenario: Borrar fabricante desde borrar todos
+    Given Pagina de inicio
     When Hago click en borrar todos los fabricantes
-    Then Todos los fabricantes se han borrado de DB "<fabricante>"
+    Then Todos los fabricantes se han borrado de DB
+    And Se vuelven a generar los fabricantes
 
-    Examples:
-      | fabricante                                         |
-      | Examplename 1234 d001 72 streetex cityL France     |
-      | Name 657688 fdsf32 srfes cdsfr34 cacs Germany      |
+
+
 
 
 

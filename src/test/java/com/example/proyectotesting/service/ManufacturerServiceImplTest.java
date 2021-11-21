@@ -279,6 +279,26 @@ public class ManufacturerServiceImplTest {
             for (Manufacturer count : found)
                 assertNotNull(count);
         }
+        @Test
+        void findAllFilledReturn() {
+
+            List<Manufacturer> arrayList = new ArrayList<>();
+            arrayList.add(new Manufacturer());
+            arrayList.add(new Manufacturer());
+            when(manufacturerRepository.findAll()).thenReturn(arrayList);
+
+            List<Manufacturer> found = manufacturerService.findAll();
+            List<Manufacturer> classarray = new ArrayList<>();
+
+            assertAll(
+                    () -> assertNotNull(found),
+                    () -> assertSame(classarray.getClass(), found.getClass())
+            );
+
+            for (Manufacturer count : found)
+                assertNotNull(count);
+            verify(manufacturerRepository).findAll();
+        }
 
         @Test
         void findOneReturn1() {
@@ -387,6 +407,14 @@ public class ManufacturerServiceImplTest {
             assertThrows(Exception.class, () -> manufacturerRepository.deleteAll());
             verify(manufacturerRepository, times(2)).deleteAll();
             assertFalse(result);
+        }
+        @Test
+        void deleteByIdOk() {
+            doThrow(RuntimeException.class).when(manufacturerRepository).deleteById(anyLong());
+            boolean result = manufacturerService.deleteById(anyLong());
+            assertFalse(result);
+            assertThrows(Exception.class, () -> manufacturerRepository.deleteById(anyLong()));
+            verify(manufacturerRepository).deleteById(anyLong());
         }
     }
     @Nested

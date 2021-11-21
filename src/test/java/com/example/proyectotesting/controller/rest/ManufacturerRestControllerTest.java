@@ -103,6 +103,32 @@ public class ManufacturerRestControllerTest {
 
             assertTrue(Manufacturers.size() >= 2);
         }
+        @Test
+        void findOne() {
+
+            Manufacturer manufacturer = createDemoManufacturer();
+            ResponseEntity<Manufacturer> response = restController.getForEntity(URL + "/" + manufacturer.getId(), Manufacturer.class);
+
+            assertAll(
+                    () -> assertTrue(response.hasBody()),
+                    () -> assertNotNull(response.getBody()),
+                    () -> assertNotNull(response.getBody().getId()),
+                    () -> assertEquals(400, response.getStatusCodeValue()),
+                    () -> assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode()));
+        }
+
+        @Test
+        void findOneEmpty() {
+
+            ResponseEntity<Manufacturer> response = restController.getForEntity(URL + "/1", Manufacturer.class);
+
+            assertAll(
+                    () -> assertNull(response.getBody()),
+                    () -> assertFalse(response.hasBody()),
+                    () -> assertEquals(200, response.getStatusCodeValue()),
+                    () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
+                    () -> assertFalse(response.hasBody()));
+        }
 
 
     }

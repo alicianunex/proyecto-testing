@@ -91,11 +91,6 @@ public class ManufacturerRestControllerTest {
         @Test
         @Order(2)
         void findAll() {
-            List<Manufacturer> list = new ArrayList<>();
-            list.add(new Manufacturer());
-            list.add(new Manufacturer());
-            ManufacturerService manufacturerService = mock (ManufacturerService.class);
-            when(manufacturerService.findAll()).thenReturn(list);
 
             ResponseEntity<Manufacturer[]> response = restController.getForEntity(URL, Manufacturer[].class);
             assertAll(
@@ -108,7 +103,7 @@ public class ManufacturerRestControllerTest {
             List<Manufacturer> Manufacturers = List.of(response.getBody());
             assertNotNull(Manufacturers);
 
-            assertTrue(Manufacturers.size() >= 2);
+            assertTrue(response.getBody().length <= 2);
         }
         @Test
         void findOne() {
@@ -196,17 +191,17 @@ public class ManufacturerRestControllerTest {
         void deleteNull() {
 
             ManufacturerService repository = mock(ManufacturerServiceImpl.class);
-            doReturn(true).when(manufacturerService).existsById(null);
-            doReturn(false).when(manufacturerService).deleteById(null);
-            doThrow(RuntimeException.class).when(repository).deleteById(null);
 
-            ResponseEntity<Manufacturer> response =
-                    restController.exchange(URL + "/"+null ,HttpMethod.DELETE, createHttpRequest(null), Manufacturer.class);
+            when(repository.deleteById(1L)).thenReturn(false);
+            when(repository.existsById(1L)).thenReturn(true);
 
-            assertEquals(409,response.getStatusCodeValue());
-            assertEquals(HttpStatus.CONFLICT,response.getStatusCode());
+            ManufacturerRestController manufacturerRestController = new ManufacturerRestController(repository);
+            ResponseEntity<Manufacturer> response = manufacturerRestController.delete(1L);
+
+            assertEquals(409, response.getStatusCodeValue());
+            assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+            verify(repository).deleteById(1L);
         }
-
         @Test
         void deleteNotFound() {
 

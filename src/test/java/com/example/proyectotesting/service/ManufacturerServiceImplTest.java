@@ -1,11 +1,9 @@
 package com.example.proyectotesting.service;
 
-
-
-import com.example.proyectotesting.entities.Direction;
-import com.example.proyectotesting.entities.Manufacturer;
+import com.example.proyectotesting.entities.*;
 import com.example.proyectotesting.repository.ManufacturerRepository;
 import com.example.proyectotesting.repository.ProductRepository;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -15,6 +13,8 @@ import java.util.*;
 
 import static org.junit.Assume.assumeTrue;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class ManufacturerServiceImplTest {
@@ -260,7 +260,6 @@ public class ManufacturerServiceImplTest {
             assertTrue(manufacturer.isEmpty());
         }
 
-
         @Test
         void findAllEmptyReturn() {
 
@@ -323,6 +322,10 @@ public class ManufacturerServiceImplTest {
             assertFalse(found.isPresent());
             assertTrue(true);
         }
+    }
+
+    @Nested
+    public class Save {
 
         @Test
         void findOneIdCeroTest() {
@@ -330,14 +333,13 @@ public class ManufacturerServiceImplTest {
             assertEquals(Optional.empty(), manufacturerOpt);
         }
 
-
         @Test
         void findOneNegativeIdTest() {
             Optional<Manufacturer> manufacturerOpt = manufacturerService.findOne(-5L);
             assertEquals(Optional.empty(), manufacturerOpt);
         }
-
     }
+
     @Nested
     public class delete {
 
@@ -417,6 +419,7 @@ public class ManufacturerServiceImplTest {
             verify(manufacturerRepository).deleteById(anyLong());
         }
     }
+
     @Nested
     public class save {
         @Test
@@ -428,6 +431,7 @@ public class ManufacturerServiceImplTest {
             );
             verifyNoInteractions(manufacturerRepository);
         }
+
         @Test
         void saveOKTest() {
             when(manufacturerRepository.save(any(Manufacturer.class)))
@@ -435,11 +439,5 @@ public class ManufacturerServiceImplTest {
             Manufacturer manufacturer = manufacturerService.save(new Manufacturer());
             assertNull(manufacturer);
         }
-
     }
 }
-
-
-
-
-

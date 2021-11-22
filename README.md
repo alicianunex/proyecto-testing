@@ -21,8 +21,9 @@ Proceso
 4. Web Test de metodos MVC con Selenium Webdriver 3.14
 5. Integracion de analisis de codigo
 6. Integracion de automatizacion
-7. Preparar informes de resultados
-8. Presentacion de resultados
+7. Integracion de Cucumber
+8. Preparar informes de resultados
+9. Presentacion de resultados
 
 
 1 Test Unitario con JUnit 4.13 de los servicios utilizando Mockito 4.00 si es necesario

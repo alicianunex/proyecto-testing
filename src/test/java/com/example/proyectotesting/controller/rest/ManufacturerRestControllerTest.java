@@ -3,8 +3,10 @@ package com.example.proyectotesting.controller.rest;
 
 import com.example.proyectotesting.entities.Manufacturer;
 import com.example.proyectotesting.repository.ManufacturerRepository;
+import com.example.proyectotesting.repository.ProductRepository;
 import com.example.proyectotesting.service.ManufacturerService;
 
+import com.example.proyectotesting.service.ManufacturerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -12,6 +14,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.*;
@@ -88,7 +91,11 @@ public class ManufacturerRestControllerTest {
         @Test
         @Order(2)
         void findAll() {
-
+            List<Manufacturer> list = new ArrayList<>();
+            list.add(new Manufacturer());
+            list.add(new Manufacturer());
+            ManufacturerService manufacturerService = mock (ManufacturerService.class);
+            when(manufacturerService.findAll()).thenReturn(list);
 
             ResponseEntity<Manufacturer[]> response = restController.getForEntity(URL, Manufacturer[].class);
             assertAll(
@@ -113,8 +120,8 @@ public class ManufacturerRestControllerTest {
                     () -> assertTrue(response.hasBody()),
                     () -> assertNotNull(response.getBody()),
                     () -> assertNotNull(response.getBody().getId()),
-                    () -> assertEquals(400, response.getStatusCodeValue()),
-                    () -> assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode()));
+                    () -> assertEquals(200, response.getStatusCodeValue()),
+                    () -> assertEquals(HttpStatus.OK, response.getStatusCode()));
         }
 
         @Test
@@ -125,8 +132,8 @@ public class ManufacturerRestControllerTest {
             assertAll(
                     () -> assertNull(response.getBody()),
                     () -> assertFalse(response.hasBody()),
-                    () -> assertEquals(200, response.getStatusCodeValue()),
-                    () -> assertEquals(HttpStatus.OK, response.getStatusCode()),
+                    () -> assertEquals(404, response.getStatusCodeValue()),
+                    () -> assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()),
                     () -> assertFalse(response.hasBody()));
         }
 
@@ -188,11 +195,16 @@ public class ManufacturerRestControllerTest {
         @Test
         void deleteNull() {
 
+            ManufacturerService repository = mock(ManufacturerServiceImpl.class);
+            doReturn(true).when(manufacturerService).existsById(null);
+            doReturn(false).when(manufacturerService).deleteById(null);
+            doThrow(RuntimeException.class).when(repository).deleteById(null);
+
             ResponseEntity<Manufacturer> response =
                     restController.exchange(URL + "/"+null ,HttpMethod.DELETE, createHttpRequest(null), Manufacturer.class);
 
-            assertEquals(405,response.getStatusCodeValue());
-            assertEquals(HttpStatus.METHOD_NOT_ALLOWED,response.getStatusCode());
+            assertEquals(409,response.getStatusCodeValue());
+            assertEquals(HttpStatus.CONFLICT,response.getStatusCode());
         }
 
         @Test
@@ -201,8 +213,8 @@ public class ManufacturerRestControllerTest {
             ResponseEntity<Manufacturer> response =
                     restController.exchange(URL + "/"+998L ,HttpMethod.DELETE, createHttpRequest(null), Manufacturer.class);
 
-            assertEquals(405,response.getStatusCodeValue());
-            assertEquals(HttpStatus.METHOD_NOT_ALLOWED,response.getStatusCode());
+            assertEquals(404,response.getStatusCodeValue());
+            assertEquals(HttpStatus.NOT_FOUND,response.getStatusCode());
         }
 
         @Test
@@ -214,8 +226,8 @@ public class ManufacturerRestControllerTest {
             ResponseEntity<Manufacturer> response =
                     restController.exchange(URL + "/"+manufacturer.getId() ,HttpMethod.DELETE, createHttpRequest(null), Manufacturer.class);
 
-            assertEquals(405,response.getStatusCodeValue());
-            assertEquals(HttpStatus.METHOD_NOT_ALLOWED,response.getStatusCode());
+            assertEquals(204,response.getStatusCodeValue());
+            assertEquals(HttpStatus.NO_CONTENT,response.getStatusCode());
         }
 
 
@@ -225,8 +237,8 @@ public class ManufacturerRestControllerTest {
             ResponseEntity<Manufacturer> response =
                     restController.exchange(URL ,HttpMethod.DELETE, createHttpRequest(null), Manufacturer.class);
 
-            assertEquals(405,response.getStatusCodeValue());
-            assertEquals(HttpStatus.METHOD_NOT_ALLOWED,response.getStatusCode());
+            assertEquals(204,response.getStatusCodeValue());
+            assertEquals(HttpStatus.NO_CONTENT,response.getStatusCode());
         }
 
         @Test

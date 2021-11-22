@@ -10,13 +10,10 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static com.example.proyectotesting.controller.mvc.Pages.IndexManufacturerPage.addStringData;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
@@ -301,12 +298,11 @@ public class ManufacturerListTest {
         chromewebDriver.get("http://localhost:8080/manufacturers");
         //chromewebDriver.get("https://dashboard.heroku.com/apps/proyecto-testinggrupo2/deploy/github");
 
-
         addStringData();
 
         chromewebDriver.findElement(By.className("btn-primary")).click();
 
-        List<WebElement> input = chromewebDriver.findElements(By.cssSelector("input"));
+        List<WebElement> input = chromewebDriver.findElements(By.xpath("//input[not(@type='hidden')]"));
 
         for (int count = 0 ; count < input.size()-1 ; count++ ){
             input.get(count).sendKeys(outerobjdata.get(manufacturerindex).get(count).toString());

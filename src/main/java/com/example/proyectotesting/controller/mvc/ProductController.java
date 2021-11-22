@@ -99,5 +99,4 @@ public class ProductController {
 		model.addAttribute("manufacturer", manufacturer);
 		return "product-edit-withmanufacturer";
 	}
-
 }

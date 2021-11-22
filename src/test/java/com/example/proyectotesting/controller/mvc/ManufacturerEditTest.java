@@ -34,7 +34,6 @@ public class ManufacturerEditTest {
     @BeforeEach
     void setUp() {
 
-
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox");

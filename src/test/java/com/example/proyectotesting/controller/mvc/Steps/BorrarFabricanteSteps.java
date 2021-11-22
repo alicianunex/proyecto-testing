@@ -1,136 +1,135 @@
 package com.example.proyectotesting.controller.mvc.Steps;
 
-import com.example.proyectotesting.controller.mvc.Pages.ProductEditPage;
+import com.example.proyectotesting.controller.mvc.Pages.*;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.junit.CucumberOptions;
 
-import static com.example.proyectotesting.controller.mvc.Pages.Driver.closeDriver;
-import static com.example.proyectotesting.controller.mvc.Pages.EditManufacturerPage.*;
-import static com.example.proyectotesting.controller.mvc.Pages.IndexManufacturerPage.*;
-import static com.example.proyectotesting.controller.mvc.Pages.ViewManufacturerPage.eraseNewManufacturerFromView;
-import static com.example.proyectotesting.controller.mvc.Pages.ProductEditPage.*;
-
 @CucumberOptions(
         features = "src/test/resources/Cucumber/Features")
 public class BorrarFabricanteSteps {
 
+    Driver driver = new Driver();
+    IndexManufacturerPage index = new IndexManufacturerPage();
+    EditManufacturerPage editM = new EditManufacturerPage();
+    ProductEditPage editP = new ProductEditPage();
+    ViewManufacturerPage view = new ViewManufacturerPage();
+
     @Given("Crear nuevo fabricante {string}")
     public void crearNuevoFabricante(String fabricante) {
 
-        getManufacturerIndex();
-        clickonNuevoManufacturer();
-        editSelectInput();
-        fillInput(fabricante);
-        editClickonGuardar();
-        closeDriver();
+        index.getManufacturerIndex();
+        index.clickonNuevoManufacturer();
+        editM.SelectInput();
+        editM.fillInput(fabricante);
+        editM.ClickonGuardar();
+        driver.closeDriver();
     }
 
     @Given("Pagina de inicio")
-    public void paginaDeInicio() {
-        getManufacturerIndex();
-    }
+    public void paginaDeInicio() {index.getManufacturerIndex();}
 
     @And("Pagina de ver")
     public void paginaDeVer() {
 
-        getManufacturerIndex();
-        clickOnVerManufacturer();
+        index.getManufacturerIndex();
+        index.clickOnVerManufacturer();
     }
 
     @When("Hago click en borrar desde lista")
     public void hago_click_en_borrar_desde_lista() {
 
-        getManufacturerIndex();
-        eraseNewManufacturerFromList();
+        index.getManufacturerIndex();
+        index.eraseNewManufacturerFromList();
     }
 
     @When("Hago click en borrar desde ver")
-    public void hagoClickEnBorrarDesdeVer() {eraseNewManufacturerFromView();}
+    public void hagoClickEnBorrarDesdeVer() {view.eraseNewManufacturerFromView();}
 
     @When("Hago click en borrar todos los fabricantes")
     public void hagoClickEnBorrarTodosLosFabricantes() {
 
-        getManufacturerIndex();
-        clickDeleteAllManufacturers();
+        index.getManufacturerIndex();
+        index.clickDeleteAllManufacturers();
     }
 
     @Then("El fabricante se ha borrado de DB")
     public void elFabricanteSeHaBorradoDeDB() {
 
-        checkErasedManufacturer();
-        closeDriver();
+        index.checkErasedManufacturer();
+        driver.closeDriver();
     }
 
     @Then("Todos los fabricantes se han borrado de DB")
     public void todosLosFabricantesSeHanBorradoDeDB() {
 
-        checkEmptyTable();
-        closeDriver();
+        index.checkEmptyTable();
+        driver.closeDriver();
     }
 
     @And("Se vuelven a generar los fabricantes")
     public void seVuelvenAGenerarLosFabricantes() {
+
         String fabricanteadidas = "Adidas 2343235325G 60000 1949 Calle falsa 33010 Leon Spain";
         String fabricantenike = "Nike 2343235325G 60000 1977 Calle verdadera 11322 Madrid Spain";
 
         // Create manufacturers
-        getManufacturerNew();
-            editSelectInput();
-            fillInput(fabricanteadidas);
+        editM.getManufacturerNew();
+            editM.SelectInput();
+            editM.fillInput(fabricanteadidas);
             //fillOption(fabricante);
-            editClickonGuardar();
-        closeDriver();
+            editM.ClickonGuardar();
+        driver.closeDriver();
 
-        getManufacturerNew();
-            editSelectInput();
-            fillInput(fabricantenike);
+        editM.getManufacturerNew();
+            editM.SelectInput();
+            editM.fillInput(fabricantenike);
             //fillOption(fabricante);
-            editClickonGuardar();
-        closeDriver();
+            editM.ClickonGuardar();
+        driver.closeDriver();
 
         // Create Products
-        getProductsNew();
-            createbalondata();
-            ProductEditPage.selectInput();
-            ProductEditPage.fillInput();
-            ProductEditPage.selectManufacturer("adidas");
-            ProductEditPage.fillcategoriesbalon();
-            ProductEditPage.clickonGuardar();
-        closeDriver();
+        editP.getProductsNew();
+            editP.createbalondata();
+            editP.selectInput();
+            editP.fillInput();
+            editP.selectManufacturer("adidas");
+            editP.fillcategoriesbalon();
+            editP.clickonGuardar();
+        driver.closeDriver();
 
-        getProductsNew();
-            createmesadata();
-            ProductEditPage.selectInput();
-            ProductEditPage.fillInput();
-            ProductEditPage.selectManufacturer("adidas");
-            ProductEditPage.fillcategoriesmesa();
-            ProductEditPage.clickonGuardar();
-        closeDriver();
+        editP.getProductsNew();
+            editP.createmesadata();
+            editP.selectInput();
+            editP.fillInput();
+            editP.selectManufacturer("adidas");
+            editP.fillcategoriesmesa();
+            editP.clickonGuardar();
+        driver.closeDriver();
 
-        getProductsNew();
-            createbotelladata();
-            ProductEditPage.selectInput();
-            ProductEditPage.fillInput();
-            ProductEditPage.selectManufacturer("adidas");
-            ProductEditPage.fillcategoriesbotella();
-            ProductEditPage.clickonGuardar();
-        closeDriver();
+        editP.getProductsNew();
+            editP.createbotelladata();
+            editP.selectInput();
+            editP.fillInput();
+            editP.selectManufacturer("adidas");
+            editP.fillcategoriesbotella();
+            editP.clickonGuardar();
+        driver.closeDriver();
 
-        getProductsNew();
-            createwebcamdata();
-            ProductEditPage.selectInput();
-            ProductEditPage.fillInput();
-            ProductEditPage.selectManufacturer("nike");
-            ProductEditPage.fillcategorieswebcam();
-            ProductEditPage.clickonGuardar();
-        closeDriver();
+        editP.getProductsNew();
+            editP.createwebcamdata();
+            editP.selectInput();
+            editP.fillInput();
+            editP.selectManufacturer("nike");
+            editP.fillcategorieswebcam();
+            editP.clickonGuardar();
+        driver.closeDriver();
 
-        getManufacturerIndex();
-            checkInitialManufacturers();
-        closeDriver();
+        index.getManufacturerIndex();
+            index.checkInitialManufacturers();
+        driver.closeDriver();
     }
 
 

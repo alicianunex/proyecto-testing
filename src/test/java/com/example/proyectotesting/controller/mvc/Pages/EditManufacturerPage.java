@@ -1,6 +1,7 @@
 package com.example.proyectotesting.controller.mvc.Pages;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -11,54 +12,58 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.proyectotesting.controller.mvc.Pages.Driver.*;
 
 public class EditManufacturerPage {
 
-    static List<List> outerobjdata;
-    static List<WebElement> inputs;
+      List<List> outerobjdata;
+      List<WebElement> inputs;
+      Driver driver = new Driver();
 
-    public static void getManufacturerNew() {
+
+    public EditManufacturerPage() {
+    }
+
+    public void getManufacturerNew() {
 
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--headless");
-        ChromewebDriver = new ChromeDriver(options);
+         driver.ChromewebDriver = new ChromeDriver(options);
 
-//        ChromewebDriver = new ChromeDriver();
+//         driver.ChromewebDriver = new ChromeDriver();
 //        Path path = Paths.get("C:\\data\\chromedriver.exe");
 //        System.setProperty("webdriver.chrome.driver",path.toString());
 
-//        ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers/new");
-        ChromewebDriver.get("http://localhost:8080/manufacturers/new");
-        js = (JavascriptExecutor) ChromewebDriver;
+//         driver.ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers/new");
+         driver.ChromewebDriver.get("http://localhost:8080/manufacturers/new");
+        driver.js = (JavascriptExecutor)  driver.ChromewebDriver;
     }
 
-    public static void getManufacturerEdit(Long id) {
+    public void getManufacturerEdit(Long id) {
 
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--headless");
-        ChromewebDriver = new ChromeDriver(options);
+         driver.ChromewebDriver = new ChromeDriver(options);
 
         Path path = Paths.get("C:\\data\\chromedriver.exe");
         System.setProperty("webdriver.chrome.driver",path.toString());
 
-//        ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers/" + id + "/edit");
-        ChromewebDriver.get("http://localhost:8080/manufacturers/" + id + "/edit");
+//         driver.ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers/" + id + "/edit");
+         driver.ChromewebDriver.get("http://localhost:8080/manufacturers/" + id + "/edit");
 
-        js = (JavascriptExecutor) ChromewebDriver;
+        driver.js = (JavascriptExecutor)  driver.ChromewebDriver;
     }
 
-    public static void editSelectInput() {
-        inputs = ChromewebDriver.findElements(By.xpath("//input[@type='text']"));
+    public void SelectInput() {
+        inputs =  driver.ChromewebDriver.findElements(By.xpath("//input[@type='text']"));
     }
 
-    public static void fillInput(String fabricante) {
+    public void fillInput(String fabricante) {
 
         String[] keys = fabricante.split(" ");
         List<String> keysdef = new ArrayList<>();
@@ -74,15 +79,15 @@ public class EditManufacturerPage {
         }
     }
 
-    public static void editClickonGuardar() {
-        WebElement buttonsave = ChromewebDriver.findElement(By.xpath("//button[@type='submit']"));
-        js.executeScript("arguments[0].scrollIntoView();", buttonsave);
+    public void ClickonGuardar() {
+        WebElement buttonsave =  driver.ChromewebDriver.findElement(By.xpath("//button[@type='submit']"));
+        driver.js.executeScript("arguments[0].scrollIntoView();", buttonsave);
         buttonsave.click();
     }
 
-    public static void fillOption(String fabricante) {
-        List<WebElement> options = ChromewebDriver.findElements(By.xpath("//option"));
-        Actions action = new Actions(ChromewebDriver);
+    public void fillOption(String fabricante) {
+        List<WebElement> options =  driver.ChromewebDriver.findElements(By.xpath("//option"));
+        Actions action = new Actions( driver.ChromewebDriver);
 
         if (fabricante.toLowerCase().contains("adidas")) {
             action.keyDown(Keys.CONTROL);

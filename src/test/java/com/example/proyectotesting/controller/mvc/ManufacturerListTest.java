@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static com.example.proyectotesting.controller.mvc.Pages.IndexManufacturerPage.addStringData;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
@@ -38,7 +39,7 @@ public class ManufacturerListTest {
     void setUp() {
 
         // TODO Phantom broswer for GitHub actions, not working throws CONNECTION ERROR
-/*
+
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox");
@@ -46,8 +47,9 @@ public class ManufacturerListTest {
         options.addArguments("--headless");
         chromewebDriver = new ChromeDriver(options);
 
- */
 
+
+/*
         String dir = System.getProperty("user.dir");
 
 //        String driverUrl = "C:\\data\\chromedriver.exe";
@@ -55,8 +57,15 @@ public class ManufacturerListTest {
         Path path = Paths.get("C:\\data\\chromedriver.exe");
         System.setProperty("webdriver.chrome.driver",path.toString());
         chromewebDriver = new ChromeDriver();
+
+
+ */
+        //chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
         chromewebDriver.get("http://localhost:8080/manufacturers");
+
         chromewebDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+
+
 
         // TODO Firefox driver setup
 
@@ -88,11 +97,8 @@ public class ManufacturerListTest {
         List<WebElement>  table = chromewebDriver.findElements(By.cssSelector("tbody tr"));
         List<WebElement> columns;
 
-        for (int row = 0; row < table.size(); row++) {
-            if (row == 0)
-                columns = table.get(row).findElements(By.xpath("//th"));
-            else
-                columns = chromewebDriver.findElements(By.xpath("//tbody/tr["+(row+1)+"]/td"));
+        for (int row = 0; row < table.size()-1; row++) {
+                columns = chromewebDriver.findElements(By.xpath("//tbody/tr["+(row)+"]/td"));
             for (int column = 0; column < columns.size(); column++){
 //                System.out.println(outerobjdata.get(row).get(column) + " __ " + columns.get(column).getText());
                     assertEquals(outerobjdata.get(row).get(column),columns.get(column).getText());
@@ -250,17 +256,21 @@ public class ManufacturerListTest {
              */
         }
     }
+
     /**
      *  Delete button is displayed correctly
      */
     @Test
     @DisplayName("Delete button is displayed correctly")
-    void zCheckBorrarButtonTest(){
+    void zCheckBorrarButtonTest() throws Exception{
 
         createnew("Adidas");
         createnew("Nike");
 
+//        new WebDriverWait(chromewebDriver, 10)
+//                .until(ExpectedConditions.visibilityOfAllElements());
         List<WebElement>  erasebuttons = chromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)"));
+
         int initialsize = erasebuttons.size();
         assumeTrue(erasebuttons.size()>1);
 
@@ -280,15 +290,13 @@ public class ManufacturerListTest {
 
     private void createnew(String manufacturer) {
 
-        // FIX last input not writing
-
         int manufacturerindex;
         if (manufacturer.contains ("Adidas") )
-            manufacturerindex = 1;
-        else if (manufacturer.contains ("Nike"))
-            manufacturerindex = 2;
-        else
             manufacturerindex = 0;
+        else if (manufacturer.contains ("Nike"))
+            manufacturerindex = 1;
+        else
+            manufacturerindex = 99;
 
         chromewebDriver.get("http://localhost:8080/manufacturers");
         //chromewebDriver.get("https://dashboard.heroku.com/apps/proyecto-testinggrupo2/deploy/github");
@@ -300,10 +308,8 @@ public class ManufacturerListTest {
 
         List<WebElement> input = chromewebDriver.findElements(By.cssSelector("input"));
 
-        for (int count = 0 ; count < 7 ; count++ ){
-
-            String[] splitted = outerobjdata.get(manufacturerindex).get(count).toString().split(": ");
-            input.get(count).sendKeys(splitted[0]);
+        for (int count = 0 ; count < input.size()-1 ; count++ ){
+            input.get(count).sendKeys(outerobjdata.get(manufacturerindex).get(count).toString());
         }
 
         List<WebElement> options = chromewebDriver.findElements(By.xpath("//option"));
@@ -336,7 +342,6 @@ public class ManufacturerListTest {
         buttonguardar.click();
     }
 
-
     /**
      * Creates a List with the manufacturer data
      * to compare with info shown in the webpage
@@ -346,16 +351,6 @@ public class ManufacturerListTest {
         outerobjdata = new ArrayList<>();
         List<String> objdata = new ArrayList<>();
 
-        objdata.add("Nombre: Adidas");
-        objdata.add("CIF: 2343235325G");
-        objdata.add("Nº Empleados: 60000");
-        objdata.add("Calle: 1949");
-        objdata.add("Código postal: 1949");
-        objdata.add("Ciudad: 1949");
-        objdata.add("País: 1949");
-        outerobjdata.add(objdata);
-
-        objdata = new ArrayList<>();
         objdata.add("Adidas");
         objdata.add("2343235325G");
         objdata.add("60000");
@@ -363,17 +358,17 @@ public class ManufacturerListTest {
         objdata.add("Calle falsa");
         objdata.add("Spain");
         objdata.add("Balón Mesa Botella");
-        objdata.add("Ver Editar Borrar");
         outerobjdata.add(objdata);
 
-        objdata.add("Nombre: Nike");
-        objdata.add("CIF: 2343235325G");
-        objdata.add("Nº Empleados: 60000");
-        objdata.add("Calle: 1977");
-        objdata.add("Código postal: 1977");
-        objdata.add("Ciudad: 1977");
-        objdata.add("País: 1977");
-        outerobjdata.add(objdata);
+        objdata = new ArrayList<>();
 
+        objdata.add("Nike");
+        objdata.add("2343235325G");
+        objdata.add("60000");
+        objdata.add("1977");
+        objdata.add("Calle verdadera");
+        objdata.add("Spain");
+        objdata.add("Webcam");
+        outerobjdata.add(objdata);
     }
 }

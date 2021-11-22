@@ -15,9 +15,9 @@ herramientas de integración continua.
 
 Proceso
 
-1. Test Unitario con JUnit 4.13 de los servicios utilizando Mockito 4.00 si es necesario
-2. Test de Integracion con JUnit 4.13
-3. Test web de los metodos REST con JUnit 4.13
+1. Test Unitario con JUnit 5 de los servicios utilizando Mockito 4.00 si es necesario
+2. Test de Integracion con JUnit 5
+3. Test web de los metodos REST con JUnit 5
 4. Web Test de metodos MVC con Selenium Webdriver 3.14
 5. Integracion de analisis de codigo
 6. Integracion de automatizacion
@@ -26,7 +26,7 @@ Proceso
 9. Presentacion de resultados
 
 
-1 Test Unitario con JUnit 4.13 de los servicios utilizando Mockito 4.00 si es necesario
+1 Test Unitario con JUnit 5 de los servicios utilizando Mockito 4.00 si es necesario
 
 DOD. Cobertura > 100%-metodos 80%-lineas.
 
@@ -40,7 +40,7 @@ DOD. Cobertura > 100%-metodos 80%-lineas.
         1.5.3 Structural
     // 1.6 Test de los metodos basicos (Entities)
     
-2. Test de Integracion con JUnit 4.13
+2. Test de Integracion con JUnit 5
 
 DOD. Comprobar que los repositorios funcionan de forma adecuada.
 
@@ -50,7 +50,7 @@ DOD. Comprobar que los repositorios funcionan de forma adecuada.
     2.4 Tests de Product
     2.5 Tests de Patterns
 
-3. Test web de los metodos REST con JUnit 4.13
+3. Test web de los metodos REST con JUnit 5
 
 DOD. Las llamadas REST devuelven respuestas adecuadas.
 

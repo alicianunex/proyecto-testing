@@ -23,6 +23,7 @@
 	<name>proyecto-testing</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<sonar.organization>alicianunex</sonar.organization>
                 <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<java.version>17</java.version>

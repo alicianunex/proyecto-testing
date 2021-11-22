@@ -23,6 +23,8 @@
 	<name>proyecto-testing</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
+		<sonar.organization>alicianunex</sonar.organization>
+                <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>

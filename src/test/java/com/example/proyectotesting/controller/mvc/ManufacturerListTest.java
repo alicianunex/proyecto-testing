@@ -305,9 +305,7 @@ public class ManufacturerListTest {
         List<WebElement> input = chromewebDriver.findElements(By.xpath("//input[not(@type='hidden')]"));
 
         for (int count = 0 ; count < input.size()-1 ; count++ ){
-
-            String[] splitted = outerobjdata.get(manufacturerindex).get(count).toString().split(": ");
-            input.get(count).sendKeys(splitted[1]);
+            input.get(count).sendKeys(outerobjdata.get(manufacturerindex).get(count).toString());
         }
 
         List<WebElement> options = chromewebDriver.findElements(By.xpath("//option"));

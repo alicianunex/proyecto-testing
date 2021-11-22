@@ -63,9 +63,7 @@ public class ManufacturerControllerTest {
             // TODO Line not accessible id can't be null
 
             mvc.perform(get("/manufacturers/"+null+"/view"))
-                    .andExpect(status().is3xxRedirection())
-                    .andExpect(redirectedUrl("/manufacturers"))
-                    .andExpect(MockMvcResultMatchers.view().name("redirect:/manufacturers"));
+                    .andExpect(status().is4xxClientError());
         }
 
         @Test
@@ -103,9 +101,7 @@ public class ManufacturerControllerTest {
             // TODO Line not accessible id can't be null
 
             mvc.perform(get("/manufacturers/"+null+"/edit"))
-                    .andExpect(status().is3xxRedirection())
-                    .andExpect(redirectedUrl("/manufacturers"))
-                    .andExpect(MockMvcResultMatchers.view().name("redirect:/manufacturers"));
+                    .andExpect(status().is4xxClientError());
         }
 
         @Test
@@ -156,6 +152,10 @@ public class ManufacturerControllerTest {
     @DisplayName("Saves the product and return to list")
 //    @Disabled("Null id error!!")
     void saveTest() throws Exception {
+        /*
+         .param("cif", "667")
+                .param("numEmployees", "655")
+                .param("year", "year"))*/
 
         mvc.perform(post("/manufacturers"))
                 .andExpect(status().is3xxRedirection())

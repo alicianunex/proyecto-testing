@@ -89,16 +89,14 @@ class ProductControllerTest {
             // TODO Line not accessible id can't be null
 
             mvc.perform(get("/products/"+null+"/view"))
-                    .andExpect(status().is3xxRedirection())
-                    .andExpect(redirectedUrl("/manufacturers"))
-                    .andExpect(MockMvcResultMatchers.view().name("redirect:/manufacturers"));
+                    .andExpect(status().is4xxClientError());
         }
 
         @Test
         @DisplayName("The product 9 is displayed correctly")
         void verOK1Test() throws Exception {
 
-            mvc.perform(get("/products/9/view"))
+            mvc.perform(get("/products/10/view"))
                     .andExpect(status().is2xxSuccessful())
                     .andExpect(model().attributeExists("product"))
                     .andExpect(MockMvcResultMatchers.view().name("product-view"))
@@ -111,7 +109,6 @@ class ProductControllerTest {
 
             mvc.perform(get("/products/99/view"))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(model().attributeExists("error"))
                     .andExpect(MockMvcResultMatchers.view().name("redirect:/products"));
         }
     }
@@ -126,29 +123,20 @@ class ProductControllerTest {
 
             // TODO Line not accessible id can't be null
 
-            mvc.perform(get("/products/"+null+"/edit"))
-                    .andExpect(status().is3xxRedirection())
-                    .andExpect(redirectedUrl("/manufacturers"))
-                    .andExpect(MockMvcResultMatchers.view().name("redirect:/manufacturers"));
+            mvc.perform(get("/products/" + null + "/edit"))
+                    .andExpect(status().is4xxClientError());
         }
 
         @Test
-        @DisplayName("The product 9 is displayed correctly")
+        @DisplayName("The product 10 is displayed correctly")
         void editarOK1Test() throws Exception {
 
-            repository = mock(ProductRepository.class);
-            Product product = new Product("","",432,342D,new Manufacturer());
-            Optional<Product> productOpt = Optional.of(product);
-            when(repository.findById(1L)).thenReturn(productOpt);
-
-
-                mvc.perform(get("/products/9/edit"))
-                        .andExpect(status().is2xxSuccessful())
-                        .andExpect(model().attributeExists("product"))
-                        .andExpect(MockMvcResultMatchers.view().name("product-view"))
-                        .andExpect(forwardedUrl("/WEB-INF/views/product-view.jsp"));
-                verify(repository).findById(1L);
-            }
+            mvc.perform(get("/products/10/edit"))
+                    .andExpect(status().is2xxSuccessful())
+                    .andExpect(model().attributeExists("product"))
+                    .andExpect(MockMvcResultMatchers.view().name("product-edit"))
+                    .andExpect(forwardedUrl("/WEB-INF/views/product-edit.jsp"));
+        }
 
         @Test
         @DisplayName("if product id does not exists shows list")
@@ -195,7 +183,7 @@ class ProductControllerTest {
     @DisplayName("Creates a new product with a linked manufacturer")
     void formWithManufacturerTest() throws Exception {
 
-        mvc.perform(get("/new/manufacturer/89"))
+        mvc.perform(get("/products/new/manufacturer/1"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(model().attributeExists("manufacturer"))
                 .andExpect(view().name("product-edit-withmanufacturer"));

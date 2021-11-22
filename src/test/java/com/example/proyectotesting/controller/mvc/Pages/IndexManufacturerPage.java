@@ -2,6 +2,7 @@ package com.example.proyectotesting.controller.mvc.Pages;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -19,7 +20,6 @@ public class IndexManufacturerPage {
 
       List<List> outerobjdata;
       Driver driver = new Driver();
-
 
     public IndexManufacturerPage() {
     }
@@ -46,7 +46,7 @@ public class IndexManufacturerPage {
 
         driver.ChromewebDriver.findElement(By.cssSelector("p>a:first-child")).click();
     }
-    
+
     public void clickOnVerManufacturer(){
 
         List<WebElement>  verbuttons = driver.ChromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(1)"));

@@ -10,10 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-
-import static org.junit.Assume.assumeTrue;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -29,6 +26,7 @@ public class ManufacturerServiceImplTest {
         productRepository = mock(ProductRepository.class);
         this.manufacturerService = new ManufacturerServiceImpl(manufacturerRepository, productRepository);
     }
+
     @Test
     void count() {
         when(manufacturerRepository.count()).thenReturn(2l);
@@ -36,6 +34,7 @@ public class ManufacturerServiceImplTest {
         assertNotNull(result);
         assertEquals(2, result);
     }
+
     @Test
     void countNull() {
         when(manufacturerRepository.count()).thenReturn(0L);
@@ -46,6 +45,7 @@ public class ManufacturerServiceImplTest {
 
     @Nested
     class Find {
+
         @Test
         void findAll() {
             List<Manufacturer> manufacturers = Arrays.asList(
@@ -133,7 +133,6 @@ public class ManufacturerServiceImplTest {
             verify(manufacturerRepository).findById(anyLong());
         }
 
-
         @Test
         void findByYear() {
             List<Manufacturer> manufacturers1 = Arrays.asList(
@@ -185,7 +184,6 @@ public class ManufacturerServiceImplTest {
             assertTrue(manufacturer.isEmpty());
         }
 
-
         @Test
         void findByCountry() {
             Direction direction1 = new Direction("Calle Nueva", "41001", "Sevilla", "Spain");
@@ -201,7 +199,6 @@ public class ManufacturerServiceImplTest {
             Nike.setDirection(direction3);
             Manufacturer Puma = new Manufacturer("Puma", "123456789D", 35000, 1946);
             Puma.setDirection(direction4);
-
 
             List<Manufacturer> manufacturers1 = new ArrayList<>();
             manufacturers1.add(0, Adidas);
@@ -278,6 +275,7 @@ public class ManufacturerServiceImplTest {
             for (Manufacturer count : found)
                 assertNotNull(count);
         }
+
         @Test
         void findAllFilledReturn() {
 
@@ -376,13 +374,12 @@ public class ManufacturerServiceImplTest {
             verify(manufacturerRepository).existsById(1L);
         }
 
-
         @Test
         void deleteAll() {
 
             long reg_count = 2;
             when(manufacturerRepository.count()).thenReturn(reg_count);
-            assumeTrue(manufacturerService.count() > 0);
+            Assumptions.assumeTrue(manufacturerService.count() > 0);
 
             manufacturerService.deleteAll();
 
@@ -402,6 +399,7 @@ public class ManufacturerServiceImplTest {
 
             verify(manufacturerRepository).deleteAll();
         }
+
         @Test
         void deleteAllExceptionTest() {
             doThrow(RuntimeException.class).when(manufacturerRepository).deleteAll();
@@ -410,6 +408,7 @@ public class ManufacturerServiceImplTest {
             verify(manufacturerRepository, times(2)).deleteAll();
             assertFalse(result);
         }
+
         @Test
         void deleteByIdOk() {
             doThrow(RuntimeException.class).when(manufacturerRepository).deleteById(anyLong());
@@ -422,6 +421,7 @@ public class ManufacturerServiceImplTest {
 
     @Nested
     public class save {
+
         @Test
         void saveNull() {
             when(manufacturerRepository.save(null)).thenThrow(IllegalArgumentException.class);

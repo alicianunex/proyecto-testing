@@ -94,11 +94,8 @@ public class ManufacturerListTest {
         List<WebElement>  table = chromewebDriver.findElements(By.cssSelector("tbody tr"));
         List<WebElement> columns;
 
-        for (int row = 0; row < table.size(); row++) {
-            if (row == 0)
-                columns = table.get(row).findElements(By.xpath("//th"));
-            else
-                columns = chromewebDriver.findElements(By.xpath("//tbody/tr["+(row+1)+"]/td"));
+        for (int row = 0; row < table.size()-1; row++) {
+                columns = chromewebDriver.findElements(By.xpath("//tbody/tr["+(row)+"]/td"));
             for (int column = 0; column < columns.size(); column++){
 //                System.out.println(outerobjdata.get(row).get(column) + " __ " + columns.get(column).getText());
                     assertEquals(outerobjdata.get(row).get(column),columns.get(column).getText());
@@ -353,24 +350,24 @@ public class ManufacturerListTest {
         outerobjdata = new ArrayList<>();
         List<String> objdata = new ArrayList<>();
 
-        objdata.add("Nombre: Adidas");
-        objdata.add("CIF: 2343235325G");
-        objdata.add("Nº Empleados: 60000");
-        objdata.add("Calle: 1949");
-        objdata.add("Código postal: 1949");
-        objdata.add("Ciudad: 1949");
-        objdata.add("País: 1949");
+        objdata.add("Adidas");
+        objdata.add("2343235325G");
+        objdata.add("60000");
+        objdata.add("1949");
+        objdata.add("Calle falsa");
+        objdata.add("Spain");
+        objdata.add("Balón Mesa Botella");
         outerobjdata.add(objdata);
 
         objdata = new ArrayList<>();
 
-        objdata.add("Nombre: Nike");
-        objdata.add("CIF: 2343235325G");
-        objdata.add("Nº Empleados: 60000");
-        objdata.add("Calle: 1977");
-        objdata.add("Código postal: 1977");
-        objdata.add("Ciudad: 1977");
-        objdata.add("País: 1977");
+        objdata.add("Nike");
+        objdata.add("2343235325G");
+        objdata.add("60000");
+        objdata.add("1977");
+        objdata.add("Calle verdadera");
+        objdata.add("Spain");
+        objdata.add("Webcam");
         outerobjdata.add(objdata);
     }
 }

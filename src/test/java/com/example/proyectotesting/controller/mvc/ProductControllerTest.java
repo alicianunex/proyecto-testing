@@ -95,44 +95,24 @@ class ProductControllerTest {
         }
 
         @Test
-        @DisplayName("The product 1 is displayed correctly")
+        @DisplayName("The product 9 is displayed correctly")
         void verOK1Test() throws Exception {
-
-            // TODO No products in db??
-
-            repository = mock(ProductRepository.class);
-            Product product = new Product("","",432,342D,new Manufacturer());
-            Optional<Product> productOpt = Optional.of(product);
-            when(repository.findById(1L)).thenReturn(productOpt);
-
-            repository.save(product);
 
             mvc.perform(get("/products/9/view"))
                     .andExpect(status().is2xxSuccessful())
                     .andExpect(model().attributeExists("product"))
                     .andExpect(MockMvcResultMatchers.view().name("product-view"))
                     .andExpect(forwardedUrl("/WEB-INF/views/product-view.jsp"));
-            verify(repository).findById(1L);
         }
 
         @Test
         @DisplayName("if product id does not exists redirects")
         void verNotPresentTest() throws Exception {
-            /*
-            repository = mock(ProductRepository.class);
-            Product product = new Product("","",432,342D,new Manufacturer());
-            Optional<Product> productOpt = Optional.of(product);
-            when(repository.findById(1L)).thenReturn(productOpt);
-
-             */
-
-            // TODO Attribute error does not appear
 
             mvc.perform(get("/products/99/view"))
                     .andExpect(status().is3xxRedirection())
-                    //.andExpect(model().attributeExists("error"))
+                    .andExpect(model().attributeExists("error"))
                     .andExpect(MockMvcResultMatchers.view().name("redirect:/products"));
-            //verify(repository).findById(1L);
         }
     }
 
@@ -153,7 +133,7 @@ class ProductControllerTest {
         }
 
         @Test
-        @DisplayName("The product 1 is displayed correctly")
+        @DisplayName("The product 9 is displayed correctly")
         void editarOK1Test() throws Exception {
 
             repository = mock(ProductRepository.class);
@@ -162,7 +142,7 @@ class ProductControllerTest {
             when(repository.findById(1L)).thenReturn(productOpt);
 
 
-                mvc.perform(get("/products/1/edit"))
+                mvc.perform(get("/products/9/edit"))
                         .andExpect(status().is2xxSuccessful())
                         .andExpect(model().attributeExists("product"))
                         .andExpect(MockMvcResultMatchers.view().name("product-view"))
@@ -215,7 +195,7 @@ class ProductControllerTest {
     @DisplayName("Creates a new product with a linked manufacturer")
     void formWithManufacturerTest() throws Exception {
 
-        mvc.perform(get("/new/manufacturer/1"))
+        mvc.perform(get("/new/manufacturer/89"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(model().attributeExists("manufacturer"))
                 .andExpect(view().name("product-edit-withmanufacturer"));

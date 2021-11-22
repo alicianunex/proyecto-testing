@@ -265,10 +265,8 @@ public class ManufacturerListTest {
     @DisplayName("Delete button is displayed correctly")
     void zCheckBorrarButtonTest() throws Exception{
 
-
         createnew("Adidas");
         createnew("Nike");
-
 
 //        new WebDriverWait(chromewebDriver, 10)
 //                .until(ExpectedConditions.visibilityOfAllElements());
@@ -293,29 +291,26 @@ public class ManufacturerListTest {
 
     private void createnew(String manufacturer) {
 
-        // FIX last input not writing
-
         int manufacturerindex;
         if (manufacturer.contains ("Adidas") )
-            manufacturerindex = 1;
-        else if (manufacturer.contains ("Nike"))
-            manufacturerindex = 2;
-        else
             manufacturerindex = 0;
+        else if (manufacturer.contains ("Nike"))
+            manufacturerindex = 1;
+        else
+            manufacturerindex = 99;
 
         addStringData();
 
-        chromewebDriver.findElement(By.className("btn-primary")).click();
-        //chromewebDriver.get("http://localhost:8080/manufacturers/new");
+        //chromewebDriver.findElement(By.className("btn-primary")).click();
+        chromewebDriver.get("http://localhost:8080/manufacturers/new");
 
+//        List<WebElement> input = chromewebDriver.findElements(By.cssSelector("input"));
+        List<WebElement> input = chromewebDriver.findElements(By.xpath("//input[not(@type='hidden')]"));
 
-
-        List<WebElement> input = chromewebDriver.findElements(By.cssSelector("input"));
-
-        for (int count = 0 ; count < 7 ; count++ ){
+        for (int count = 0 ; count < input.size()-1 ; count++ ){
 
             String[] splitted = outerobjdata.get(manufacturerindex).get(count).toString().split(": ");
-            input.get(count).sendKeys(splitted[0]);
+            input.get(count).sendKeys(splitted[1]);
         }
 
         List<WebElement> options = chromewebDriver.findElements(By.xpath("//option"));
@@ -378,7 +373,4 @@ public class ManufacturerListTest {
         objdata.add("País: 1977");
         outerobjdata.add(objdata);
     }
-
-
-
 }

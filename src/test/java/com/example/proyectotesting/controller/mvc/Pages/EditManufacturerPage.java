@@ -1,6 +1,7 @@
 package com.example.proyectotesting.controller.mvc.Pages;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -11,7 +12,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import   com.example.proyectotesting.controller.mvc.Pages.Driver.*;
 
 public class EditManufacturerPage {
 
@@ -59,7 +59,7 @@ public class EditManufacturerPage {
         driver.js = (JavascriptExecutor)  driver.ChromewebDriver;
     }
 
-    public void editSelectInput() {
+    public void SelectInput() {
         inputs =  driver.ChromewebDriver.findElements(By.xpath("//input[@type='text']"));
     }
 
@@ -79,7 +79,7 @@ public class EditManufacturerPage {
         }
     }
 
-    public void editClickonGuardar() {
+    public void ClickonGuardar() {
         WebElement buttonsave =  driver.ChromewebDriver.findElement(By.xpath("//button[@type='submit']"));
         driver.js.executeScript("arguments[0].scrollIntoView();", buttonsave);
         buttonsave.click();

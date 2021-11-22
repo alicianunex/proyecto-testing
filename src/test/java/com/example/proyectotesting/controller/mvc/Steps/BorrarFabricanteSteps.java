@@ -22,9 +22,9 @@ public class BorrarFabricanteSteps {
 
         index.getManufacturerIndex();
         index.clickonNuevoManufacturer();
-        editM.editSelectInput();
+        editM.SelectInput();
         editM.fillInput(fabricante);
-        editM.editClickonGuardar();
+        editM.ClickonGuardar();
         driver.closeDriver();
     }
 
@@ -71,22 +71,23 @@ public class BorrarFabricanteSteps {
 
     @And("Se vuelven a generar los fabricantes")
     public void seVuelvenAGenerarLosFabricantes() {
+
         String fabricanteadidas = "Adidas 2343235325G 60000 1949 Calle falsa 33010 Leon Spain";
         String fabricantenike = "Nike 2343235325G 60000 1977 Calle verdadera 11322 Madrid Spain";
 
         // Create manufacturers
         editM.getManufacturerNew();
-            editM.editSelectInput();
+            editM.SelectInput();
             editM.fillInput(fabricanteadidas);
             //fillOption(fabricante);
-            editM.editClickonGuardar();
+            editM.ClickonGuardar();
         driver.closeDriver();
 
         editM.getManufacturerNew();
-            editM.editSelectInput();
+            editM.SelectInput();
             editM.fillInput(fabricantenike);
             //fillOption(fabricante);
-            editM.editClickonGuardar();
+            editM.ClickonGuardar();
         driver.closeDriver();
 
         // Create Products

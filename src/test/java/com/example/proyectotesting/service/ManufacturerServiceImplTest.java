@@ -1,17 +1,19 @@
 package com.example.proyectotesting.service;
 
-import com.example.proyectotesting.entities.*;
+import com.example.proyectotesting.entities.Direction;
+import com.example.proyectotesting.entities.Manufacturer;
 import com.example.proyectotesting.repository.ManufacturerRepository;
 import com.example.proyectotesting.repository.ProductRepository;
-import org.junit.jupiter.api.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
+
+import static org.junit.Assume.assumeTrue;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class ManufacturerServiceImplTest {
@@ -45,7 +47,6 @@ public class ManufacturerServiceImplTest {
 
     @Nested
     class Find {
-
         @Test
         void findAll() {
             List<Manufacturer> manufacturers = Arrays.asList(
@@ -133,6 +134,7 @@ public class ManufacturerServiceImplTest {
             verify(manufacturerRepository).findById(anyLong());
         }
 
+
         @Test
         void findByYear() {
             List<Manufacturer> manufacturers1 = Arrays.asList(
@@ -184,6 +186,7 @@ public class ManufacturerServiceImplTest {
             assertTrue(manufacturer.isEmpty());
         }
 
+
         @Test
         void findByCountry() {
             Direction direction1 = new Direction("Calle Nueva", "41001", "Sevilla", "Spain");
@@ -199,6 +202,7 @@ public class ManufacturerServiceImplTest {
             Nike.setDirection(direction3);
             Manufacturer Puma = new Manufacturer("Puma", "123456789D", 35000, 1946);
             Puma.setDirection(direction4);
+
 
             List<Manufacturer> manufacturers1 = new ArrayList<>();
             manufacturers1.add(0, Adidas);
@@ -256,6 +260,7 @@ public class ManufacturerServiceImplTest {
             assertNotNull(manufacturer);
             assertTrue(manufacturer.isEmpty());
         }
+
 
         @Test
         void findAllEmptyReturn() {
@@ -320,10 +325,7 @@ public class ManufacturerServiceImplTest {
             assertFalse(found.isPresent());
             assertTrue(true);
         }
-    }
 
-    @Nested
-    public class Save {
 
         @Test
         void findOneIdCeroTest() {
@@ -332,10 +334,12 @@ public class ManufacturerServiceImplTest {
         }
 
         @Test
+
         void findOneNegativeIdTest() {
             Optional<Manufacturer> manufacturerOpt = manufacturerService.findOne(-5L);
             assertEquals(Optional.empty(), manufacturerOpt);
         }
+
     }
 
     @Nested
@@ -345,6 +349,9 @@ public class ManufacturerServiceImplTest {
         void deleteNull() {
             assertFalse(manufacturerService.deleteById(null));
         }
+
+
+
 
         @Test
         void deleteNotContains() {
@@ -374,12 +381,13 @@ public class ManufacturerServiceImplTest {
             verify(manufacturerRepository).existsById(1L);
         }
 
+
         @Test
         void deleteAll() {
 
             long reg_count = 2;
             when(manufacturerRepository.count()).thenReturn(reg_count);
-            Assumptions.assumeTrue(manufacturerService.count() > 0);
+            assumeTrue(manufacturerService.count() > 0);
 
             manufacturerService.deleteAll();
 
@@ -421,7 +429,6 @@ public class ManufacturerServiceImplTest {
 
     @Nested
     public class save {
-
         @Test
         void saveNull() {
             when(manufacturerRepository.save(null)).thenThrow(IllegalArgumentException.class);
@@ -432,12 +439,6 @@ public class ManufacturerServiceImplTest {
             verifyNoInteractions(manufacturerRepository);
         }
 
-        @Test
-        void saveOKTest() {
-            when(manufacturerRepository.save(any(Manufacturer.class)))
-                    .thenReturn(new Manufacturer());
-            Manufacturer manufacturer = manufacturerService.save(new Manufacturer());
-            assertNull(manufacturer);
-        }
     }
 }
+

@@ -76,7 +76,6 @@ class ProductControllerTest {
         mvc.perform(post("/products"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/products"));
-
     }
 
     @org.junit.jupiter.api.Nested
@@ -108,7 +107,7 @@ class ProductControllerTest {
 
             repository.save(product);
 
-            mvc.perform(get("/products/1/view"))
+            mvc.perform(get("/products/9/view"))
                     .andExpect(status().is2xxSuccessful())
                     .andExpect(model().attributeExists("product"))
                     .andExpect(MockMvcResultMatchers.view().name("product-view"))
@@ -178,7 +177,6 @@ class ProductControllerTest {
                     .andExpect(status().is3xxRedirection())
                     //.andExpect(model().attributeExists("error"))
                     .andExpect(MockMvcResultMatchers.view().name("redirect:/products"));
-
         }
     }
 
@@ -191,9 +189,8 @@ class ProductControllerTest {
         Product product = new Product("", "", 423, 2312D, manufacturer);
         repository.save(product);
 
-        // TODO Add products to DB ???
         try {
-            mvc.perform(get("/products/1/delete"))
+            mvc.perform(get("/products/9/delete"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(redirectedUrl("/products"))
                     .andExpect(view().name("redirect:/products"));

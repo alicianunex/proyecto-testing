@@ -5,10 +5,13 @@ import org.openqa.selenium.WebDriver;
 
 public class Driver {
 
-    public static JavascriptExecutor js;
-    public static WebDriver ChromewebDriver;
+    public  JavascriptExecutor js;
+    public  WebDriver ChromewebDriver;
 
-    public static void closeDriver() {ChromewebDriver.quit();}
+    public Driver() {
+    }
+
+    public void closeDriver() {ChromewebDriver.quit();}
 
 
 

@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static com.example.proyectotesting.controller.mvc.Pages.IndexManufacturerPage.addStringData;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
@@ -258,6 +257,7 @@ public class ManufacturerListTest {
              */
         }
     }
+
     /**
      *  Delete button is displayed correctly
      */
@@ -309,6 +309,7 @@ public class ManufacturerListTest {
         //chromewebDriver.get("http://localhost:8080/manufacturers/new");
 
 
+
         List<WebElement> input = chromewebDriver.findElements(By.cssSelector("input"));
 
         for (int count = 0 ; count < 7 ; count++ ){
@@ -345,6 +346,8 @@ public class ManufacturerListTest {
         js.executeScript("arguments[0].scrollIntoView();", buttonguardar);
 
         buttonguardar.click();
+
+
     }
     /**
      * Creates a List with the manufacturer data

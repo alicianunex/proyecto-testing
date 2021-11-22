@@ -12,33 +12,33 @@ import org.openqa.selenium.interactions.Actions;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.proyectotesting.controller.mvc.Pages.Driver.ChromewebDriver;
-import static com.example.proyectotesting.controller.mvc.Pages.Driver.js;
-
 public class ProductEditPage {
 
-    public static List<String> objdata;
-    public static List<WebElement> inputs;
+    private   List<String> objdata;
+    private   List<WebElement> inputs;
+    Driver driver = new Driver();
 
-    public static void getProductsNew() {
+    public ProductEditPage() {
+    }
 
-
+    public void getProductsNew() {
+        
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--headless");
-        ChromewebDriver = new ChromeDriver(options);
+        driver.ChromewebDriver = new ChromeDriver(options);
 
-//        ChromewebDriver = new ChromeDriver();
+//         driver.ChromewebDriver = new ChromeDriver();
 
-//        ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products/new);
-        ChromewebDriver.get("http://localhost:8080/products/new");
+//         driver.ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products/new);
+        driver.ChromewebDriver.get("http://localhost:8080/products/new");
 
-        js = (JavascriptExecutor) ChromewebDriver;
+        driver.js = (JavascriptExecutor) driver.ChromewebDriver;
     }
 
-    public static void createbalondata() {
+    public void createbalondata() {
 
         objdata = new ArrayList<>();
         objdata.add("Balón");
@@ -46,21 +46,21 @@ public class ProductEditPage {
         objdata.add("2");
     }
 
-    public static void selectInput() {
-        inputs = ChromewebDriver.findElements(By.xpath("//input[@type='text']"));
+    public void selectInput() {
+        inputs =  driver.ChromewebDriver.findElements(By.xpath("//input[@type='text']"));
     }
 
-    public static void fillInput() {
+    public void fillInput() {
 
         for (int count = 0; count < objdata.size(); count++) {
             inputs.get(count).sendKeys(objdata.get(count));
         }
-        ChromewebDriver.findElement(By.cssSelector("textarea")).sendKeys("Lorem impsum dolor");
+         driver.ChromewebDriver.findElement(By.cssSelector("textarea")).sendKeys("Lorem impsum dolor");
     }
-    public static void fillcategoriesbalon() {
-        Actions action = new Actions(ChromewebDriver);
-        List<WebElement> options = ChromewebDriver.findElements(By.cssSelector("#categories option"));
-        js.executeScript("arguments[0].scrollIntoView();", options.get(options.size()-1));
+    public void fillcategoriesbalon() {
+        Actions action = new Actions( driver.ChromewebDriver);
+        List<WebElement> options =  driver.ChromewebDriver.findElements(By.cssSelector("#categories option"));
+        driver.js.executeScript("arguments[0].scrollIntoView();", options.get(options.size()-1));
 
         // TODO for(options) if (.gettext contains libros) then .click
         action.keyDown(Keys.CONTROL);
@@ -71,26 +71,26 @@ public class ProductEditPage {
 
     }
 
-    public static void clickonGuardar() {
-        WebElement buttonsave = ChromewebDriver.findElement(By.xpath("//button[@type='submit']"));
-        js.executeScript("arguments[0].scrollIntoView();", buttonsave);
+    public void clickonGuardar() {
+        WebElement buttonsave =  driver.ChromewebDriver.findElement(By.xpath("//button[@type='submit']"));
+        driver.js.executeScript("arguments[0].scrollIntoView();", buttonsave);
         buttonsave.click();
     }
 
-    public static void selectManufacturer(String fabricante) {
-        WebElement option = ChromewebDriver.findElement(By.cssSelector("#manufacturer"));
-        js.executeScript("arguments[0].scrollIntoView();", option);
+    public void selectManufacturer(String fabricante) {
+        WebElement option =  driver.ChromewebDriver.findElement(By.cssSelector("#manufacturer"));
+        driver.js.executeScript("arguments[0].scrollIntoView();", option);
 
 
         if (fabricante.toLowerCase().contains("nike")) {
-            WebElement select = ChromewebDriver.findElement(By.xpath("//label[@for='manufacturer']"));
+            WebElement select =  driver.ChromewebDriver.findElement(By.xpath("//label[@for='manufacturer']"));
             select.click();
-            Actions action = new Actions(ChromewebDriver);
+            Actions action = new Actions( driver.ChromewebDriver);
             action.sendKeys(Keys.ENTER).sendKeys(Keys.ARROW_DOWN).sendKeys(Keys.ENTER).perform();
         }
     }
 
-    public static void createmesadata() {
+    public void createmesadata() {
 
         objdata = new ArrayList<>();
         objdata.add("Mesa");
@@ -98,10 +98,10 @@ public class ProductEditPage {
         objdata.add("8");
         //Libros // Computacion // Hogar
     }
-    public static void fillcategoriesmesa() {
-        Actions action = new Actions(ChromewebDriver);
-        List<WebElement> options = ChromewebDriver.findElements(By.cssSelector("#categories > option"));
-        js.executeScript("arguments[0].scrollIntoView();", options.get(options.size()-1));
+    public   void fillcategoriesmesa() {
+        Actions action = new Actions( driver.ChromewebDriver);
+        List<WebElement> options =  driver.ChromewebDriver.findElements(By.cssSelector("#categories > option"));
+        driver.js.executeScript("arguments[0].scrollIntoView();", options.get(options.size()-1));
 
         // TODO for(options) if (.gettext contains libros) then .click
         action.keyDown(Keys.CONTROL);
@@ -111,7 +111,7 @@ public class ProductEditPage {
         action.keyUp(Keys.CONTROL).perform();
     }
 
-    public static void createbotelladata() {
+    public void createbotelladata() {
 
         objdata = new ArrayList<>();
         objdata.add("Botella");
@@ -121,10 +121,10 @@ public class ProductEditPage {
 
     }
 
-    public static void fillcategoriesbotella() {
-        Actions action = new Actions(ChromewebDriver);
-        List<WebElement> options = ChromewebDriver.findElements(By.cssSelector("#categories > option"));
-        js.executeScript("arguments[0].scrollIntoView();", options.get(options.size()-1));
+    public void fillcategoriesbotella() {
+        Actions action = new Actions( driver.ChromewebDriver);
+        List<WebElement> options =  driver.ChromewebDriver.findElements(By.cssSelector("#categories > option"));
+        driver.js.executeScript("arguments[0].scrollIntoView();", options.get(options.size()-1));
 
         // TODO for(options) if (.gettext contains libros) then .click
         action.keyDown(Keys.CONTROL);
@@ -134,7 +134,7 @@ public class ProductEditPage {
         action.keyUp(Keys.CONTROL).perform();
     }
 
-    public static void createwebcamdata() {
+    public void createwebcamdata() {
 
         objdata = new ArrayList<>();
         objdata.add("WebCam");
@@ -143,10 +143,10 @@ public class ProductEditPage {
 
     }
 
-    public static void fillcategorieswebcam() {
-        Actions action = new Actions(ChromewebDriver);
-        List<WebElement> options = ChromewebDriver.findElements(By.cssSelector("#categories > option"));
-        js.executeScript("arguments[0].scrollIntoView();", options.get(options.size()-1));
+    public void fillcategorieswebcam() {
+        Actions action = new Actions( driver.ChromewebDriver);
+        List<WebElement> options =  driver.ChromewebDriver.findElements(By.cssSelector("#categories > option"));
+        driver.js.executeScript("arguments[0].scrollIntoView();", options.get(options.size()-1));
 
         // TODO for(options) if (.gettext contains libros) then .click
         action.keyDown(Keys.CONTROL);

@@ -6,6 +6,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.junit.CucumberOptions;
 import  io.cucumber.java.en.When;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 @CucumberOptions(
         features = "src/test/resources/Cucumber/Features")

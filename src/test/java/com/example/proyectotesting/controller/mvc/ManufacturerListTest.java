@@ -1,5 +1,7 @@
 package com.example.proyectotesting.controller.mvc;
 
+import com.example.proyectotesting.controller.mvc.Pages.*;
+import com.example.proyectotesting.controller.mvc.Steps.BorrarFabricanteSteps;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
@@ -44,8 +46,6 @@ public class ManufacturerListTest {
         options.addArguments("--headless");
         chromewebDriver = new ChromeDriver(options);
 
-
-
 /*
         String dir = System.getProperty("user.dir");
 
@@ -60,7 +60,7 @@ public class ManufacturerListTest {
         //chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
         chromewebDriver.get("http://localhost:8080/manufacturers");
 
-        chromewebDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        chromewebDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 
 
@@ -191,11 +191,10 @@ public class ManufacturerListTest {
      * Disabled to prevent other tests from failing
      */
     @Test
-    @Disabled("Cannot run in suite until TODO is finished")
+    @Disabled("Cannot run in suite until recreate is finished")
     @DisplayName("Checks the remove all manufacturers button")
     void removeAllManufacturers(){
 
-        // TODO recreate all the manufacturers erased to execute in suite
 
         int initialsize = chromewebDriver.findElements(By.cssSelector("tbody tr")).size();
 
@@ -204,15 +203,13 @@ public class ManufacturerListTest {
         assertTrue(initialsize > chromewebDriver.findElements(By.cssSelector("tbody tr")).size());
         assertEquals(1, chromewebDriver.findElements(By.cssSelector("tbody tr")).size());
 
+      // Recreate manufacturers with Selenium
 
-      // Create manufacturers
-        createnew("Adidas");
-        createnew("Nike");
+        BorrarFabricanteSteps borrarFabricanteSteps = new BorrarFabricanteSteps();
+        borrarFabricanteSteps.paginaDeInicio();
+        borrarFabricanteSteps.seVuelvenAGenerarLosFabricantes();
 
-        // Create Products
-
-        // Link to Manufacturer
-
+        chromewebDriver.get("http://localhost:8080/manufacturers");
         assertTrue(chromewebDriver.findElements(By.xpath("//tr")).size() == 3);
     }
 

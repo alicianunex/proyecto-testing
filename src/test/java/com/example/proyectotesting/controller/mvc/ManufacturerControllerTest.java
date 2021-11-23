@@ -1,11 +1,14 @@
 package com.example.proyectotesting.controller.mvc;
 
+import com.example.proyectotesting.controller.mvc.Pages.Driver;
+import com.example.proyectotesting.controller.mvc.Steps.BorrarFabricanteSteps;
 import com.example.proyectotesting.entities.Manufacturer;
 import com.example.proyectotesting.entities.Product;
 import com.example.proyectotesting.repository.ProductRepository;
 import com.example.proyectotesting.service.ManufacturerService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;

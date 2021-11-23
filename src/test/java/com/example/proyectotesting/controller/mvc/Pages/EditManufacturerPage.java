@@ -6,6 +6,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,8 +18,8 @@ public class EditManufacturerPage {
 
       List<List> outerobjdata;
       List<WebElement> inputs;
+      @Autowired
       Driver driver = new Driver();
-
 
     public EditManufacturerPage() {
     }
@@ -30,7 +31,7 @@ public class EditManufacturerPage {
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--headless");
-         driver.ChromewebDriver = new ChromeDriver(options);
+        driver.ChromewebDriver = new ChromeDriver(options);
 
 //         driver.ChromewebDriver = new ChromeDriver();
 //        Path path = Paths.get("C:\\data\\chromedriver.exe");

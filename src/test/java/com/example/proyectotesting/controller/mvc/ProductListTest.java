@@ -32,8 +32,8 @@ public class ProductListTest {
     // http://localhost:8080/products
     // https://proyecto-testinggrupo2.herokuapp.com
 
-    static WebDriver firefoxwebDriver;
-    static WebDriver chromewebDriver;
+    WebDriver firefoxwebDriver;
+    WebDriver chromewebDriver;
 
     List<List> outerobjdata;
 
@@ -46,10 +46,11 @@ public class ProductListTest {
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--headless");
         chromewebDriver = new ChromeDriver(options);
+
 //        chromewebDriver.navigate().to("https://proyecto-testinggrupo2.herokuapp.com/products");
         chromewebDriver.navigate().to("http://localhost:8080/products");
         chromewebDriver.manage().window().maximize();
-        //chromewebDriver.manage().timeouts().implicitlyWait(120, TimeUnit.MILLISECONDS);
+        chromewebDriver.manage().timeouts().implicitlyWait(10, TimeUnit.MILLISECONDS);
 
     /*
         WebDriverManager.chromedriver().setup();

@@ -438,6 +438,18 @@ public class ManufacturerServiceImplTest {
             );
             verifyNoInteractions(manufacturerRepository);
         }
+        @Test
+        void saveOK() {
+
+            Manufacturer adidas = new Manufacturer();
+
+            when(manufacturerRepository.save(any(Manufacturer.class)))
+                    .thenReturn(adidas);
+
+            Manufacturer result = manufacturerService.save(adidas);
+            assertNotNull(result);
+            verify(manufacturerRepository).save(adidas);
+        }
 
     }
 }

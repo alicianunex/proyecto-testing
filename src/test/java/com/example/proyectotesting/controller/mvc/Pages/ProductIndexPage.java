@@ -1,8 +1,6 @@
 package com.example.proyectotesting.controller.mvc.Pages;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-
-import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -15,16 +13,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+public class ProductIndexPage {
 
-public class IndexManufacturerPage {
-
-      List<List> outerobjdata;
-      Driver driver = new Driver();
-
-    public IndexManufacturerPage() {
-    }
-
-    public void getManufacturerIndex(){
+    List<List> outerobjdata;
+    Driver driver = new Driver();
+    
+    public void getProductIndex(){
 
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
@@ -37,44 +31,44 @@ public class IndexManufacturerPage {
 //        System.setProperty("webdriver.chrome.driver",path.toString());
 //        driver.ChromewebDriver = new ChromeDriver();
 
-//        driver.ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
-        driver.ChromewebDriver.get("http://localhost:8080/manufacturers");
+//        driver.ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
+        driver.ChromewebDriver.get("http://localhost:8080/products");
         driver.js = (JavascriptExecutor) driver.ChromewebDriver;
     }
 
-    public void clickonNuevoManufacturer(){
+    public void clickonNuevoProducto(){
 
         driver.ChromewebDriver.findElement(By.cssSelector("p>a:first-child")).click();
     }
 
-    public void clickOnVerManufacturer(){
+    public void clickOnVerProducto(){
 
         List<WebElement>  verbuttons = driver.ChromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(1)"));
 //        js.executeScript("arguments[0].scrollIntoView();", verbuttons);
         verbuttons.get(verbuttons.size()-1).click();
     }
 
-    public void checkNewManufacturer(String fabricante) {
+    public void checkNewProduct(String producto) {
 
         List<WebElement> newmanrow = driver.ChromewebDriver.findElements(By.cssSelector("tr:last-child td"));
 
         for (int count=0; count < newmanrow.size() ;count++){
-            assertTrue(newmanrow.get(count).getText().contains(fabricante.split(" ")[count]));
+            assertTrue(newmanrow.get(count).getText().contains(producto.split(" ")[count]));
         }
     }
 
-    public void eraseNewManufacturerFromList() {
+    public void eraseNewProductFromList() {
 
         List<WebElement>  erasebuttons = driver.ChromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)"));
         erasebuttons.get(erasebuttons.size()-1).click();
     }
 
-    public void checkErasedManufacturer() {
+    public void checkErasedProduct() {
         List<WebElement> erasebuttons = driver.ChromewebDriver.findElements(By.cssSelector("td:last-child a:nth-child(3)"));
         assertEquals(2,erasebuttons.size());
     }
 
-    public void clickDeleteAllManufacturers() {
+    public void clickDeleteAllProducts() {
 
         driver.ChromewebDriver.findElement(By.xpath("//p/a[@class='btn btn-danger']")).click();
     }
@@ -84,7 +78,7 @@ public class IndexManufacturerPage {
         assertTrue(driver.ChromewebDriver.findElements(By.xpath("//tr")).size()<2);
     }
 
-    public void checkInitialManufacturers() {
+    public void checkInitialProducts() {
 
         addStringData();
 
@@ -104,7 +98,7 @@ public class IndexManufacturerPage {
     }
 
     /**
-     * Creates a List with the manufacturer data
+     * Creates a List with the Product data
      * to compare with info shown in the webpage
      */
     public void addStringData() {
@@ -112,36 +106,37 @@ public class IndexManufacturerPage {
         outerobjdata = new ArrayList<>();
         List<String> objdata = new ArrayList<>();
         objdata.add("Name");
-        objdata.add("CIF");
-        objdata.add("Nº Empleados");
-        objdata.add("Año fundación");
-        objdata.add("Calle");
-        objdata.add("País");
-        objdata.add("Productos");
+        objdata.add("Price");
+        objdata.add("Description");
+        objdata.add("Quantity");
+        objdata.add("Fabricante");
+        objdata.add("Categorías");
         objdata.add("Actions");
         outerobjdata.add(objdata);
 
         objdata = new ArrayList<>();
-        objdata.add("Adidas");
-        objdata.add("2343235325G");
-        objdata.add("60000");
-        objdata.add("1949");
-        objdata.add("Calle falsa");
-        objdata.add("Spain");
-        objdata.add("Balón Mesa Botella");
-        objdata.add("Ver Editar Borrar");
+        objdata.add("Balón");
+        objdata.add("10.99");
+        objdata.add("2");
         outerobjdata.add(objdata);
 
         objdata = new ArrayList<>();
-        objdata.add("Nike");
-        objdata.add("2343235325G");
-        objdata.add("60000");
-        objdata.add("1977");
-        objdata.add("Calle verdadera");
-        objdata.add("Spain");
-        objdata.add("WebCam Zapatillas");
-        objdata.add("Ver Editar Borrar");
+        objdata.add("Mesa");
+        objdata.add("99.99");
+        objdata.add("8");
         outerobjdata.add(objdata);
 
+        objdata = new ArrayList<>();
+        objdata.add("Botella");
+        objdata.add("99.99");
+        objdata.add("5");
+        outerobjdata.add(objdata);
+
+
+        objdata = new ArrayList<>();
+        objdata.add("WebCam");
+        objdata.add("99.99");
+        objdata.add("12");
+        outerobjdata.add(objdata);
     }
 }

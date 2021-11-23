@@ -27,6 +27,9 @@ public class DirectionRestController {
     /**
      * Finds all the Repository's entries
      * @return List with all the Direction objects
+     *
+     *
+     *
      */
     @GetMapping("/api/directions")
     public List<Direction> findAll(){

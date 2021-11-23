@@ -6,7 +6,6 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.junit.CucumberOptions;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 @CucumberOptions(
         features = "src/test/resources/Cucumber/Features")
@@ -14,6 +13,7 @@ public class BorrarFabricanteSteps {
 
     Driver driver = new Driver();
     IndexManufacturerPage index = new IndexManufacturerPage();
+    ProductIndexPage indexp = new ProductIndexPage();
     EditManufacturerPage editM = new EditManufacturerPage();
     ProductEditPage editP = new ProductEditPage();
     ViewManufacturerPage view = new ViewManufacturerPage();
@@ -76,6 +76,12 @@ public class BorrarFabricanteSteps {
         String fabricanteadidas = "Adidas 2343235325G 60000 1949 Calle falsa 33010 Leon Spain";
         String fabricantenike = "Nike 2343235325G 60000 1977 Calle verdadera 11322 Madrid Spain";
 
+
+        // Erase zapatillas
+        indexp.getProductIndex();
+            indexp.clickDeleteAllProducts();
+        driver.closeDriver();
+
         // Create manufacturers
         editM.getManufacturerNew();
             editM.SelectInput();
@@ -128,10 +134,17 @@ public class BorrarFabricanteSteps {
             editP.clickonGuardar();
         driver.closeDriver();
 
+        editP.getProductsNew();
+            editP.createzapatillasdata();
+            editP.selectInput();
+            editP.fillInput();
+            editP.selectManufacturer("nike");
+            editP.fillcategorieszapatillas();
+            editP.clickonGuardar();
+        driver.closeDriver();
+
         index.getManufacturerIndex();
             index.checkInitialManufacturers();
         driver.closeDriver();
     }
-
-
 }

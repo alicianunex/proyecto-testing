@@ -107,6 +107,7 @@ public class ProductEditPage {
         action.keyDown(Keys.CONTROL);
         options.get(0).click(); // libros
         options.get(1).click(); // computacion
+        options.get(2).click(); // hogar
         action.perform();
         action.keyUp(Keys.CONTROL).perform();
     }
@@ -129,7 +130,7 @@ public class ProductEditPage {
         // TODO for(options) if (.gettext contains libros) then .click
         action.keyDown(Keys.CONTROL);
         options.get(0).click(); // libros
-        options.get(1).click(); // computacion
+        options.get(3).click(); // moda
         action.perform();
         action.keyUp(Keys.CONTROL).perform();
     }
@@ -140,21 +141,17 @@ public class ProductEditPage {
         objdata.add("WebCam");
         objdata.add("99.99");
         objdata.add("12");
-
     }
 
-    public void fillcategorieswebcam() {
-        Actions action = new Actions( driver.ChromewebDriver);
-        List<WebElement> options =  driver.ChromewebDriver.findElements(By.cssSelector("#categories > option"));
-        driver.js.executeScript("arguments[0].scrollIntoView();", options.get(options.size()-1));
+    public void fillcategorieswebcam() {}
 
-        // TODO for(options) if (.gettext contains libros) then .click
-        action.keyDown(Keys.CONTROL);
-        options.get(0).click(); // libros
-        options.get(1).click(); // computacion
-        action.perform();
-        action.keyUp(Keys.CONTROL).perform();
+    public void createzapatillasdata() {
+
+        objdata = new ArrayList<>();
+        objdata.add("Zapatillas");
+        objdata.add("99.99");
+        objdata.add("12");
     }
 
-
+    public void fillcategorieszapatillas() {}
 }

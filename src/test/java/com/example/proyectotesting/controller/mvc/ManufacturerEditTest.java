@@ -84,8 +84,9 @@ public class ManufacturerEditTest {
 
         accessFromProducts("Adidas");
 
-        assertEquals("Fabricante 1", chromewebDriver.
-                findElement(By.cssSelector("h2")).getText());
+        assertTrue(chromewebDriver.
+                findElement(By.cssSelector("h2")).getText().contains("Fabricante ")
+                && chromewebDriver.findElement(By.cssSelector("h2")).getText().contains("1"));
         assertEquals("Manufacturer Edition | Aswesome App", chromewebDriver.getTitle());
 
         exit();
@@ -112,8 +113,9 @@ public class ManufacturerEditTest {
 
         accessFromManufacturer(1);
 
-        assertEquals("Fabricante 3", chromewebDriver.
-                findElement(By.cssSelector("h2")).getText());
+        assertTrue(chromewebDriver.
+                findElement(By.cssSelector("h2")).getText().contains("Fabricante ")
+                && chromewebDriver.findElement(By.cssSelector("h2")).getText().contains("3"));
         assertEquals("Manufacturer Edition | Aswesome App", chromewebDriver.getTitle());
 
         exit();
@@ -128,8 +130,8 @@ public class ManufacturerEditTest {
 
         accessFromProducts("Adidas");
 
-        assertEquals("Fabricante 1", chromewebDriver.
-                findElement(By.cssSelector("h2")).getText());
+        assertTrue(chromewebDriver.
+                findElement(By.cssSelector("h2")).getText().contains("Fabricante 1"));
         assertEquals("Manufacturer Edition | Aswesome App", chromewebDriver.getTitle());
 
         exit();
@@ -164,7 +166,7 @@ public class ManufacturerEditTest {
         List<WebElement> string_data = chromewebDriver.findElements(By.cssSelector("input"));
 
         for (int count = string_data.size()-1; count > -1; count-- ){
-            assertEquals(outerobjdata.get(0).get(count),string_data.get(count).getAttribute("value"));
+            assertTrue(string_data.get(count).getAttribute("value").contains((String)outerobjdata.get(0).get(count)));
         }
 
         assertEquals(4,chromewebDriver.findElements(By.xpath("//option")).size());
@@ -187,7 +189,7 @@ public class ManufacturerEditTest {
         List<WebElement> string_data = chromewebDriver.findElements(By.cssSelector("input"));
 
         for (int count = string_data.size()-1; count > -1; count-- ){
-            assertEquals(outerobjdata.get(1).get(count),string_data.get(count).getAttribute("value"));
+            assertTrue(string_data.get(count).getAttribute("value").contains((String)outerobjdata.get(1).get(count)));
         }
 
         assertEquals(2,chromewebDriver.findElements(By.xpath("//option")).size());

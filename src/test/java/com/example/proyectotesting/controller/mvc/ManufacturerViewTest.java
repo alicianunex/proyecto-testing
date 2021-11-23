@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -43,6 +44,7 @@ public class ManufacturerViewTest {
         options.addArguments("--headless");
         chromewebDriver = new ChromeDriver(options);
 
+        chromewebDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 /*
         String dir = System.getProperty("user.dir");
@@ -58,7 +60,6 @@ public class ManufacturerViewTest {
         chromewebDriver.get("http://localhost:8080/manufacturers");
         //chromewebDriver.get("https://dashboard.heroku.com/apps/proyecto-testinggrupo2/deploy/github");
 
-//        chromewebDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
         // TODO Firefox driver setup
 
@@ -193,6 +194,7 @@ public class ManufacturerViewTest {
 
 //        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
         chromewebDriver.get("http://localhost:8080/products");
+        chromewebDriver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 
         if (name.contains("Adidas")) {
             WebElement webElement = chromewebDriver.findElements(By.xpath("//td/a[contains(@href, 'view')]")).get(0);

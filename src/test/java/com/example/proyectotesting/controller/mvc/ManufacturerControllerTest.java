@@ -183,5 +183,6 @@ public class ManufacturerControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/manufacturers"))
                 .andExpect(view().name("redirect:/manufacturers"));
+
     }
 }

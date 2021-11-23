@@ -211,6 +211,7 @@ public class ManufacturerListTest {
 
         chromewebDriver.get("http://localhost:8080/manufacturers");
         assertTrue(chromewebDriver.findElements(By.xpath("//tr")).size() == 3);
+
     }
 
     /**

@@ -59,7 +59,6 @@ public class ManufacturerListTest {
  */
         //chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
         chromewebDriver.get("http://localhost:8080/manufacturers");
-
         chromewebDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 

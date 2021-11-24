@@ -1,6 +1,6 @@
 package com.example.proyectotesting.patterns.creatonial.singleton;
 
-import com.example.proyectotesting.patterns.behavioral.iterator.Main;
+import com.example.proyectotesting.patterns.creational.singleton.Main;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

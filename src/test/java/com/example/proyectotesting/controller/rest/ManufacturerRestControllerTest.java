@@ -1,6 +1,7 @@
 package com.example.proyectotesting.controller.rest;
 
 
+import com.example.proyectotesting.entities.Direction;
 import com.example.proyectotesting.entities.Manufacturer;
 import com.example.proyectotesting.repository.ManufacturerRepository;
 import com.example.proyectotesting.repository.ProductRepository;
@@ -171,6 +172,17 @@ public class ManufacturerRestControllerTest {
     @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
     public class Update {
 
+        @Test
+        @DisplayName("Updates correctly and returns 200 OK")
+        void update200OKTest() {
+
+            ResponseEntity<Manufacturer> created =
+                    restController.postForEntity(URL, createHttpRequest(null), Manufacturer.class);
+
+            ResponseEntity<Manufacturer> directionResponseEntity =  restController.exchange(URL,
+                    HttpMethod.PUT, createHttpRequest(created.getBody().getId()), Manufacturer.class);
+            assertEquals(HttpStatus.OK,directionResponseEntity.getStatusCode());
+        }
 
         @Test
         void update400BadRequest() {

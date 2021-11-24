@@ -17,6 +17,7 @@ class SmartPhoneTest {
 
     @BeforeEach
     void setUp() {
+        SmartPhoneFacade smartPhoneFacade = new SmartPhoneFacade();
         List<Sensor> sensorlist = new ArrayList<>();
         smartPhone = SmartPhoneFacade.startSmartPhone();
     }

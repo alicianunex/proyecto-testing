@@ -1,6 +1,7 @@
 package com.example.proyectotesting.controller.rest;
 
 import com.example.proyectotesting.entities.Category;
+import com.example.proyectotesting.entities.Direction;
 import com.example.proyectotesting.repository.CategoryRepository;
 import com.example.proyectotesting.service.CategoryService;
 
@@ -11,6 +12,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 
+import java.awt.*;
 import java.util.List;
 
 import org.junit.jupiter.api.*;
@@ -186,20 +188,20 @@ public class CategoryRestControllerTest {
         void deleteNull() {
 
             ResponseEntity<Category> response =
-                    restController.exchange(URL + "/"+null ,HttpMethod.DELETE, createHttpRequest(null), Category.class);
+                    restController.exchange(URL + "/" + null, HttpMethod.DELETE, createHttpRequest(null), Category.class);
 
-            assertEquals(400,response.getStatusCodeValue());
-            assertEquals(HttpStatus.BAD_REQUEST,response.getStatusCode());
+            assertEquals(400, response.getStatusCodeValue());
+            assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         }
 
         @Test
         void deleteNotFound() {
 
             ResponseEntity<Category> response =
-                    restController.exchange(URL + "/"+998L ,HttpMethod.DELETE, createHttpRequest(null), Category.class);
+                    restController.exchange(URL + "/" + 998L, HttpMethod.DELETE, createHttpRequest(null), Category.class);
 
-            assertEquals(404,response.getStatusCodeValue());
-            assertEquals(HttpStatus.NOT_FOUND,response.getStatusCode());
+            assertEquals(404, response.getStatusCodeValue());
+            assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         }
 
         @Test
@@ -209,10 +211,10 @@ public class CategoryRestControllerTest {
             categoryService.save(category);
 
             ResponseEntity<Category> response =
-                    restController.exchange(URL + "/"+category.getId() ,HttpMethod.DELETE, createHttpRequest(null), Category.class);
+                    restController.exchange(URL + "/" + category.getId(), HttpMethod.DELETE, createHttpRequest(null), Category.class);
 
-            assertEquals(204,response.getStatusCodeValue());
-            assertEquals(HttpStatus.NO_CONTENT,response.getStatusCode());
+            assertEquals(204, response.getStatusCodeValue());
+            assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         }
 
         @Test
@@ -220,8 +222,8 @@ public class CategoryRestControllerTest {
 
             ResponseEntity<Category> response = deleteIdFailmock();
 
-            assertEquals(409,response.getStatusCodeValue());
-            assertEquals(HttpStatus.CONFLICT,response.getStatusCode());
+            assertEquals(409, response.getStatusCodeValue());
+            assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
         }
 
         private ResponseEntity<Category> deleteIdFailmock() {
@@ -237,10 +239,10 @@ public class CategoryRestControllerTest {
         void deleteAll() {
 
             ResponseEntity<Category> response =
-                    restController.exchange(URL ,HttpMethod.DELETE, createHttpRequest(null), Category.class);
+                    restController.exchange(URL, HttpMethod.DELETE, createHttpRequest(null), Category.class);
 
-            assertEquals(204,response.getStatusCodeValue());
-            assertEquals(HttpStatus.NO_CONTENT,response.getStatusCode());
+            assertEquals(204, response.getStatusCodeValue());
+            assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         }
 
         @Test
@@ -249,8 +251,8 @@ public class CategoryRestControllerTest {
 
             ResponseEntity<Category> response = deleteAllFailMock();
 
-            assertEquals(409,response.getStatusCodeValue());
-            assertEquals(HttpStatus.CONFLICT,response.getStatusCode());
+            assertEquals(409, response.getStatusCodeValue());
+            assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
         }
 
         private ResponseEntity<Category> deleteAllFailMock() {

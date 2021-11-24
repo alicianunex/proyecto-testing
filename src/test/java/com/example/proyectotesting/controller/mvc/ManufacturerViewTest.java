@@ -56,8 +56,8 @@ public class ManufacturerViewTest {
         chromewebDriver = new ChromeDriver();
 
  */
-        //chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
-        chromewebDriver.get("http://localhost:8080/manufacturers");
+        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
+//        chromewebDriver.get("http://localhost:8080/manufacturers");
         //chromewebDriver.get("https://dashboard.heroku.com/apps/proyecto-testinggrupo2/deploy/github");
 
 

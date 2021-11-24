@@ -1,20 +1,23 @@
 package com.example.proyectotesting.patterns.creatonial.builder;
 
-import com.example.proyectotesting.patterns.structural.adapter.Main;
-import org.junit.jupiter.api.BeforeEach;
+import com.example.proyectotesting.patterns.behavioral.iterator.Main;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 
 class MainTest {
 
-    @BeforeEach
-    void setUp() {
-
-    }
-
     @Test
-    void mainTest() {
-
-        Main.main(new String[] {});
+    void main() {
+        try{
+            com.example.proyectotesting.patterns.behavioral.iterator.Main main = new Main();
+            main.main(new String[1]);
+            assertTrue(true);
+        }catch (Exception error){
+            error.printStackTrace();
+            fail();
+        }
     }
 }

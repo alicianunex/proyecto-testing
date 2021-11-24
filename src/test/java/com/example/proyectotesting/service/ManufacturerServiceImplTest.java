@@ -2,6 +2,7 @@ package com.example.proyectotesting.service;
 
 import com.example.proyectotesting.entities.Direction;
 import com.example.proyectotesting.entities.Manufacturer;
+import com.example.proyectotesting.entities.Product;
 import com.example.proyectotesting.repository.ManufacturerRepository;
 import com.example.proyectotesting.repository.ProductRepository;
 
@@ -442,6 +443,9 @@ public class ManufacturerServiceImplTest {
         void saveOK() {
 
             Manufacturer adidas = new Manufacturer();
+            List<Product> products = new ArrayList<>();
+            products.add(new Product());
+            adidas.setProducts(products);
 
             when(manufacturerRepository.save(any(Manufacturer.class)))
                     .thenReturn(adidas);
@@ -450,7 +454,6 @@ public class ManufacturerServiceImplTest {
             assertNotNull(result);
             verify(manufacturerRepository).save(adidas);
         }
-
     }
 }
 

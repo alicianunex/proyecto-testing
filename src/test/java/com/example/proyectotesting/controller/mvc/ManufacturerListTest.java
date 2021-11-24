@@ -206,7 +206,7 @@ public class ManufacturerListTest {
       // Recreate manufacturers with Selenium
 
         BorrarFabricanteSteps borrarFabricanteSteps = new BorrarFabricanteSteps();
-        borrarFabricanteSteps.paginaDeInicio();
+        borrarFabricanteSteps.enInicioHagoClickEnBorrarTodosLosFabricantes();
         borrarFabricanteSteps.seVuelvenAGenerarLosFabricantes();
 
         chromewebDriver.get("http://localhost:8080/manufacturers");

@@ -28,12 +28,14 @@ public class BorrarFabricanteSteps {
         editM.ClickonGuardar();
         driver.closeDriver();
     }
+    @And("Voy a Pagina view")
+    public void voyAPaginaView() {
+        index.getManufacturerIndex();
+        index.clickOnVerManufacturer();
+    }
 
-    @Given("Pagina de inicio")
-    public void paginaDeInicio() {index.getManufacturerIndex();}
-
-    @And("Pagina de ver")
-    public void paginaDeVer() {
+    @Given("En Inicio hago click en borrar todos los fabricantes")
+    public void enInicioHagoClickEnBorrarTodosLosFabricantes() {
 
         index.getManufacturerIndex();
         index.clickOnVerManufacturer();
@@ -147,4 +149,5 @@ public class BorrarFabricanteSteps {
             index.checkInitialManufacturers();
         driver.closeDriver();
     }
+
 }

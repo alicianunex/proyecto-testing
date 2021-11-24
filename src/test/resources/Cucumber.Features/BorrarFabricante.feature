@@ -13,7 +13,7 @@ Feature: Borrar Fabricante
 
   Scenario Outline: Borrar "<fabricante>" desde -view
     Given Crear nuevo fabricante "<fabricante>"
-    And Pagina de ver
+    And Voy a Pagina view
     When Hago click en borrar desde ver
     Then El fabricante se ha borrado de DB
 
@@ -23,10 +23,9 @@ Feature: Borrar Fabricante
       | Name2 9876 002 45 first street city2 Germany    |
 
   Scenario: Borrar fabricante desde borrar todos
-    Given Pagina de inicio
-    When Hago click en borrar todos los fabricantes
-    Then Todos los fabricantes se han borrado de DB
-    And Se vuelven a generar los fabricantes
+    Given En Inicio hago click en borrar todos los fabricantes
+    When Todos los fabricantes se han borrado de DB
+    Then Se vuelven a generar los fabricantes
 
 
 

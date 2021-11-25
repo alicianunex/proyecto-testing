@@ -80,7 +80,6 @@ public class ManufacturerControllerTest {
                     .andExpect(forwardedUrl("/WEB-INF/views/manufacturer-view.jsp"));
         }
 
-
         @Test
         @DisplayName("if manufacturer id does not exists redirects")
         void viewNotPresentTest() throws Exception {
@@ -153,7 +152,7 @@ public class ManufacturerControllerTest {
 
     @Test
     @DisplayName("Saves the product and return to list")
-//    @Disabled("Null id error!!")
+   //@Disabled("Null id error!!")
     void saveTest() throws Exception {
         /*
          .param("cif", "667")
@@ -174,7 +173,7 @@ public class ManufacturerControllerTest {
                 .andExpect(redirectedUrl("/manufacturers"))
                 .andExpect(view().name("redirect:/manufacturers"));
     }
-
+/*
     @Test
     @DisplayName("Delete all the products and return to list")
     @Disabled("Cannot run in suite")
@@ -185,4 +184,20 @@ public class ManufacturerControllerTest {
                 .andExpect(view().name("redirect:/manufacturers"));
 
     }
+
+
+    @Test
+    @DisplayName("Delete all the products and return to list")
+    void deleteAllTestThrows() throws Exception {
+
+        manufacturerService = mock(ManufacturerService.class);
+        when(manufacturerService.deleteAll()).thenReturn(true);
+
+        mvc.perform(get("/manufacturers/delete/all"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/manufacturers"))
+                .andExpect(view().name("redirect:/manufacturers"));
+    }
+
+ */
 }

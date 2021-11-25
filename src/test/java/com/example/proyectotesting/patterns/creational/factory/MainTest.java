@@ -1,7 +1,6 @@
-package com.example.proyectotesting.patterns.creatonial.factory;
+package com.example.proyectotesting.patterns.creational.factory;
 
 
-import com.example.proyectotesting.patterns.creational.factory.Main;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

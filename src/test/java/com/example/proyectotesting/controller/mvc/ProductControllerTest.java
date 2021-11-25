@@ -5,6 +5,7 @@ import com.example.proyectotesting.entities.Product;
 import com.example.proyectotesting.repository.CategoryRepository;
 import com.example.proyectotesting.repository.ManufacturerRepository;
 import com.example.proyectotesting.repository.ProductRepository;
+import com.example.proyectotesting.service.ManufacturerService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -168,7 +169,7 @@ class ProductControllerTest {
             assertTrue(false);
         }
     }
-
+/*
     @Test
     @Disabled("Cannot run in suite")
     @DisplayName("Delete all the products and return to list")
@@ -178,6 +179,25 @@ class ProductControllerTest {
                 .andExpect(redirectedUrl("/products"))
                 .andExpect(view().name("redirect:/products"));
     }
+
+ */
+
+    /*
+    @Test
+    @DisplayName("Delete all the products and return to list")
+    void deleteAllTestThrows() throws Exception {
+
+//        ProductRepository productRepository= mock(ProductRepository.class);
+//        doNothing().when(productRepository).deleteAll();
+
+        mvc.perform(get("/products/delete/all"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/products"))
+                .andExpect(view().name("redirect:/products"));
+//        verify(productRepository).deleteAll();
+    }
+
+     */
 
     @Test
     @DisplayName("Creates a new product with a linked manufacturer")

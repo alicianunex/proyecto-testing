@@ -82,6 +82,14 @@ public class CategoryServiceImplTest {
         }
 
         @Test
+        @DisplayName("Returns empty optional if color is null")
+        void findNullColor() {
+
+            Optional<Category> found = categoryService.findOne((String) null);
+            assertFalse(found.isPresent());
+        }
+        @Test
+        @DisplayName("FindOne Id null")
         void findOneReturnNull() {
 
             when(categoryRepository.findById(null))
@@ -89,7 +97,6 @@ public class CategoryServiceImplTest {
 
             Optional<Category> found = categoryService.findOne((Long) null);
             assertFalse(found.isPresent());
-            assertTrue(true);
         }
 
         @Test
@@ -252,6 +259,7 @@ public class CategoryServiceImplTest {
         }
     }
 
+    /*
     @Nested
     public class Delete {
         @Test
@@ -284,6 +292,16 @@ public class CategoryServiceImplTest {
         }
 
         @Test
+        void deleteAllError() {
+
+            categoryRepository = mock(CategoryRepository.class);
+            doThrow(new RuntimeException()).when(categoryRepository).deleteAll();
+            CategoryServiceImpl categoryService = new CategoryServiceImpl(categoryRepository);
+            assertTrue(!categoryService.deleteAll());
+            verify(categoryRepository).deleteAll();
+        }
+
+        @Test
         void deleteNegative() {
             doThrow(RuntimeException.class).when(categoryRepository).deleteById(anyLong());
             boolean result = categoryService.deleteById(-9L);
@@ -303,4 +321,6 @@ public class CategoryServiceImplTest {
 
 
     }
+
+     */
 }

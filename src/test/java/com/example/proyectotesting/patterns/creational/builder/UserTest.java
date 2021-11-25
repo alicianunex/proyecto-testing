@@ -1,9 +1,7 @@
-package com.example.proyectotesting.patterns.creatonial.builder;
+package com.example.proyectotesting.patterns.creational.builder;
 
 
 
-
-import com.example.proyectotesting.patterns.creational.builder.User;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

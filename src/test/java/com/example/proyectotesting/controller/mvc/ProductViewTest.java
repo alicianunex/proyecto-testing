@@ -141,8 +141,8 @@ public class ProductViewTest {
      * Ver button is displayed correctly
      */
     @Test
-    @DisplayName("Ver Button is functioning properly")
-    void CheckCategoriasButtonTest() {
+    @DisplayName("Checks the categorias data is displayed")
+    void CheckCategoriasTest() {
 
         List<WebElement> categorias = chromewebDriver.findElements(By.xpath("//span"));
         String[] categoriastext = outerobjdata.get(1).get(4).toString().split(" ");

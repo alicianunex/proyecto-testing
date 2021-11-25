@@ -189,6 +189,15 @@ public class ManufacturerServiceImplTest {
 
 
         @Test
+        void findByCountryNull() {
+            assertTrue(manufacturerService.findManufacturerByCountry(null).isEmpty());
+        }
+        @Test
+        void findByCountryEmpty() {
+            assertTrue(manufacturerService.findManufacturerByCountry("").isEmpty());
+        }
+
+        @Test
         void findByCountry() {
             Direction direction1 = new Direction("Calle Nueva", "41001", "Sevilla", "Spain");
             Direction direction2 = new Direction("Avenida Nueva", "28001", "Madrid", "Spain");
@@ -343,6 +352,7 @@ public class ManufacturerServiceImplTest {
 
     }
 
+
     @Nested
     public class delete {
 
@@ -350,8 +360,6 @@ public class ManufacturerServiceImplTest {
         void deleteNull() {
             assertFalse(manufacturerService.deleteById(null));
         }
-
-
 
 
         @Test
@@ -428,6 +436,7 @@ public class ManufacturerServiceImplTest {
         }
     }
 
+
     @Nested
     public class save {
         @Test
@@ -438,6 +447,36 @@ public class ManufacturerServiceImplTest {
                     () -> assertNull(result1)
             );
             verifyNoInteractions(manufacturerRepository);
+        }
+        @Test
+        void saveOptionalEmptyNull() {
+
+            manufacturerRepository = mock(ManufacturerRepository.class);
+            productRepository = mock(ProductRepository.class);
+            manufacturerService = new ManufacturerServiceImpl(manufacturerRepository,productRepository);
+            Manufacturer manufacturer1 = new Manufacturer();
+            manufacturer1.setId(998L);
+            when(manufacturerRepository.findById(998L)).thenReturn(Optional.empty());
+
+            assertNull(manufacturerService.save(manufacturer1));
+            verify(manufacturerRepository).findById(998L);
+        }
+        @Test
+        void saveProductEqualIds() {
+
+            manufacturerRepository = mock(ManufacturerRepository.class);
+            productRepository = mock(ProductRepository.class);
+            manufacturerService = new ManufacturerServiceImpl(manufacturerRepository,productRepository);
+            Manufacturer manufacturer1 = new Manufacturer();
+            manufacturer1.setId(998L);
+            List<Product> products = new ArrayList<>();
+            products.add(new Product());
+            products.add(new Product());
+            manufacturer1.setProducts(products);
+            when(manufacturerRepository.findById(998L)).thenReturn(Optional.of(manufacturer1));
+
+            assertNull(manufacturerService.save(manufacturer1));
+            verify(manufacturerRepository).findById(998L);
         }
         @Test
         void saveOK() {

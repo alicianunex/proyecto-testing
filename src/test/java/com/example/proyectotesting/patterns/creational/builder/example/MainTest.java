@@ -1,6 +1,5 @@
-package com.example.proyectotesting.patterns.creatonial.builder.example;
+package com.example.proyectotesting.patterns.creational.builder.example;
 
-import com.example.proyectotesting.patterns.creational.builder.example.Main;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;

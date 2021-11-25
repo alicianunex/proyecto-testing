@@ -1,7 +1,5 @@
-package com.example.proyectotesting.patterns.creatonial.singleton;
+package com.example.proyectotesting.patterns.creational.singleton;
 
-import com.example.proyectotesting.patterns.creational.singleton.Calculator;
-import com.example.proyectotesting.patterns.creational.singleton.Offer;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

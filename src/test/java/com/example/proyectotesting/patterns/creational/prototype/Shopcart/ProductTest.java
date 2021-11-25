@@ -1,4 +1,4 @@
-package com.example.proyectotesting.patterns.creatonial.prototype.Shopcart;
+package com.example.proyectotesting.patterns.creational.prototype.Shopcart;
 
 import com.example.proyectotesting.patterns.creational.prototype.shopcart.Product;
 import org.junit.jupiter.api.DisplayName;

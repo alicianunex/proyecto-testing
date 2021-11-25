@@ -1,7 +1,5 @@
-package com.example.proyectotesting.patterns.creatonial.prototype;
+package com.example.proyectotesting.patterns.creational.prototype;
 
-import com.example.proyectotesting.patterns.creational.prototype.Circle;
-import com.example.proyectotesting.patterns.creational.prototype.Shape;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

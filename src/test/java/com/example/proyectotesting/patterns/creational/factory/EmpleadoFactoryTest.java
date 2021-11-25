@@ -1,8 +1,5 @@
-package com.example.proyectotesting.patterns.creatonial.factory;
+package com.example.proyectotesting.patterns.creational.factory;
 
-import com.example.proyectotesting.patterns.creational.factory.Empleado;
-import com.example.proyectotesting.patterns.creational.factory.EmpleadoFactory;
-import com.example.proyectotesting.patterns.creational.factory.EmpleadoType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,6 +24,11 @@ class EmpleadoFactoryTest {
     void getEmpleadoProgramador() {
         Empleado empleado=empleadoFactory.getEmpleado(EmpleadoType.PROGRAMADOR);
         assertEquals("Programador",empleado.getClass().getSimpleName());
+    }
+    @Test
+    void getDefault() {
+        assertThrows(IllegalArgumentException.class,
+                () -> empleadoFactory.getEmpleado(EmpleadoType.valueOf("aa")));
     }
 
 }

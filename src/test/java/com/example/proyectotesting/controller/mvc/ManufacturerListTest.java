@@ -185,10 +185,12 @@ public class ManufacturerListTest {
         erasebuttons.get(erasebuttons.size()-1).click();
     }
 
+
     /**
      * Checks the remove all manufacturers button
      * Disabled to prevent other tests from failing
      */
+    /*
     @Test
     @Disabled("Cannot run in suite until recreate is finished")
     @DisplayName("Checks the remove all manufacturers button")
@@ -212,6 +214,7 @@ public class ManufacturerListTest {
         assertTrue(chromewebDriver.findElements(By.xpath("//tr")).size() == 3);
 
     }
+    */
 
     /**
      * Product links are displayed correctly

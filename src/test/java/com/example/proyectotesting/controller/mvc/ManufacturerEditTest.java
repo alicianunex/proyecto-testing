@@ -40,8 +40,8 @@ public class ManufacturerEditTest {
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--headless");
         chromewebDriver = new ChromeDriver(options);
-//        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
-        chromewebDriver.get("http://localhost:8080/manufacturers");
+        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
+//        chromewebDriver.get("http://localhost:8080/manufacturers");
 
 
         // Chrome setup
@@ -218,8 +218,8 @@ public class ManufacturerEditTest {
      * */
     private void accessFromProducts(String name) {
 
-//        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
-        chromewebDriver.get("http://localhost:8080/products");
+        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
+//        chromewebDriver.get("http://localhost:8080/products");
 
         if (name.contains("Adidas")) {
             WebElement webElement = chromewebDriver.findElement(By.cssSelector("tr:nth-child(2) td:nth-child(5) a"));

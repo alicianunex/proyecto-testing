@@ -37,8 +37,8 @@ public class IndexManufacturerPage {
 //        System.setProperty("webdriver.chrome.driver",path.toString());
 //        driver.ChromewebDriver = new ChromeDriver();
 
-//        driver.ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
-        driver.ChromewebDriver.get("http://localhost:8080/manufacturers");
+        driver.ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
+//        driver.ChromewebDriver.get("http://localhost:8080/manufacturers");
         driver.js = (JavascriptExecutor) driver.ChromewebDriver;
     }
 

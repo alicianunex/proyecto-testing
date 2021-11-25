@@ -28,8 +28,8 @@ public class ViewManufacturerPage {
 //        System.setProperty("webdriver.chrome.driver",path.toString());
 //        driver.ChromewebDriver = new ChromeDriver();
 
-        //driver.ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers/"+id+"/edit");
-        driver.ChromewebDriver.get("http://localhost:8080/manufacturers/"+id+"/edit");
+        driver.ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers/"+id+"/edit");
+//        driver.ChromewebDriver.get("http://localhost:8080/manufacturers/"+id+"/edit");
         driver.js = (JavascriptExecutor) driver.ChromewebDriver;
     }
 

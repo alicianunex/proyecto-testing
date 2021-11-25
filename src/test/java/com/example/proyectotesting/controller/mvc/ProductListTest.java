@@ -41,8 +41,8 @@ public class ProductListTest {
         options.addArguments("--headless");
         chromewebDriver = new ChromeDriver(options);
 
-//        chromewebDriver.navigate().to("https://proyecto-testinggrupo2.herokuapp.com/products");
-        chromewebDriver.get("http://localhost:8080/products");
+        chromewebDriver.navigate().to("https://proyecto-testinggrupo2.herokuapp.com/products");
+//        chromewebDriver.get("http://localhost:8080/products");
         chromewebDriver.manage().window().maximize();
         chromewebDriver.manage().timeouts().implicitlyWait(5, TimeUnit.MILLISECONDS);
         js = (JavascriptExecutor) chromewebDriver;
@@ -206,9 +206,8 @@ public class ProductListTest {
 
     private void createnew() {
 
-        chromewebDriver.get("http://localhost:8080/products");
-        //chromewebDriver.get("https://dashboard.heroku.com/apps/proyecto-testinggrupo2/deploy/github");
-
+//        chromewebDriver.get("http://localhost:8080/products");
+        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
         chromewebDriver.findElement(By.className("btn-primary")).click();
 
         // fill data

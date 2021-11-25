@@ -31,8 +31,8 @@ public class ProductIndexPage {
 //        System.setProperty("webdriver.chrome.driver",path.toString());
 //        driver.ChromewebDriver = new ChromeDriver();
 
-//        driver.ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
-        driver.ChromewebDriver.get("http://localhost:8080/products");
+        driver.ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
+//        driver.ChromewebDriver.get("http://localhost:8080/products");
         driver.js = (JavascriptExecutor) driver.ChromewebDriver;
     }
 

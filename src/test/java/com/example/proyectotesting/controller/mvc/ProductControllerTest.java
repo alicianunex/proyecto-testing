@@ -148,7 +148,7 @@ class ProductControllerTest {
                     .andExpect(MockMvcResultMatchers.view().name("redirect:/products"));
         }
     }
-
+/*
     @Test
     @DisplayName("Deletes the product and return to list")
     void borrarProductoTest() throws Exception {
@@ -169,6 +169,8 @@ class ProductControllerTest {
             assertTrue(false);
         }
     }
+
+ */
 /*
     @Test
     @Disabled("Cannot run in suite")

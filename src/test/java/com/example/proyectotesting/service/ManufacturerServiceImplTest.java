@@ -31,6 +31,14 @@ public class ManufacturerServiceImplTest {
     }
 
     @Test
+    void existByID(){
+        manufacturerRepository = mock (ManufacturerRepository.class);
+        manufacturerService = new ManufacturerServiceImpl(manufacturerRepository,productRepository);
+        when(manufacturerRepository.existsById(88L)).thenReturn(true);
+        assertDoesNotThrow(() -> manufacturerService.existsById(88L));
+        verify(manufacturerRepository).existsById(any(Long.class));
+    }
+    @Test
     void count() {
         when(manufacturerRepository.count()).thenReturn(2l);
         Long result = manufacturerService.count();

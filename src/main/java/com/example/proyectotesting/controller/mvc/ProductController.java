@@ -6,6 +6,7 @@ import com.example.proyectotesting.repository.CategoryRepository;
 import com.example.proyectotesting.repository.ManufacturerRepository;
 import com.example.proyectotesting.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class ProductController {
 	@Autowired
 	CategoryRepository categoryRepository;
 	
-	@GetMapping
+	@RequestMapping(method = RequestMethod.GET)
 	public String obtenerLista(Model model) {
 		// Recuperar productos de la base de datos utilizando repository
 		List<Product> products = repository.findAll();

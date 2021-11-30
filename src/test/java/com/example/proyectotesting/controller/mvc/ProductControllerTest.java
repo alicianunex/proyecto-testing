@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.servlet.ModelAndView;
 
 
 import java.util.Optional;
@@ -53,9 +54,9 @@ class ProductControllerTest {
 
         // TODO access method !!
 
-        mvc.perform(get("/"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/products"));
+        mvc.perform(get("/products/"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(forwardedUrl("/WEB-INF/views/product-list.jsp"));
     }
 
     @Test
@@ -172,16 +173,16 @@ class ProductControllerTest {
 
 /*
     @Test
-    @Disabled("Cannot run in suite")
+    //@Disabled("Cannot run in suite")
     @DisplayName("Delete all the products and return to list")
     void borrarProductosTest() throws Exception {
+
         mvc.perform(get("/products/delete/all"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/products"))
                 .andExpect(view().name("redirect:/products"));
     }
-
- */
+    */
 
     /*
     @Test

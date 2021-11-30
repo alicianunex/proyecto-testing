@@ -486,6 +486,40 @@ public class ManufacturerServiceImplTest {
             assertNull(manufacturerService.save(manufacturer1));
             verify(manufacturerRepository).findById(998L);
         }
+
+        @Test
+        void saveProductNotEqualIds() {
+
+            manufacturerRepository = mock(ManufacturerRepository.class);
+            productRepository = mock(ProductRepository.class);
+            manufacturerService = new ManufacturerServiceImpl(manufacturerRepository,productRepository);
+            Manufacturer manufacturer1 = new Manufacturer();
+            manufacturer1.setId(11L);
+            Manufacturer manufacturer2 = new Manufacturer();
+            manufacturer1.setId(21L);
+
+            when(manufacturerRepository.findById(any(Long.class))).thenReturn(Optional.of(manufacturer2));
+
+            Product product11 = new Product();
+            product11.setId(198L);
+            Product product12 = new Product();
+            product12.setId(199L);
+            Product product21 = new Product();
+            product21.setId(298L);
+            Product product22 = new Product();
+            product22.setId(299L);
+
+            List<Product> products1 = new ArrayList<>();
+            products1.add(product11);
+            products1.add(product12);
+            List<Product> products2 = new ArrayList<>();
+            products2.add(product21);
+            products2.add(product22);
+            manufacturer2.setProducts(products2);
+            manufacturer1.setProducts(products1);
+            assertNull(manufacturerService.save(manufacturer1));
+            verify(manufacturerRepository).findById(21L);
+        }
         @Test
         void saveOK() {
 

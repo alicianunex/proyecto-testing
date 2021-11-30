@@ -29,12 +29,12 @@ public class ProductEditTest {
     @BeforeEach
     public void setUp() {
 
-        WebDriverManager.chromedriver().setup();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--headless");
-        driver.ChromewebDriver = new ChromeDriver(options);
+//        WebDriverManager.chromedriver().setup();
+//        ChromeOptions options = new ChromeOptions();
+//        options.addArguments("--no-sandbox");
+//        options.addArguments("--disable-dev-shm-usage");
+//        options.addArguments("--headless");
+//        driver.ChromewebDriver = new ChromeDriver(options);
 
 //         driver.ChromewebDriver = new ChromeDriver();
 

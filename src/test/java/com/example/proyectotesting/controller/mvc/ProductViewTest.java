@@ -44,8 +44,8 @@ public class ProductViewTest {
         chromewebDriver = new ChromeDriver(options);
         chromewebDriver.manage().timeouts().implicitlyWait(10, TimeUnit.MILLISECONDS);
 
-        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
-//        chromewebDriver.get("http://localhost:8080/products");
+//        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
+        chromewebDriver.get("http://localhost:8080/products");
         js = (JavascriptExecutor) chromewebDriver;
         createnew();
         List<WebElement> verbtn = chromewebDriver.findElements(By.xpath("//a[@class='btn btn-info']"));
@@ -79,8 +79,8 @@ public class ProductViewTest {
 
     @AfterEach
     void tearDown() {
-        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
-//        chromewebDriver.get("http://localhost:8080/products");
+//        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
+        chromewebDriver.get("http://localhost:8080/products");
         List<WebElement> erasebuttons = chromewebDriver.findElements(By.xpath("//td/a [@class='btn btn-danger']"));
         erasebuttons.get(erasebuttons.size() - 1).click();
         //      firefoxwebDriver.quit();
@@ -207,8 +207,8 @@ public class ProductViewTest {
         @DisplayName("Delete button is displayed correctly")
         void CheckBorrarButtonTest() {
 
-            chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
-//            chromewebDriver.get("http://localhost:8080/products");
+//            chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
+            chromewebDriver.get("http://localhost:8080/products");
 
             // count rows
             List<WebElement> erasebuttons = chromewebDriver.findElements(By.xpath("//td/a [@class='btn btn-danger']"));
@@ -237,8 +237,8 @@ public class ProductViewTest {
 
     private void createnew() {
 
-//        chromewebDriver.get("http://localhost:8080/products");
-        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
+        chromewebDriver.get("http://localhost:8080/products");
+//        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
 
         chromewebDriver.findElement(By.className("btn-primary")).click();
 
@@ -264,9 +264,8 @@ public class ProductViewTest {
      * */
     private void accessFromManufacturer(String name){
 
-        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
-
-//        chromewebDriver.get("http://localhost:8080/manufacturers");
+//        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
+        chromewebDriver.get("http://localhost:8080/manufacturers");
 
         if (name.toLowerCase().contains("balon")) {
             WebElement webElement = chromewebDriver.findElement(By.xpath("//a[contains(text(),'Balón')]"));
@@ -303,8 +302,8 @@ public class ProductViewTest {
      * */
     private void accessFromProducts(int index){
 
-        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
-//        chromewebDriver.get("http://localhost:8080/products");
+//        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
+        chromewebDriver.get("http://localhost:8080/products");
 
         WebElement webElement = chromewebDriver.findElements(By.xpath("//a[contains(text(),'Ver')]")).get(index);
         js.executeScript("arguments[0].scrollIntoView();", webElement);

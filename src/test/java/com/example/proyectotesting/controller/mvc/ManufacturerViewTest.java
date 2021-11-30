@@ -56,8 +56,8 @@ public class ManufacturerViewTest {
         chromewebDriver = new ChromeDriver();
 
  */
-        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
-//        chromewebDriver.get("http://localhost:8080/manufacturers");
+//        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
+        chromewebDriver.get("http://localhost:8080/manufacturers");
         //chromewebDriver.get("https://dashboard.heroku.com/apps/proyecto-testinggrupo2/deploy/github");
 
 
@@ -192,8 +192,8 @@ public class ManufacturerViewTest {
      * */
     private void accessFromProducts(String name){
 
-        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
-//        chromewebDriver.get("http://localhost:8080/products");
+//        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
+        chromewebDriver.get("http://localhost:8080/products");
         chromewebDriver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 
         if (name.contains("Adidas")) {
@@ -306,8 +306,8 @@ public class ManufacturerViewTest {
             manufacturerindex = 1;
         else
             manufacturerindex = 0;
-        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
-//        chromewebDriver.get("http://localhost:8080/manufacturers");
+//        chromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/manufacturers");
+        chromewebDriver.get("http://localhost:8080/manufacturers");
 
         addStringData();
 

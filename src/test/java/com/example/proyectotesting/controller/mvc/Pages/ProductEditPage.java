@@ -32,8 +32,8 @@ public class ProductEditPage {
 
 //         driver.ChromewebDriver = new ChromeDriver();
 
-         driver.ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products/new");
-//        driver.ChromewebDriver.get("http://localhost:8080/products/new");
+//         driver.ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products/new");
+        driver.ChromewebDriver.get("http://localhost:8080/products/new");
 
         driver.js = (JavascriptExecutor) driver.ChromewebDriver;
     }

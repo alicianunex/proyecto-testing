@@ -6,6 +6,8 @@ import com.example.proyectotesting.entities.Manufacturer;
 import com.example.proyectotesting.entities.Product;
 import com.example.proyectotesting.repository.ProductRepository;
 import com.example.proyectotesting.service.ManufacturerService;
+import com.example.proyectotesting.service.ManufacturerServiceImpl;
+import io.cucumber.java.en.When;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -173,18 +175,26 @@ public class ManufacturerControllerTest {
                 .andExpect(redirectedUrl("/manufacturers"))
                 .andExpect(view().name("redirect:/manufacturers"));
     }
-/*
+
     @Test
     @DisplayName("Delete all the products and return to list")
-    @Disabled("Cannot run in suite")
+    //@Disabled("Cannot run in suite")
     void deleteAllTest() throws Exception {
-        mvc.perform(get("/manufacturers/delete/all"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/manufacturers"))
-                .andExpect(view().name("redirect:/manufacturers"));
+
+        productRepository = mock(ProductRepository.class);
+        manufacturerService = mock(ManufacturerService.class);
+        when(manufacturerService.deleteAll()).thenReturn(true);
+        ManufacturerController manufacturerController = new ManufacturerController(productRepository,manufacturerService);
+
+        manufacturerController.deleteAll();
+//        mvc.perform(get("/manufacturers/delete/all"))
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(redirectedUrl("/manufacturers"))
+//                .andExpect(view().name("redirect:/manufacturers"));
+        verify(manufacturerService).deleteAll();
 
     }
-
+/*
 
     @Test
     @DisplayName("Delete all the products and return to list")

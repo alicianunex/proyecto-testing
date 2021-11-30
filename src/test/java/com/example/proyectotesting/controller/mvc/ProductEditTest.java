@@ -38,16 +38,16 @@ public class ProductEditTest {
 
 //         driver.ChromewebDriver = new ChromeDriver();
 
-         driver.ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products/new");
-//         driver.ChromewebDriver.get("http://localhost:8080/products/new");
+//         driver.ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products/new");
+         driver.ChromewebDriver.get("http://localhost:8080/products/new");
 
         driver.js = (JavascriptExecutor)  driver.ChromewebDriver;
     }
 
     @AfterEach
     void tearDown() {
-        driver.ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
-//        driver.ChromewebDriver.get("http://localhost:8080/products");
+//        driver.ChromewebDriver.get("https://proyecto-testinggrupo2.herokuapp.com/products");
+        driver.ChromewebDriver.get("http://localhost:8080/products");
         List<WebElement> erasebuttons = driver.ChromewebDriver.findElements(By.xpath("//td/a [@class='btn btn-danger']"));
         erasebuttons.get(erasebuttons.size() - 1).click();
         //      firefoxwebDriver.quit();

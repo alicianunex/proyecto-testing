@@ -48,7 +48,7 @@ public class CategoryRestController {
      * returns 400 or 200 entity
      * through post protocol
      */
-    @PostMapping("api/category")
+    @PostMapping("/api/category")
     public ResponseEntity<Category> create(@RequestBody Category category) {
     if  (category.getId() != null)
         ResponseEntity.badRequest().build();
@@ -62,7 +62,7 @@ public class CategoryRestController {
      * returns 400 404 or 200 entity
      * through post
      */
-    @PutMapping("api/category/")
+    @PutMapping("/api/category")
     public ResponseEntity<Category> update(@RequestBody Category category) {
         if  (category.getId() == null)
             ResponseEntity.badRequest().build();

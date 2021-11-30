@@ -266,7 +266,7 @@ public class ProductRestControllerTest {
             assertEquals(HttpStatus.NOT_FOUND,response.getStatusCode());
         }
 
-        /*
+
         @Test
         @DisplayName("Deletes correctly")
         void deleteOKNoContentTest() {
@@ -280,7 +280,7 @@ public class ProductRestControllerTest {
             assertEquals(204,response.getStatusCodeValue());
             assertEquals(HttpStatus.NO_CONTENT,response.getStatusCode());
         }
-*/
+
         @Test
         @DisplayName("If delete fails returns 409 ")
         void deleteFail409Test() {

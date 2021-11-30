@@ -295,8 +295,8 @@ public class ManufacturerListTest {
         else
             manufacturerindex = 99;
 
-//        chromewebDriver.get("http://localhost:8080/manufacturers");
-        chromewebDriver.get("https://dashboard.heroku.com/apps/proyecto-testinggrupo2/deploy/github");
+        chromewebDriver.get("http://localhost:8080/manufacturers");
+//        chromewebDriver.get("https://dashboard.heroku.com/apps/proyecto-testinggrupo2/deploy/github");
 
         addStringData();
 

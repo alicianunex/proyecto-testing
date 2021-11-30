@@ -2,7 +2,12 @@ package com.example.proyectotesting.controller.rest;
 
 
 import com.example.proyectotesting.entities.Manufacturer;
+import com.example.proyectotesting.entities.Product;
+import com.example.proyectotesting.repository.CategoryRepository;
 import com.example.proyectotesting.repository.ManufacturerRepository;
+import com.example.proyectotesting.repository.ProductRepository;
+import com.example.proyectotesting.service.CategoryService;
+import com.example.proyectotesting.service.CategoryServiceImpl;
 import com.example.proyectotesting.service.ManufacturerService;
 
 import com.example.proyectotesting.service.ManufacturerServiceImpl;
@@ -193,9 +198,25 @@ public class ManufacturerRestControllerTest {
         }
     }
 
-    /*
+
     @Nested
     public class delete {
+
+        @Test
+        void deleteOK() {
+
+
+            ManufacturerService manufacturerService = mock(ManufacturerService.class);
+            doReturn(true).when(manufacturerService).deleteById(any(Long.class));
+            doReturn(true).when(manufacturerService).existsById(any(Long.class));
+
+            ManufacturerRestController manufacturerRestController = new ManufacturerRestController(manufacturerService);
+            ResponseEntity<Manufacturer> response = manufacturerRestController.delete(776L);
+
+            assertEquals(204,response.getStatusCodeValue());
+            assertEquals(HttpStatus.NO_CONTENT,response.getStatusCode());
+            verify(manufacturerService).deleteById(any(Long.class));
+        }
 
         @Test
         void deleteNull() {
@@ -213,8 +234,6 @@ public class ManufacturerRestControllerTest {
             verify(repository).deleteById(1L);
         }
 
-     */
-        /*
         @Test
         void deleteNotFound() {
 
@@ -225,37 +244,21 @@ public class ManufacturerRestControllerTest {
             assertEquals(HttpStatus.NOT_FOUND,response.getStatusCode());
         }
 
-         */
-
-        /*
         @Test
-        void deleteOKNoContent() {
+        void deleteAllOKNoContent() {
 
-            Manufacturer manufacturer = createDemoManufacturer();
-            manufacturerService.save(manufacturer);
 
-            ResponseEntity<Manufacturer> response =
-                    restController.exchange(URL + "/"+manufacturer.getId() ,HttpMethod.DELETE, createHttpRequest(null), Manufacturer.class);
+            ManufacturerService manufacturerService = mock(ManufacturerService.class);
+            doReturn(true).when(manufacturerService).deleteAll();
+
+            ManufacturerRestController manufacturerRestController = new ManufacturerRestController(manufacturerService);
+            ResponseEntity<Manufacturer> response = manufacturerRestController.deleteAll();
 
             assertEquals(204,response.getStatusCodeValue());
             assertEquals(HttpStatus.NO_CONTENT,response.getStatusCode());
+            verify(manufacturerService).deleteAll();
         }
-
-         */
-
-/*
-        @Test
-        void deleteAll() {
-
-            ResponseEntity<Manufacturer> response =
-                    restController.exchange(URL ,HttpMethod.DELETE, createHttpRequest(null), Manufacturer.class);
-
-            assertEquals(204,response.getStatusCodeValue());
-            assertEquals(HttpStatus.NO_CONTENT,response.getStatusCode());
-        }
-
- */
-        /*
+    }
         @Test
         void deleteAllFail() {
 
@@ -275,10 +278,5 @@ public class ManufacturerRestControllerTest {
 
         }
 
-         */
-    /*
+
     }
-
-     */
-
-}

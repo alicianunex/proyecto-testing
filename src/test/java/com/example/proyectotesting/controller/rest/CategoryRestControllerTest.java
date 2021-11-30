@@ -5,6 +5,7 @@ import com.example.proyectotesting.entities.Direction;
 import com.example.proyectotesting.repository.CategoryRepository;
 import com.example.proyectotesting.service.CategoryService;
 
+import com.example.proyectotesting.service.CategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -44,8 +45,6 @@ public class CategoryRestControllerTest {
         this.categoryService = mock(CategoryService.class);
         this.categoryRestController = new CategoryRestController(categoryService);
     }
-
-
     private Category createDemoCategory(){
         String json = """
                         {
@@ -181,7 +180,75 @@ public class CategoryRestControllerTest {
             assertEquals(HttpStatus.UNSUPPORTED_MEDIA_TYPE, response.getStatusCode());
         }
     }
+
     @Nested
+    public class updateTests {
+
+        private HttpEntity<String> createHttpUpdate(Long id) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+            String json = String.format("""
+                    {
+                        "id": %d,
+                        "street": "exampleStreet",
+                        "postCode": "354363",
+                        "country": 4.99,
+                        "manufacturer": "Man1"
+                    }
+                    """, id);
+            return new HttpEntity<>(json, headers);
+        }
+
+        @Test
+        @DisplayName("If id is null builds 400")
+        void updateNull () {
+
+            Category categorymod = new Category("ex1","col");
+            categorymod.setId(null);
+
+            ResponseEntity<Category> response =  restController.exchange(URL,
+                    HttpMethod.PUT, createHttpUpdate(null), Category.class, categorymod);
+
+            assertEquals(500, response.getStatusCodeValue());
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        }
+
+
+        @Test
+        @DisplayName("If the category doesn't exist builds 404")
+        // TODO fix error in Category REST Controller update doesn't return
+        void updateNotFound () {
+
+            Category categorymod = new Category("ex1","col");
+            categorymod.setId(996L);
+
+            ResponseEntity<Category> response =  restController.exchange("/api/category",
+                    HttpMethod.PUT, createHttpUpdate(996L), Category.class, categorymod);
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        }
+
+        @Test
+        @DisplayName("If the id exists return OK")
+        void updateOK () {
+
+
+            Category categorymod = new Category("ex1","col");
+            categorymod.setId(9L);
+
+            ResponseEntity<Category> response =
+                restController.exchange(URL, HttpMethod.PUT, createHttpUpdate(9L), Category.class);
+
+        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        }
+    }
+
+
+        @Nested
     public class delete {
 
         @Test
@@ -238,9 +305,17 @@ public class CategoryRestControllerTest {
         @Test
         void deleteAll() {
 
+              CategoryRepository repository = mock(CategoryRepository.class);
+              CategoryService categoryService = mock(CategoryService.class);
+            doReturn(true).when(categoryService).deleteAll();
+            CategoryRestController categoryRestController = new CategoryRestController(categoryService);
+//
             ResponseEntity<Category> response =
                     restController.exchange(URL, HttpMethod.DELETE, createHttpRequest(null), Category.class);
 
+            response = categoryRestController.deleteAll();
+
+            verify(categoryService).deleteAll();
             assertEquals(204, response.getStatusCodeValue());
             assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         }

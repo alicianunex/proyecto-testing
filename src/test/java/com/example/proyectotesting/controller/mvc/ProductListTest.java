@@ -206,8 +206,8 @@ public class ProductListTest {
 
     private void createnew() {
 
-//        chromewebDriver.get("http://localhost:8080/products");
-        chromewebDriver.get("https://dashboard.heroku.com/apps/proyecto-testinggrupo2/deploy/github");
+        chromewebDriver.get("http://localhost:8080/products");
+//        chromewebDriver.get("https://dashboard.heroku.com/apps/proyecto-testinggrupo2/deploy/github");
 
         chromewebDriver.findElement(By.className("btn-primary")).click();
 

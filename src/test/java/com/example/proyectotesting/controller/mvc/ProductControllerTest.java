@@ -173,7 +173,7 @@ class ProductControllerTest {
 
 /*
     @Test
-    //@Disabled("Cannot run in suite")
+    @Disabled("Cannot run in suite")
     @DisplayName("Delete all the products and return to list")
     void borrarProductosTest() throws Exception {
 
@@ -182,24 +182,19 @@ class ProductControllerTest {
                 .andExpect(redirectedUrl("/products"))
                 .andExpect(view().name("redirect:/products"));
     }
-    */
 
-    /*
+ */
     @Test
-    @DisplayName("Delete all the products and return to list")
-    void deleteAllTestThrows() throws Exception {
+    @DisplayName("Delete all the products and return to list through mock")
+    void borrarProductosTestDirectCall() throws Exception {
 
-//        ProductRepository productRepository= mock(ProductRepository.class);
-//        doNothing().when(productRepository).deleteAll();
-
-        mvc.perform(get("/products/delete/all"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/products"))
-                .andExpect(view().name("redirect:/products"));
-//        verify(productRepository).deleteAll();
+       ProductRepository productRepository = mock(ProductRepository.class);
+       doNothing().when(productRepository).deleteAll();
+       ProductController productController = new ProductController(productRepository);
+       productController.borrarProductos();
+       verify(productRepository).deleteAll();
     }
 
-     */
 
     @Test
     @DisplayName("Creates a new product with a linked manufacturer")
@@ -209,5 +204,11 @@ class ProductControllerTest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(model().attributeExists("manufacturer"))
                 .andExpect(view().name("product-edit-withmanufacturer"));
+    }
+
+    @Test
+    @DisplayName("Empty constructor functions properly")
+    void emptyConstruct(){
+        ProductController productController = new ProductController();
     }
 }
